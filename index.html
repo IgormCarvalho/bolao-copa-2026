@@ -1203,7 +1203,30 @@ async function renderAdminParticipantes(){
   const {data}=await sb.from('participantes').select('*').order('nome');
   const el=document.getElementById('admin-participantes');
   if(!data?.length){el.innerHTML='<div class="empty">Nenhum participante</div>';return;}
-  el.innerHTML=data.map(p=>`<div class="p-item"><span style="font-weight:600;">${p.nome}</span><span style="font-size:11px;color:var(--muted);">${p.email}</span></div>`).join('');
+  el.innerHTML=data.map(p=>`
+    <div class="p-item" style="display:flex;justify-content:space-between;align-items:center;padding:12px;border:1px solid var(--border);border-radius:6px;margin-bottom:8px;background:var(--surface2);">
+      <div>
+        <div style="font-weight:600;color:var(--text);">${p.nome}</div>
+        <div style="font-size:11px;color:var(--muted);">${p.email}</div>
+      </div>
+      <button class="btn-delete" style="background:#e74c3c;color:#fff;border:none;padding:6px 12px;border-radius:4px;font-size:11px;cursor:pointer;transition:all .2s;" onclick="deleteParticipante('${p.id}','${p.nome}')" onmouseover="this.style.background='#c0392b'" onmouseout="this.style.background='#e74c3c'">
+        🗑️ Deletar
+      </button>
+    </div>
+  `).join('');
+}
+
+async function deleteParticipante(id, nome){
+  if(!confirm(`Deletar participante "${nome}"?\n\nEsta ação não pode ser desfeita!`))return;
+  try{
+    const {error}=await sb.from('participantes').delete().eq('id',id);
+    if(error)throw error;
+    toast('✅ Participante deletado!');
+    renderAdminParticipantes();
+    renderRanking();
+  }catch(e){
+    toast('❌ Erro ao deletar: '+e.message,'error');
+  }
 }
 
 async function renderAdminResultados(){
