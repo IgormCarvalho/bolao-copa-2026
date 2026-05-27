@@ -1,1543 +1,248 @@
 <!DOCTYPE html>
-<html lang="pt-BR" data-theme="dark">
+<html lang="pt-BR">
 <head>
-<meta charset="UTF-8"/>
-<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<title>Bolão Astor Capital — Copa 2026</title>
-<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate"/>
-<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&family=Oswald:wght@500;600;700&display=swap" rel="stylesheet"/>
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/tabler-icons.min.css"/>
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-<style>
-*{box-sizing:border-box;margin:0;padding:0;}
-:root{--verde:#009C3B;--amarelo:#FFDF00;--azul:#002776;--gold:#B8963E;--gold2:#D4AF5A;}
-[data-theme="dark"]{--bg:#0f0f0f;--surface:#181818;--surface2:#202020;--dark:#111;--border:#262626;--border2:#1e1e1e;--text:#e0e0e0;--text2:#aaa;--muted:#444;--white:#fff;--tab-bg:#111;--input-bg:#0a0a0a;--match-bg:#141414;--match-border:#242424;--conn-color:#222;--final-bg:#130f00;--final-border:#2a2000;--ph-color:#333;--ph-border:#1a1a1a;--grp-text:#666;--grp-label:#2a2a2a;}
-[data-theme="light"]{--bg:#f0f0f0;--surface:#fff;--surface2:#f8f8f8;--dark:#fff;--border:#ddd;--border2:#e8e8e8;--text:#1a1a1a;--text2:#555;--muted:#999;--white:#1a1a1a;--tab-bg:#fff;--input-bg:#f5f5f5;--match-bg:#fff;--match-border:#ddd;--conn-color:#ccc;--final-bg:#fffbf0;--final-border:#e8d080;--ph-color:#aaa;--ph-border:#e0e0e0;--grp-text:#777;--grp-label:#bbb;}
-body{font-family:'Montserrat',sans-serif;background:var(--bg);color:var(--text);font-size:13px;transition:background .3s,color .3s;}
-.app{max-width:100%;margin:0 auto;padding-bottom:3rem;}
-
-/* ── LOGIN ── */
-.login-wrap{min-height:100vh;display:flex;align-items:center;justify-content:center;background:var(--bg);}
-.login-box{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:2.5rem;width:100%;max-width:400px;text-align:center;}
-.login-stripe{height:3px;background:linear-gradient(90deg,var(--verde) 0%,var(--verde) 40%,var(--amarelo) 40%,var(--amarelo) 70%,var(--azul) 70%);border-radius:3px 3px 0 0;margin:-2.5rem -2.5rem 2rem;}
-.login-title{font-family:'Oswald',sans-serif;font-size:22px;font-weight:700;letter-spacing:3px;color:var(--text);text-transform:uppercase;margin-bottom:4px;}
-.login-sub{font-size:11px;color:var(--muted);letter-spacing:2px;text-transform:uppercase;margin-bottom:2rem;}
-.login-tabs{display:flex;gap:0;margin-bottom:1.5rem;border:1px solid var(--border);border-radius:6px;overflow:hidden;}
-.login-tab{flex:1;padding:8px;font-family:'Oswald',sans-serif;font-size:11px;letter-spacing:1.5px;text-transform:uppercase;cursor:pointer;background:transparent;border:none;color:var(--muted);transition:all .15s;}
-.login-tab.active{background:var(--verde);color:#fff;}
-.login-form{display:flex;flex-direction:column;gap:12px;text-align:left;}
-.login-form label{font-size:10px;color:var(--muted);letter-spacing:1px;text-transform:uppercase;}
-.login-form input{padding:10px 12px;background:var(--input-bg);border:1px solid var(--border);border-radius:5px;font-size:13px;color:var(--text);font-family:'Montserrat',sans-serif;width:100%;}
-.login-form input:focus{outline:none;border-color:var(--verde);}
-.btn-login{padding:11px;background:var(--verde);color:#fff;border:none;border-radius:6px;font-family:'Oswald',sans-serif;font-size:13px;font-weight:600;letter-spacing:2px;text-transform:uppercase;cursor:pointer;transition:opacity .15s;margin-top:4px;}
-.btn-login:hover{opacity:.88;}
-.login-error{color:#e74c3c;font-size:11px;text-align:center;padding:8px;background:rgba(231,76,60,.1);border-radius:5px;border:1px solid rgba(231,76,60,.2);}
-.login-info{font-size:10px;color:var(--muted);text-align:center;margin-top:1rem;line-height:1.6;}
-.copa-tag-login{font-family:'Oswald',sans-serif;font-size:10px;color:var(--gold);border:1px solid rgba(184,150,62,.3);border-radius:4px;padding:3px 8px;display:inline-block;margin-bottom:1.5rem;}
-
-/* ── HEADER ── */
-.header{background:var(--dark);border-bottom:1px solid var(--border);transition:background .3s;}
-.header-stripe{height:3px;background:linear-gradient(90deg,var(--verde) 0%,var(--verde) 40%,#FFDF00 40%,#FFDF00 70%,var(--azul) 70%);}
-.header-inner{padding:.9rem 1.5rem;display:flex;align-items:center;gap:14px;max-width:1200px;margin:0 auto;}
-.logo-slot{width:42px;height:42px;flex-shrink:0;border-radius:6px;border:1.5px dashed #444;display:flex;align-items:center;justify-content:center;cursor:pointer;overflow:hidden;position:relative;}
-.logo-slot:hover{border-color:var(--gold);}
-.logo-slot img{width:100%;height:100%;object-fit:contain;display:none;position:absolute;}
-.logo-slot-hint{font-size:9px;color:#555;text-align:center;line-height:1.3;pointer-events:none;}
-.logo-slot input{position:absolute;inset:0;opacity:0;cursor:pointer;width:100%;height:100%;}
-.header-divider{width:1px;height:34px;background:var(--border);}
-.header-texts{flex:1;}
-.header-company{font-family:'Oswald',sans-serif;font-size:19px;font-weight:600;letter-spacing:3px;color:var(--white);text-transform:uppercase;}
-.header-sub{font-size:10px;color:var(--muted);letter-spacing:2px;text-transform:uppercase;margin-top:1px;}
-.header-right{display:flex;align-items:center;gap:10px;}
-.user-chip{display:flex;align-items:center;gap:6px;background:var(--surface2);border:1px solid var(--border);border-radius:20px;padding:4px 12px;font-size:11px;font-weight:600;color:var(--text);}
-.user-chip i{color:var(--verde);}
-.copa-tag{font-family:'Oswald',sans-serif;font-size:11px;color:var(--gold);border:1px solid rgba(184,150,62,.35);border-radius:4px;padding:4px 10px;}
-.theme-toggle{display:flex;align-items:center;background:var(--surface2);border:1px solid var(--border);border-radius:20px;padding:3px;gap:2px;}
-.theme-btn{padding:4px 8px;border-radius:16px;font-size:10px;font-family:'Oswald',sans-serif;letter-spacing:1px;text-transform:uppercase;cursor:pointer;border:none;background:transparent;color:var(--muted);transition:all .2s;}
-.theme-btn.active{background:var(--gold);color:#fff;}
-.btn-logout{background:transparent;border:1px solid var(--border);color:var(--muted);font-size:10px;padding:5px 10px;border-radius:5px;cursor:pointer;font-family:'Montserrat',sans-serif;}
-.btn-logout:hover{border-color:#e74c3c;color:#e74c3c;}
-
-/* ── TABS ── */
-.tabs{display:flex;background:var(--tab-bg);border-bottom:1px solid var(--border);position:sticky;top:0;z-index:10;}
-.tab{flex:1;padding:.6rem .3rem;text-align:center;font-family:'Oswald',sans-serif;font-size:11px;font-weight:500;letter-spacing:1.5px;text-transform:uppercase;color:var(--muted);cursor:pointer;border-bottom:2px solid transparent;transition:all .15s;display:flex;flex-direction:column;align-items:center;gap:2px;}
-.tab i{font-size:15px;}
-.tab:hover{color:var(--text);}
-.tab.active{color:var(--verde);border-bottom-color:var(--verde);}
-.tab.admin-tab{color:var(--gold);}
-.tab.admin-tab.active{color:var(--gold);border-bottom-color:var(--gold);}
-
-.section{display:none;padding:1.25rem;max-width:1200px;margin:0 auto;}
-.section-chave{display:none;padding:1rem;max-width:100%;}
-
-/* ── STATS ── */
-.stats-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:1.25rem;}
-.stat-card{background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:1rem;text-align:center;}
-.stat-num{font-family:'Oswald',sans-serif;font-size:30px;font-weight:600;color:var(--text);line-height:1;}
-.stat-label{font-size:10px;color:var(--muted);letter-spacing:1.5px;text-transform:uppercase;margin-top:4px;}
-
-/* ── RANKING ── */
-.ranking-wrap{background:var(--surface);border:1px solid var(--border);border-radius:8px;overflow:hidden;}
-.ranking-head{padding:1rem 1.25rem;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;}
-.ranking-title{font-family:'Oswald',sans-serif;font-size:16px;font-weight:600;letter-spacing:2px;text-transform:uppercase;color:var(--text);}
-.ranking-sub{font-size:10px;color:var(--muted);letter-spacing:1px;text-transform:uppercase;margin-top:2px;}
-.rtable{width:100%;border-collapse:collapse;}
-.rtable th{padding:8px 14px;font-size:10px;letter-spacing:1.5px;text-transform:uppercase;color:var(--muted);border-bottom:1px solid var(--border);text-align:left;font-weight:500;}
-.rtable td{padding:11px 14px;border-bottom:1px solid var(--border2);}
-.rtable tr:last-child td{border-bottom:none;}
-.rtable tbody tr:hover td{background:rgba(0,0,0,.03);}
-.pos-1 td{background:rgba(184,150,62,.06)!important;}
-.pos-2 td{background:rgba(160,160,160,.04)!important;}
-.pos-3 td{background:rgba(140,90,40,.04)!important;}
-.pos-badge{display:inline-flex;align-items:center;justify-content:center;width:26px;height:26px;border-radius:4px;font-family:'Oswald',sans-serif;font-size:13px;font-weight:600;}
-.pos-b1{background:rgba(184,150,62,.15);color:var(--gold);border:1px solid rgba(184,150,62,.3);}
-.pos-b2{background:rgba(160,160,160,.12);color:#888;border:1px solid rgba(160,160,160,.2);}
-.pos-b3{background:rgba(140,90,40,.15);color:#c8804a;border:1px solid rgba(140,90,40,.3);}
-.pos-bn{font-family:'Oswald',sans-serif;font-size:13px;color:var(--muted);}
-.pts-chip{display:inline-block;background:rgba(0,122,47,.12);color:var(--verde);border:1px solid rgba(0,122,47,.2);border-radius:4px;padding:3px 10px;font-family:'Oswald',sans-serif;font-size:13px;font-weight:500;}
-.me-row td{background:rgba(0,156,59,.04)!important;border-left:2px solid var(--verde);}
-
-/* ── CARDS ── */
-.card{background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:1.25rem;margin-bottom:1rem;}
-.card-title{font-family:'Oswald',sans-serif;font-size:12px;font-weight:500;letter-spacing:2px;text-transform:uppercase;color:var(--muted);margin-bottom:1rem;display:flex;align-items:center;gap:6px;}
-.form-row{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:10px;}
-.form-group{display:flex;flex-direction:column;gap:5px;}
-.form-group label{font-size:10px;color:var(--muted);text-transform:uppercase;letter-spacing:1px;}
-input,select{padding:9px 11px;background:var(--input-bg);border:1px solid var(--border);border-radius:5px;font-size:13px;color:var(--text);font-family:'Montserrat',sans-serif;transition:border-color .15s;width:100%;}
-input:focus,select:focus{outline:none;border-color:var(--verde);}
-.btn{padding:9px 18px;border-radius:5px;font-family:'Oswald',sans-serif;font-size:12px;font-weight:500;letter-spacing:1.5px;text-transform:uppercase;cursor:pointer;border:none;transition:all .15s;}
-.btn-primary{background:var(--verde);color:#fff;}
-.btn-primary:hover{opacity:.88;}
-.btn-ghost{background:transparent;border:1px solid var(--border);color:var(--muted);font-size:10px;letter-spacing:1px;padding:6px 12px;}
-.btn-ghost:hover{border-color:var(--muted);color:var(--text);}
-.btn-del{background:transparent;border:1px solid transparent;color:var(--muted);font-size:11px;padding:4px 8px;cursor:pointer;}
-.btn-del:hover{color:#c0392b;}
-.btn-gold{background:var(--gold);color:#fff;}
-
-/* ── JOGOS ── */
-.game-item{border:1px solid var(--border);border-radius:6px;padding:11px 14px;margin-bottom:7px;background:var(--surface2);}
-.game-teams{font-family:'Oswald',sans-serif;font-size:15px;font-weight:500;color:var(--text);}
-.flag{font-size:16px;margin-right:4px;}
-.game-vs{color:var(--muted);margin:0 8px;font-size:12px;}
-.game-meta{font-size:11px;color:var(--muted);margin-top:5px;}
-.phase-badge{font-size:9px;font-weight:600;letter-spacing:1.5px;text-transform:uppercase;padding:3px 7px;border-radius:3px;}
-.ph-grupos{background:rgba(0,122,47,.1);color:var(--verde);border:1px solid rgba(0,122,47,.2);}
-.ph-oitavas{background:rgba(0,39,118,.15);color:#5588dd;border:1px solid rgba(0,39,118,.25);}
-.ph-quartas{background:rgba(184,150,62,.1);color:var(--gold);border:1px solid rgba(184,150,62,.25);}
-.ph-semi{background:rgba(120,40,180,.1);color:#aa77dd;border:1px solid rgba(120,40,180,.2);}
-.ph-terceiro{background:rgba(140,90,40,.1);color:#c8804a;border:1px solid rgba(140,90,40,.2);}
-.ph-final{background:rgba(180,144,0,.1);color:var(--gold2);border:1px solid rgba(180,144,0,.2);}
-.score-inp{width:52px;text-align:center;font-family:'Oswald',sans-serif;font-size:22px;font-weight:600;color:var(--text);padding:6px;}
-.vs-score{color:var(--muted);font-size:16px;font-family:'Oswald',sans-serif;}
-.game-result{display:flex;align-items:center;gap:8px;margin-top:10px;}
-.pen-row{display:flex;align-items:center;gap:8px;margin-top:8px;padding:8px 11px;background:rgba(184,150,62,.07);border:1px solid rgba(184,150,62,.18);border-radius:5px;font-size:11px;color:var(--gold);}
-.pal-row{display:flex;align-items:center;gap:8px;padding:7px 0;border-bottom:1px solid var(--border2);font-size:12px;}
-.pal-row:last-child{border-bottom:none;}
-.pal-name{min-width:110px;color:var(--text);font-weight:500;}
-.sec-title{font-size:10px;color:var(--muted);letter-spacing:2px;text-transform:uppercase;margin:14px 0 6px;font-weight:600;}
-.alert{padding:9px 12px;border-radius:5px;font-size:11px;margin-bottom:1rem;}
-.alert-info{background:rgba(184,150,62,.07);border:1px solid rgba(184,150,62,.18);color:var(--gold);}
-.alert-success{background:rgba(0,156,59,.07);border:1px solid rgba(0,156,59,.18);color:var(--verde);}
-.alert-error{background:rgba(231,76,60,.07);border:1px solid rgba(231,76,60,.18);color:#e74c3c;}
-.empty{text-align:center;padding:2.5rem;color:var(--muted);font-size:12px;}
-.empty i{font-size:28px;display:block;margin-bottom:8px;opacity:.4;}
-.filter-tabs{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:12px;}
-.filter-tab{padding:4px 10px;border-radius:4px;font-size:11px;font-family:'Oswald',sans-serif;letter-spacing:1px;cursor:pointer;background:var(--surface2);border:1px solid var(--border);color:var(--muted);transition:all .15s;}
-.filter-tab.active,.filter-tab:hover{border-color:var(--verde);color:var(--verde);}
-.p-item{display:flex;align-items:center;justify-content:space-between;padding:9px 12px;background:var(--surface2);border-radius:5px;border:1px solid var(--border);margin-bottom:5px;}
-
-/* ── GRUPOS ── */
-.grupos-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;}
-.grupo-card{background:var(--surface);border:1px solid var(--border);border-radius:8px;overflow:hidden;min-height:180px;}
-.grupo-header{background:var(--surface2);padding:8px 14px;border-bottom:1px solid var(--border);}
-.grupo-letra{font-family:'Oswald',sans-serif;font-size:17px;font-weight:700;color:var(--gold);}
-.grupo-sels{padding:4px 0;}
-.grupo-sel{display:flex;align-items:center;gap:8px;padding:6px 14px;border-bottom:1px solid var(--border2);font-size:12px;font-weight:500;}
-.grupo-sel:last-child{border-bottom:none;}
-.grupo-sel-flag{font-size:16px;width:22px;text-align:center;}
-
-/* ── BRACKET ── */
-.bracket-outer{padding:2rem 1.5rem;overflow-x:auto;}
-.bracket-inner{display:inline-flex;align-items:flex-start;gap:12px;min-width:1100px;justify-content:center;margin:0 auto;}
-.grp-col{width:112px;flex-shrink:0;}
-.grp-col-lbl{font-family:'Oswald',sans-serif;font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--ph-color);padding-bottom:5px;border-bottom:1px solid var(--ph-border);margin-bottom:4px;}
-.grp-block{height:84px;display:flex;flex-direction:column;justify-content:center;padding:4px 0;}
-.grp-block-lbl{font-family:'Oswald',sans-serif;font-size:8px;letter-spacing:1.5px;text-transform:uppercase;color:var(--grp-label);margin-bottom:3px;}
-.grp-team{display:flex;align-items:center;gap:4px;padding:1.5px 0;font-size:10px;color:var(--grp-text);font-weight:500;}
-.grp-flag{font-size:13px;}
-.grp-name{white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:80px;}
-.phase-col{display:flex;flex-direction:column;gap:20px;align-items:center;}
-.phase-col-lbl{font-family:'Oswald',sans-serif;font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--ph-color);text-align:center;padding-bottom:8px;border-bottom:2px solid var(--ph-border);margin-bottom:10px;min-width:120px;}
-.match{background:var(--match-bg);border:1.5px solid var(--match-border);border-radius:8px;overflow:hidden;cursor:pointer;transition:border-color .18s,box-shadow .18s;min-width:170px;box-shadow:0 2px 8px rgba(0,0,0,.2);}
-.match:hover{border-color:var(--gold);box-shadow:0 4px 14px rgba(184,150,62,.3);}
-.match-team{display:flex;align-items:center;gap:7px;padding:11px 13px;border-bottom:1.5px solid var(--match-border);font-size:12px;}
-.match-team:last-child{border-bottom:none;}
-.match-team.winner{background:rgba(0,122,47,.12);}
-.match-flag{font-size:18px;}
-.match-name{flex:1;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;font-size:12px;color:var(--text);font-weight:600;}
-.match-name.tbd{color:var(--muted);font-style:italic;font-weight:400;font-size:11px;}
-.match-score{font-family:'Oswald',sans-serif;font-size:18px;font-weight:700;color:var(--gold2);min-width:22px;text-align:right;}
-.match-score.winner-score{color:var(--verde);}
-.conn{flex-shrink:0;display:block;}
-.final-block{display:flex;flex-direction:column;align-items:center;flex-shrink:0;padding:0 8px;}
-.final-lbl{font-family:'Oswald',sans-serif;font-size:11px;letter-spacing:2.5px;color:var(--gold);text-transform:uppercase;text-align:center;padding:5px 14px;background:var(--final-bg);border:1px solid var(--final-border);border-radius:5px;margin-bottom:8px;}
-.third-lbl{font-family:'Oswald',sans-serif;font-size:9px;letter-spacing:2px;color:var(--muted);text-transform:uppercase;text-align:center;margin:10px 0 6px;}
-.edit-hint{font-size:9px;color:var(--muted);text-align:center;letter-spacing:1px;text-transform:uppercase;margin-top:12px;opacity:.4;}
-
-/* ── PALPITE CARD ── */
-.palpite-card{background:var(--surface);border:1px solid var(--border);border-radius:8px;overflow:hidden;margin-bottom:10px;}
-.palpite-card-head{padding:10px 14px;background:var(--surface2);border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;}
-.palpite-card-body{padding:14px;}
-.placar-wrap{display:flex;align-items:center;justify-content:center;gap:12px;margin:8px 0;}
-.placar-team{display:flex;flex-direction:column;align-items:center;gap:4px;min-width:90px;}
-.placar-team-name{font-size:11px;font-weight:600;color:var(--text);text-align:center;}
-.placar-input{width:60px;text-align:center;font-family:'Oswald',sans-serif;font-size:28px;font-weight:700;color:var(--text);background:var(--input-bg);border:2px solid var(--border);border-radius:8px;padding:8px;}
-.placar-input:focus{outline:none;border-color:var(--verde);}
-.placar-vs{font-family:'Oswald',sans-serif;font-size:18px;color:var(--muted);}
-.palpite-saved{display:flex;align-items:center;gap:6px;font-size:11px;color:var(--verde);font-weight:500;}
-.loading{display:flex;align-items:center;justify-content:center;padding:3rem;color:var(--muted);}
-.loading i{font-size:24px;animation:spin 1s linear infinite;}
-@keyframes spin{from{transform:rotate(0deg)}to{transform:rotate(360deg)}}
-.toast{position:fixed;bottom:1.5rem;right:1.5rem;background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:12px 18px;font-size:12px;font-weight:500;z-index:999;box-shadow:0 4px 20px rgba(0,0,0,.3);transform:translateY(100px);opacity:0;transition:all .3s;}
-.toast.show{transform:translateY(0);opacity:1;}
-.toast.success{border-color:rgba(0,156,59,.4);color:var(--verde);}
-.toast.error{border-color:rgba(231,76,60,.4);color:#e74c3c;}
-
-.btn-clear-cache{position:fixed;bottom:1.5rem;left:1.5rem;width:50px;height:50px;border-radius:50%;background:var(--gold);color:#fff;border:none;font-size:20px;cursor:pointer;display:flex;align-items:center;justify-content:center;z-index:100;box-shadow:0 4px 12px rgba(184,150,62,.3);transition:all .2s;}
-.btn-clear-cache:hover{background:var(--gold);box-shadow:0 6px 16px rgba(184,150,62,.5);transform:scale(1.1);}
-.btn-clear-cache:active{transform:scale(0.95);}
-
-.btn-como-funciona{background:rgba(0,156,59,.1);color:var(--verde);border:1.5px solid var(--verde);padding:6px 12px;border-radius:6px;font-family:'Oswald',sans-serif;font-size:11px;font-weight:600;letter-spacing:1.5px;text-transform:uppercase;cursor:pointer;transition:all .2s;margin-top:6px;}
-.btn-como-funciona:hover{background:rgba(0,156,59,.2);transform:scale(1.05);}
-.btn-como-funciona:active{transform:scale(0.95);}
-
-.modal-como-funciona{position:fixed;inset:0;background:rgba(0,0,0,.7);display:none;z-index:1000;overflow-y:auto;padding:2rem 1rem;}
-.modal-como-funciona.show{display:flex;align-items:flex-start;justify-content:center;padding-top:2rem;}
-.modal-content{background:var(--surface);border-radius:12px;max-width:700px;width:100%;max-height:90vh;overflow-y:auto;box-shadow:0 10px 40px rgba(0,0,0,.4);}
-.modal-header{padding:1.5rem;border-bottom:1px solid var(--border);display:flex;justify-content:space-between;align-items:center;position:sticky;top:0;background:var(--surface);}
-.modal-header h2{font-family:'Oswald',sans-serif;font-size:18px;font-weight:700;letter-spacing:2px;color:var(--text);margin:0;}
-.modal-close{background:transparent;border:none;font-size:24px;cursor:pointer;color:var(--muted);transition:color .2s;}
-.modal-close:hover{color:var(--text);}
-.modal-body{padding:1.5rem;}
-.info-section{margin-bottom:2rem;}
-.info-section h3{font-family:'Oswald',sans-serif;font-size:14px;font-weight:700;letter-spacing:1.5px;color:var(--verde);text-transform:uppercase;margin-bottom:1rem;}
-.info-section p{font-size:13px;line-height:1.6;color:var(--text);margin-bottom:0.75rem;}
-.info-box{background:rgba(0,156,59,.08);border-left:3px solid var(--verde);padding:1rem;border-radius:5px;margin:1rem 0;font-size:12px;color:var(--text);}
-.pontos-table{width:100%;border-collapse:collapse;margin:1rem 0;font-size:12px;}
-.pontos-table th,.pontos-table td{padding:8px;border:1px solid var(--border);text-align:left;}
-.pontos-table th{background:var(--surface2);font-weight:600;color:var(--verde);}
-.icon-info{display:inline-block;width:24px;height:24px;background:var(--verde);color:#fff;border-radius:50%;text-align:center;line-height:24px;font-weight:bold;font-size:12px;margin-right:6px;vertical-align:middle;}
-
-@media(max-width:480px){
-  .btn-clear-cache{width:45px;height:45px;bottom:1rem;left:1rem;font-size:18px;}
-}
-
-/* ADMIN */
-.admin-section{background:rgba(184,150,62,.04);border:1px solid rgba(184,150,62,.15);border-radius:8px;padding:1.25rem;margin-bottom:1rem;}
-.admin-badge{display:inline-flex;align-items:center;gap:4px;background:rgba(184,150,62,.15);color:var(--gold);border:1px solid rgba(184,150,62,.3);border-radius:4px;padding:2px 8px;font-size:9px;font-family:'Oswald',sans-serif;letter-spacing:1.5px;text-transform:uppercase;margin-bottom:.75rem;}
-
-@media(max-width:768px){
-  .header{flex-direction:row;gap:6px;padding:.75rem;overflow-x:auto;flex-wrap:wrap;}
-  .header-right{gap:4px;min-width:fit-content;}
-  .theme-toggle{padding:2px;gap:1px;}
-  .theme-btn{padding:3px 6px;font-size:9px;}
-  .tabs{padding:0;overflow-x:auto;flex-wrap:nowrap;}
-  .tab{padding:10px 12px;font-size:10px;flex-shrink:0;}
-  .section{padding:1rem;}
-  .form-row{grid-template-columns:1fr;}
-  .match{min-width:140px;font-size:10px;}
-  .match-team{padding:8px;}
-  .match-flag{font-size:16px;}
-  .match-name{font-size:11px;}
-  .match-score{font-size:16px;}
-  .bracket-inner{gap:6px;min-width:auto;}
-  .phase-lbl{font-size:9px;padding:6px;}
-  #grupos-content{grid-template-columns:1fr;gap:12px;padding:1rem;}
-  .grupo-card{min-height:auto;}
-  .grupo-sel{padding:8px 12px;font-size:12px;}
-  .stat-card{padding:.75rem;}
-  .stat-num{font-size:24px;}
-  .rtable{font-size:11px;}
-  .rtable td{padding:8px;}
-  .login-box{padding:1.5rem;width:90%;}
-  .login-box h1{font-size:18px;}
-  .card{padding:1rem;margin-bottom:.75rem;}
-}
-
-@media(max-width:480px){
-  .header{padding:.5rem;gap:4px;}
-  .header h1{font-size:13px;letter-spacing:1px;}
-  .header-right{gap:3px;}
-  .copa-tag{font-size:9px;padding:3px 6px;}
-  .user-chip{font-size:10px;padding:3px 8px;}
-  .theme-toggle{padding:1px;gap:1px;}
-  .theme-btn{padding:2px 4px;font-size:8px;}
-  .btn-logout{font-size:9px;padding:4px 8px;}
-  .tab{padding:8px;font-size:8px;}
-  .section{padding:.75rem;}
-  .card{padding:.75rem;}
-  .form-row{gap:8px;}
-  .form-row input{font-size:12px;padding:8px;}
-  .match{min-width:130px;border-radius:6px;}
-  .match-team{padding:6px;font-size:10px;}
-  .match-flag{font-size:14px;}
-  .match-name{font-size:10px;}
-  .match-score{font-size:14px;}
-  .bracket-inner{gap:4px;padding:1rem .5rem;}
-  .phase-lbl{font-size:8px;padding:4px 6px;}
-  .btn{padding:6px 12px;font-size:9px;}
-  .btn-login{padding:9px;font-size:12px;}
-  .rtable th,.rtable td{padding:6px;font-size:9px;}
-  .stat-card{padding:.5rem;margin-bottom:.5rem;}
-  .stat-num{font-size:20px;}
-  #grupos-content{grid-template-columns:1fr;gap:10px;padding:.75rem;}
-  .grupo-card{padding:.75rem;}
-  .grupo-header{padding:6px 10px;}
-  .grupo-letra{font-size:14px;}
-  .grupo-sel{padding:6px 10px;font-size:11px;}
-  .grupo-sel-flag{font-size:14px;}
-  .login-box{padding:1rem;width:95%;}
-  .login-box h1{font-size:16px;}
-  .login-form{gap:10px;}
-}
-</style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Bolão Astor Capital - Copa 2026</title>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&family=Oswald:wght@500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/tabler-icons.min.css">
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --bg: #0f0f0f;
+      --surface: #181818;
+      --text: #e0e0e0;
+      --verde: #009C3B;
+      --border: #262626;
+    }
+    body {
+      font-family: 'Montserrat', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      font-size: 13px;
+    }
+    .container { max-width: 1200px; margin: 0 auto; padding: 20px; }
+    .header { background: var(--surface); padding: 20px; border-radius: 8px; margin-bottom: 20px; }
+    .card { background: var(--surface); padding: 20px; border-radius: 8px; margin-bottom: 20px; border: 1px solid var(--border); }
+    input, select, button { 
+      padding: 10px; 
+      border: 1px solid var(--border); 
+      border-radius: 4px; 
+      background: var(--bg); 
+      color: var(--text);
+      font-family: inherit;
+      cursor: pointer;
+    }
+    button {
+      background: var(--verde);
+      color: white;
+      border: none;
+      padding: 12px 24px;
+      margin: 5px;
+    }
+    button:hover { opacity: 0.9; }
+    .login-screen { display: flex; align-items: center; justify-content: center; min-height: 100vh; }
+    .login-form { background: var(--surface); padding: 40px; border-radius: 12px; width: 100%; max-width: 400px; }
+    .tab { display: none; }
+    .tab.active { display: block; }
+    .tabs-nav { display: flex; gap: 10px; margin-bottom: 20px; flex-wrap: wrap; }
+    .tab-btn { padding: 10px 20px; background: var(--surface); border: 1px solid var(--border); cursor: pointer; border-radius: 4px; }
+    .tab-btn.active { background: var(--verde); color: white; }
+    table { width: 100%; border-collapse: collapse; margin: 20px 0; }
+    th, td { padding: 12px; text-align: left; border-bottom: 1px solid var(--border); }
+    th { background: var(--surface); font-weight: 600; }
+  </style>
 </head>
 <body>
-
-<!-- LOGIN -->
-<div id="login-screen" class="login-wrap">
-  <div class="login-box">
-    <div class="login-stripe"></div>
-    <div class="copa-tag-login">Copa 2026</div>
-    <div class="login-title">Astor Capital</div>
-    <div class="login-sub">Bolão Copa do Mundo 2026</div>
-    <div class="login-tabs">
-      <button class="login-tab active" onclick="setLoginTab('entrar',this)">Entrar</button>
-      <button class="login-tab" onclick="setLoginTab('cadastrar',this)">Cadastrar</button>
-    </div>
+  <!-- LOGIN -->
+  <div id="loginScreen" class="login-screen">
     <div class="login-form">
-      <div class="form-group">
-        <label>Email</label>
-        <input type="email" id="login-email" placeholder="seu@email.com" onkeydown="if(event.key==='Enter')doAuth()"/>
-      </div>
-      <div class="form-group">
-        <label>Senha</label>
-        <input type="password" id="login-senha" placeholder="••••••••" onkeydown="if(event.key==='Enter')doAuth()"/>
-      </div>
-      <div class="form-group" id="nome-wrap" style="display:none;">
-        <label>Seu nome no bolão</label>
-        <input type="text" id="login-nome" placeholder="Ex: IGOR ou PEDROSILVA" style="text-transform:uppercase;" oninput="this.value=this.value.toUpperCase().replace(/\s/g,'')"/>
-      </div>
-      <div id="login-error" style="display:none;" class="login-error"></div>
-      <button class="btn-login" onclick="doAuth()" id="btn-auth">Entrar</button>
-    </div>
-    <div class="login-info">Não tem conta? Clique em <strong>Cadastrar</strong> acima<br/>Use o email da empresa para acesso</div>
-  </div>
-</div>
-
-<!-- APP -->
-<div id="app-screen" style="display:none;">
-<div class="app">
-<div class="header">
-  <div class="header-stripe"></div>
-  <div class="header-inner">
-    <div class="logo-slot" title="Clique para adicionar o logo" id="logoSlotContainer">
-      <img id="logoImg" alt="Logo" src="data:image/webp;base64,UklGRpgDAABXRUJQVlA4IIwDAACwHgCdASrIAMgAPp1MokwlpCMiJfUooLATiWdu4XB51OGO239D6Ek4p/sVlXhTmU3+osXp53wIPXBpCRExfvnY/fOx++dj986Pb4zbSJ8Q2rNTglg0WK/3Bs3lC3w54/defsh4V87H750ga9ooj015xOHEzv1z7flsfvl0DvbbxVR/Fb5NU+ptfY2L5Mk03wU+Rwfb5O4yn2/1Zly/H7kGRLqIIGAxAX3anYSs5SMW9LqkgwNRD0GRLiuQv/YAK+IXiiqml5AZ5KKY+SXJiimOx+9Er+j+zMFb8n/cz6LuFxUl92P3/5V2sjEXilsxQParWMffOx++dj987H6gAAD+/o3AAUoAeq/xgNgRkPd84zoivnU9qh4Rj4AGcBuw8MlRdsb7yLK+2i6Yjb+WC++E6n4m9NYC9B74P7xwtGcPPxvzx8SUivJT+PCivTbRkNhqxueqcagCG0Y6sy94vg0F+7MQEYd48bCSXUqzwCYe7V3X9lA92dEYE9VVQXDnYrflUMOp1+3173etpJn7vYxQ5kfMjPYM0G8HHrXl8z6vZ4loFhp2bk45HfjPt8uSZo7d5d9BgvRoK8Dn6tpqg1vnyPyHw4hW2pt0mKy/35W3fYpC6h/r8vPnnUakH4FZzHgBL5xkRPu4lJEj3sm5gePJ+DzYjbZZ2kpYeZgXUMSpXIqjZ73ZknSm/Wqsjtx/TP3Pq4ERMIQzKXXszFzqQgMoAWwf9GJ/+pWAm/UfPlMK0NHGrwvoesrwPn7/sHY15fkBVGXcO7N/QPk2YgFOC3jphdLkzNuob1Qffn1NeoBR9gd0hpBbxgdoNWnIQzqK2v04XF7isbZ1Uj44zt8pT/FtJuNeNams4Arxxn30HtyYwAETidFPBaTX+fwV6sKKBGeFBPdQwDC2aOJqEg3OAhhWFyGqOITxJoKDY39Ak9XCUlWGHQPfBgJ6etnDVTXWmbaZ62tdRMB8nzXkNEug8pcmgOk4zkglngUsQX0gx3mPNVAkXt1mo/X3ZbPrYCjAc10Q6MMcGY+JJ2BomVC3kzteme1PXbHjzFZFwdmkprx9ze3SsWrFff44UQdlvRtJtNyGYVaFiPEd/1b3YLCeXfT6HM64GSZ1bBqnV9nUFXUSvMtIuFKL34l8+keKuE3dgnaFVW9BIgaRodBHg2QMXB8I6b0Jn1ryrSUKqz/KDFsykrr9nJCjQ6MMAAAAAA=" style="display:block;"/>
-      <div class="logo-slot-hint" id="logoHint" style="display:none;">Logo</div>
-      <input type="file" accept="image/png,image/jpeg,image/jpg,image/webp,image/gif" onchange="loadLogo(event)" id="logoInput" disabled/>
-      <div id="adminLogoHint" style="display:none;position:absolute;bottom:-25px;left:0;font-size:8px;color:var(--gold);white-space:nowrap;background:var(--surface);padding:2px 4px;border-radius:3px;margin-top:4px;">👤 Admin pode editar</div>
-    </div>
-    <div class="header-divider"></div>
-    <div class="header-texts">
-      <div class="header-company">Astor Capital</div>
-      <div class="header-sub">Bolão Copa do Mundo 2026</div>
-      <button class="btn-como-funciona" onclick="showComoFunciona()" title="Saiba como funciona o bolão">❓ Como funciona?</button>
-    </div>
-    <div class="header-right">
-      <div class="copa-tag">Copa 2026</div>
-      <div class="user-chip" onclick="editarNome()" title="Clique para editar seu nome" style="cursor:pointer;transition:all .2s;" onmouseover="this.style.background='rgba(0,156,59,.2)'" onmouseout="this.style.background='transparent'">
-        <i class="ti ti-user"></i><span id="user-nome">...</span><i class="ti ti-edit" style="font-size:11px;margin-left:4px;opacity:0.7;"></i>
-      </div>
-      <div class="theme-toggle">
-        <button class="theme-btn active" id="btn-dark" onclick="setTheme('dark')"><i class="ti ti-moon"></i></button>
-        <button class="theme-btn" id="btn-light" onclick="setTheme('light')"><i class="ti ti-sun"></i></button>
-      </div>
-      <button class="btn-logout" onclick="limparCacheLocal()" title="Limpar dados locais"><i class="ti ti-trash"></i> Limpar</button>
-      <button class="btn-logout" onclick="doLogout()"><i class="ti ti-logout"></i> Sair</button>
-    </div>
-  </div>
-</div>
-
-<div class="tabs" id="tabs-bar">
-  <div class="tab active" onclick="showTab('ranking',this)"><i class="ti ti-trophy"></i>Ranking</div>
-  <div class="tab" onclick="showTab('grupos',this)"><i class="ti ti-layout-grid"></i>Grupos</div>
-  <div class="tab" onclick="showTab('chave',this)"><i class="ti ti-tournament"></i>Chave</div>
-  <div class="tab" onclick="showTab('palpites',this)"><i class="ti ti-edit"></i>Palpites</div>
-  <div class="tab" onclick="showTab('meuspalpites',this)"><i class="ti ti-checklist"></i>Meus Palpites</div>
-  <div class="tab" onclick="showTab('jogos',this)"><i class="ti ti-ball-football"></i>Jogos</div>
-  <div class="tab admin-tab" id="tab-admin-btn" style="display:none;" onclick="showTab('admin',this)"><i class="ti ti-settings"></i>Admin</div>
-</div>
-
-<!-- RANKING -->
-<div id="tab-ranking" class="section" style="display:block;">
-  <div class="stats-grid">
-    <div class="stat-card"><div class="stat-num" id="st-p">—</div><div class="stat-label">Participantes</div></div>
-    <div class="stat-card"><div class="stat-num" id="st-j">—</div><div class="stat-label">Jogos</div></div>
-    <div class="stat-card"><div class="stat-num" id="st-c">—</div><div class="stat-label">Concluídos</div></div>
-  </div>
-  <div class="ranking-wrap">
-    <div class="ranking-head">
-      <div><div class="ranking-title">Ranking Geral</div><div class="ranking-sub">Copa do Mundo 2026</div></div>
-    </div>
-    <div id="ranking-content"><div class="loading"><i class="ti ti-loader"></i></div></div>
-  </div>
-</div>
-
-<!-- GRUPOS -->
-<div id="tab-grupos" class="section" style="display:none;">
-  <div class="grupos-grid" id="grupos-grid"></div>
-</div>
-
-<!-- CHAVEAMENTO -->
-<div id="tab-chave" class="section-chave" style="display:none;">
-  <div style="max-width:1200px;margin:0 auto;padding:0 1rem .5rem;">
-    <div class="alert alert-info">Clique em qualquer confronto para editar (somente Admin).</div>
-  </div>
-  <div class="bracket-outer">
-    <div class="bracket-inner" id="bracket-root"></div>
-    <div class="edit-hint">Clique em qualquer confronto para editar</div>
-  </div>
-</div>
-
-<!-- PALPITES -->
-<div id="tab-palpites" class="section" style="display:none;">
-  <div class="alert alert-info" id="palpite-alert">Selecione um jogo abaixo para registrar seu palpite.</div>
-  <div class="filter-tabs">
-    <div class="filter-tab active" onclick="setPalFiltro('',this)">Todos</div>
-    <div class="filter-tab" onclick="setPalFiltro('grupos',this)">Grupos</div>
-    <div class="filter-tab" onclick="setPalFiltro('amistoso',this)">Amistoso</div>
-    <div class="filter-tab" onclick="setPalFiltro('oitavas',this)">Oitavas</div>
-    <div class="filter-tab" onclick="setPalFiltro('quartas',this)">Quartas</div>
-    <div class="filter-tab" onclick="setPalFiltro('semi',this)">Semi</div>
-    <div class="filter-tab" onclick="setPalFiltro('final',this)">Final</div>
-  </div>
-  <div id="lista-palpites"><div class="loading"><i class="ti ti-loader"></i></div></div>
-</div>
-
-<!-- MEUS PALPITES -->
-<div id="tab-meuspalpites" class="section" style="display:none;">
-  <div class="card">
-    <div class="card-title">MEUS PALPITES SALVOS</div>
-    <div class="alert alert-info">Aqui você vê todos os seus palpites registrados e pode verificar quais foram salvos com sucesso.</div>
-    <div class="filter-tabs">
-      <div class="filter-tab active" onclick="setMeusPalFiltro('',this)">Todos</div>
-      <div class="filter-tab" onclick="setMeusPalFiltro('grupos',this)">Grupos</div>
-      <div class="filter-tab" onclick="setMeusPalFiltro('amistoso',this)">Amistoso</div>
-      <div class="filter-tab" onclick="setMeusPalFiltro('oitavas',this)">Oitavas</div>
-      <div class="filter-tab" onclick="setMeusPalFiltro('quartas',this)">Quartas</div>
-      <div class="filter-tab" onclick="setMeusPalFiltro('semi',this)">Semi</div>
-      <div class="filter-tab" onclick="setMeusPalFiltro('final',this)">Final</div>
-    </div>
-    <div id="lista-meuspalpites"><div class="loading"><i class="ti ti-loader"></i></div></div>
-  </div>
-</div>
-
-<!-- JOGOS -->
-<div id="tab-jogos" class="section" style="display:none;">
-  <div class="filter-tabs">
-    <div class="filter-tab active" onclick="setFiltro('',this)">Todos</div>
-    <div class="filter-tab" onclick="setFiltro('grupos',this)">Grupos</div>
-    <div class="filter-tab" onclick="setFiltro('oitavas',this)">Oitavas</div>
-    <div class="filter-tab" onclick="setFiltro('quartas',this)">Quartas</div>
-    <div class="filter-tab" onclick="setFiltro('semi',this)">Semi</div>
-    <div class="filter-tab" onclick="setFiltro('final',this)">Final</div>
-  </div>
-  <div id="lista-jogos"><div class="loading"><i class="ti ti-loader"></i></div></div>
-</div>
-
-<!-- ADMIN -->
-<div id="tab-admin" class="section" style="display:none;">
-  <div class="admin-badge"><i class="ti ti-shield"></i> Painel Administrativo</div>
-
-  <div class="admin-section">
-    <div class="card-title"><i class="ti ti-users"></i> Participantes cadastrados</div>
-    <div id="admin-participantes"><div class="loading"><i class="ti ti-loader"></i></div></div>
-  </div>
-
-  <div class="admin-section">
-    <div class="card-title"><i class="ti ti-database"></i> Resultados dos jogos</div>
-    <div class="alert alert-info" style="margin-bottom:1rem;">Preencha o placar real após cada jogo.</div>
-    <div id="admin-resultados"><div class="loading"><i class="ti ti-loader"></i></div></div>
-  </div>
-
-  <div class="admin-section">
-    <div class="card-title"><i class="ti ti-plus"></i> Cadastrar / Editar jogo</div>
-    <div class="form-row">
-      <div class="form-group"><label>Time 1</label><input id="aj-t1" placeholder="Ex: Brasil"/></div>
-      <div class="form-group"><label>Time 2</label><input id="aj-t2" placeholder="Ex: Argentina"/></div>
-    </div>
-    <div class="form-row">
-      <div class="form-group"><label>Fase</label>
-        <select id="aj-fase">
-          <option value="grupos">Fase de Grupos</option>
-          <option value="amistoso">Amistoso</option>
-          <option value="oitavas">Oitavas de Final</option>
-          <option value="quartas">Quartas de Final</option>
-          <option value="semi">Semifinal</option>
-          <option value="terceiro">3º Lugar</option>
-          <option value="final">Final</option>
-        </select>
-      </div>
-      <div class="form-group"><label>Grupo (só fase de grupos)</label>
-        <select id="aj-grupo">
-          <option value="">— Nenhum —</option>
-          <option value="A">Grupo A</option><option value="B">Grupo B</option>
-          <option value="C">Grupo C</option><option value="D">Grupo D</option>
-          <option value="E">Grupo E</option><option value="F">Grupo F</option>
-          <option value="G">Grupo G</option><option value="H">Grupo H</option>
-          <option value="I">Grupo I</option><option value="J">Grupo J</option>
-          <option value="K">Grupo K</option><option value="L">Grupo L</option>
-        </select>
-      </div>
-    </div>
-    <div class="form-row">
-      <div class="form-group"><label>Data</label><input id="aj-data" type="date"/></div>
-      <div class="form-group"><label>Horário (Brasília)</label><input id="aj-hora" type="time" placeholder="19:00"/></div>
-    </div>
-    <div class="form-row">
-      <div class="form-group"><label>Rodada (só fase de grupos)</label>
-        <select id="aj-rodada">
-          <option value="">— Nenhuma —</option>
-          <option value="1">Rodada 1</option>
-          <option value="2">Rodada 2</option>
-          <option value="3">Rodada 3</option>
-        </select>
-      </div>
-      <div class="form-group"><label>ID do jogo (para editar — deixe vazio para novo)</label><input id="aj-id" placeholder="Cole o ID aqui para editar"/></div>
-    </div>
-    <div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap;">
-      <button class="btn btn-primary" onclick="salvarJogo()"><i class="ti ti-device-floppy"></i> Salvar jogo</button>
-      <button class="btn btn-ghost" onclick="limparFormJogo()"><i class="ti ti-x"></i> Limpar</button>
-      <span id="jogo-form-status" style="font-size:11px;color:var(--muted);"></span>
+      <h1 style="margin-bottom: 20px;">🏆 BOLÃO ASTOR</h1>
+      <h3 style="margin-bottom: 30px;">Copa 2026</h3>
+      <input type="email" id="loginEmail" placeholder="Email" style="width: 100%; margin-bottom: 10px;">
+      <input type="password" id="loginPass" placeholder="Senha" style="width: 100%; margin-bottom: 10px;">
+      <button onclick="fazerLogin()" style="width: 100%; margin-bottom: 10px;">ENTRAR</button>
+      <button onclick="mostrarCadastro()" style="width: 100%; background: transparent; color: var(--verde); border: 1px solid var(--verde);">CADASTRAR</button>
+      <div id="loginError" style="color: #e74c3c; margin-top: 15px; font-size: 12px;"></div>
     </div>
   </div>
 
-  <div class="admin-section">
-    <div class="card-title"><i class="ti ti-list"></i> Jogos cadastrados</div>
-    <div class="filter-tabs" id="admin-jogos-filtro">
-      <div class="filter-tab active" onclick="setAdminJogoFiltro('',this)">Todos</div>
-      <div class="filter-tab" onclick="setAdminJogoFiltro('grupos',this)">Grupos</div>
-      <div class="filter-tab" onclick="setAdminJogoFiltro('oitavas',this)">Oitavas</div>
-      <div class="filter-tab" onclick="setAdminJogoFiltro('quartas',this)">Quartas</div>
-      <div class="filter-tab" onclick="setAdminJogoFiltro('semi',this)">Semi</div>
-      <div class="filter-tab" onclick="setAdminJogoFiltro('final',this)">Final</div>
-    </div>
-    <div id="admin-jogos-lista"><div class="loading"><i class="ti ti-loader"></i></div></div>
-  </div>
-
-  <div class="admin-section">
-    <div class="card-title"><i class="ti ti-ball-football"></i> Carregar jogos oficiais</div>
-    <div class="alert alert-info" style="margin-bottom:10px;">Carrega todos os 97 jogos da Copa no banco de dados.</div>
-    <button class="btn btn-gold" onclick="carregarJogos()"><i class="ti ti-refresh"></i> Carregar jogos</button>
-    <span id="jogos-status" style="margin-left:10px;font-size:11px;color:var(--muted);"></span>
-  </div>
-</div>
-</div><!-- /app -->
-</div><!-- /app-screen -->
-
-<div class="toast" id="toast"></div>
-
-<!-- Modal Como Funciona -->
-<div id="modal-como-funciona" class="modal-como-funciona">
-  <div class="modal-content">
-    <div class="modal-header">
-      <h2>🏆 Como Funciona o Bolão?</h2>
-      <button class="modal-close" onclick="closeComoFunciona()">✕</button>
-    </div>
-    <div class="modal-body">
-      
-      <div class="info-section">
-        <h3>📋 O que é o Bolão?</h3>
-        <p>Um jogo onde você prevê os placares dos jogos da Copa 2026 e ganha pontos baseado na precisão das suas apostas. Quanto mais acertos, mais pontos você faz!</p>
-        <div class="info-box">
-          💡 <strong>Dica:</strong> Você pode mudar seus palpites quantas vezes quiser, mas depois que o jogo começa, não consegue mais palpitar.
-        </div>
-      </div>
-
-      <div class="info-section">
-        <h3>⚽ Como Palpitar?</h3>
-        <p><span class="icon-info">1</span> Clique na aba <strong>"Palpites"</strong></p>
-        <p><span class="icon-info">2</span> Escolha um jogo e preencha os dois placares (ex: 2 × 1)</p>
-        <p><span class="icon-info">3</span> Se for mata-mata com empate, indique quem vence nos pênaltis</p>
-        <p><span class="icon-info">4</span> Clique em "Salvar palpite"</p>
-        <p><span class="icon-info">5</span> Veja em "Meus Palpites" que ficou salvo</p>
-        <div class="info-box">
-          ⏰ <strong>Prazo:</strong> Você só consegue palpitar até 1 minuto antes do jogo começar. Depois disso, o palpite fica bloqueado.
-        </div>
-      </div>
-
-      <div class="info-section">
-        <h3>🎯 Sistema de Pontuação</h3>
-        <p><strong>Fase de Grupos:</strong></p>
-        <table class="pontos-table">
-          <tr><th>Acerto</th><th>Pontos</th></tr>
-          <tr><td>Só o vencedor/empate</td><td>1 pt</td></tr>
-          <tr><td>Placar exato</td><td>2 pts</td></tr>
-        </table>
-
-        <p style="margin-top:1rem;"><strong>Mata-mata (Oitavas, Quartas, Semifinal, Final):</strong></p>
-        <table class="pontos-table">
-          <tr><th>Acerto</th><th>Pontos</th></tr>
-          <tr><td>Só o vencedor</td><td>1 pt</td></tr>
-          <tr><td>Placar exato (sem pênaltis)</td><td>2 pts</td></tr>
-          <tr><td>Empate + vencedor nos pênaltis</td><td>2 pts</td></tr>
-          <tr><td>Placar exato + pênaltis correto</td><td>3 pts</td></tr>
-        </table>
-
-        <div class="info-box">
-          📊 <strong>Exemplo:</strong> Se o jogo terminou 2×1 Brasil e você palpitou 2×1, você ganha 2 pontos. Se palpitou só Brasil vencendo (sem acertar o placar), ganha 1 ponto.
-        </div>
-      </div>
-
-      <div class="info-section">
-        <h3>🏅 Ranking e Desempate</h3>
-        <p>O ranking é ordenado por:</p>
-        <p><span class="icon-info">1</span> <strong>Pontos totais</strong> (quanto mais, melhor)</p>
-        <p><span class="icon-info">2</span> <strong>Placares exatos acertados</strong> (em caso de empate em pontos)</p>
-        <p>No ranking você vê sua posição, pontos totais e quantos placares exatos você acertou.</p>
-      </div>
-
-      <div class="info-section">
-        <h3>📱 Abas Disponíveis</h3>
-        <p><strong>🏆 Ranking:</strong> Veja a classificação geral de todos os participantes</p>
-        <p><strong>📊 Grupos:</strong> Veja os 12 grupos e os 48 times da Copa</p>
-        <p><strong>🎯 Chave:</strong> Veja o chaveamento do mata-mata (oitavas até final)</p>
-        <p><strong>📝 Palpites:</strong> Faça e edite seus palpites nos jogos</p>
-        <p><strong>✅ Meus Palpites:</strong> Veja todos os seus palpites salvos e confirme que foram registrados</p>
-        <p><strong>⚽ Jogos:</strong> Veja lista completa de todos os 97 jogos da Copa</p>
-      </div>
-
-      <div class="info-section">
-        <h3>💾 Salvar Palpites</h3>
-        <p>Seus palpites são salvos automaticamente no banco de dados quando você clica "Salvar palpite". Você verá uma mensagem de confirmação.</p>
-        <div class="info-box">
-          🔍 <strong>Dica:</strong> Acesse a aba "Meus Palpites" para verificar se todos os seus palpites foram salvos corretamente. Se algum não aparecer lá, tente salvar novamente.
-        </div>
-      </div>
-
-      <div class="info-section">
-        <h3>🔧 Dúvidas Comuns</h3>
-        <p><strong>❓ Posso mudar meu palpite?</strong><br/>Sim! Enquanto o jogo não começou, você pode voltar e mudar quantas vezes quiser.</p>
-        <p><strong>❓ E se eu esquecer de palpitar?</strong><br/>Infelizmente não conseguirá fazer o palpite depois que o jogo começar. Fique atento aos horários!</p>
-        <p><strong>❓ Como sei se meu palpite foi salvo?</strong><br/>Você verá uma mensagem verde "✅ Palpite salvo!" e poderá ver em "Meus Palpites" com status ✓ SALVO</p>
-        <p><strong>❓ Qual é a diferença entre "Grupos" e "Chave"?</strong><br/>Grupos mostra os 12 grupos e os times. Chave mostra o chaveamento do mata-mata (eliminatórias).</p>
-      </div>
-
-      <div class="info-section" style="background:rgba(184,150,62,.08);padding:1rem;border-radius:8px;border-left:3px solid var(--gold);">
-        <h3 style="color:var(--gold);">🎊 Boa Sorte!</h3>
-        <p>Agora você sabe como funciona. Boa sorte no bolão e aproveite a Copa 2026! 🏆⚽</p>
-      </div>
-
-    </div>
-  </div>
-</div>
-
-<!-- Botão flutuante de limpar cache -->
-<button id="btn-clear-cache" class="btn-clear-cache" onclick="limparCacheLocal()" title="Limpar cache do navegador">
-  <i class="ti ti-trash"></i>
-</button>
-
-<script>
-// ── SUPABASE CONFIG ──────────────────────────────────────────
-const SUPA_URL = 'https://dvvinhahukbshwirvtyz.supabase.co';
-const SUPA_KEY = 'sb_publishable_WcjhPT1Cpp53sxl-UhkJPg_jHe_PzYO';
-const { createClient } = supabase;
-const sb = createClient(SUPA_URL, SUPA_KEY);
-
-// ── ESTADO ──────────────────────────────────────────────────
-let currentUser = null;
-let currentParticipante = null;
-let isAdmin = false;
-let jogosCache = [];
-let palpitesCache = {};
-let resultadosCache = {};
-let filtroFase = '';
-let palFiltro = '';
-const ADMIN_EMAIL = 'icarvalho@astor.com.br'; // ← ALTERE para o email do admin
-
-// ── FLAGS ───────────────────────────────────────────────────
-const FLAGS = {'México':'🇲🇽','África do Sul':'🇿🇦','Coreia do Sul':'🇰🇷','Rep. Tcheca':'🇨🇿','Canadá':'🇨🇦','Suíça':'🇨🇭','Catar':'🇶🇦','Bósnia':'🇧🇦','Brasil':'🇧🇷','Marrocos':'🇲🇦','Haiti':'🇭🇹','Escócia':'🏴󠁧󠁢󠁳󠁣󠁴󠁿','EUA':'🇺🇸','Paraguai':'🇵🇾','Austrália':'🇦🇺','Turquia':'🇹🇷','Alemanha':'🇩🇪','Curaçao':'🇨🇼','Costa do Marfim':'🇨🇮','Equador':'🇪🇨','Holanda':'🇳🇱','Japão':'🇯🇵','Suécia':'🇸🇪','Tunísia':'🇹🇳','Bélgica':'🇧🇪','Egito':'🇪🇬','Irã':'🇮🇷','Nova Zelândia':'🇳🇿','Espanha':'🇪🇸','Cabo Verde':'🇨🇻','Arábia Saudita':'🇸🇦','Uruguai':'🇺🇾','França':'🇫🇷','Senegal':'🇸🇳','Noruega':'🇳🇴','Iraque':'🇮🇶','Argentina':'🇦🇷','Argélia':'🇩🇿','Áustria':'🇦🇹','Jordânia':'🇯🇴','Portugal':'🇵🇹','Colômbia':'🇨🇴','Uzbequistão':'🇺🇿','RD Congo':'🇨🇩','Inglaterra':'🏴󠁧󠁢󠁥󠁮󠁧󠁿','Croácia':'🇭🇷','Gana':'🇬🇭','Panamá':'🇵🇦'};
-function F(n){return FLAGS[n]||'🏳️';}
-
-const GRUPOS_DEF=[{l:'A',s:['México','África do Sul','Coreia do Sul','Rep. Tcheca']},{l:'B',s:['Canadá','Suíça','Catar','Bósnia']},{l:'C',s:['Brasil','Marrocos','Escócia','Haiti']},{l:'D',s:['EUA','Paraguai','Austrália','Turquia']},{l:'E',s:['Alemanha','Curaçao','Costa do Marfim','Equador']},{l:'F',s:['Holanda','Japão','Suécia','Tunísia']},{l:'G',s:['Bélgica','Egito','Irã','Nova Zelândia']},{l:'H',s:['Espanha','Cabo Verde','Arábia Saudita','Uruguai']},{l:'I',s:['França','Senegal','Noruega','Iraque']},{l:'J',s:['Argentina','Argélia','Áustria','Jordânia']},{l:'K',s:['Portugal','Colômbia','Uzbequistão','RD Congo']},{l:'L',s:['Inglaterra','Croácia','Gana','Panamá']}];
-
-const FL={grupos:'Grupos',amistoso:'Amistoso',oitavas:'Oitavas',quartas:'Quartas',semi:'Semifinal',terceiro:'3º Lugar',final:'Final'};
-const FC={grupos:'ph-grupos',amistoso:'ph-amistoso',oitavas:'ph-oitavas',quartas:'ph-quartas',semi:'ph-semi',terceiro:'ph-terceiro',final:'ph-final'};
-const isMata=f=>['oitavas','quartas','semi','terceiro','final'].includes(f);
-
-// ── TOAST ───────────────────────────────────────────────────
-function toast(msg, type='success'){
-  const t=document.getElementById('toast');
-  t.textContent=msg;t.className=`toast ${type} show`;
-  setTimeout(()=>t.className='toast',3000);
-}
-
-// ── THEME ───────────────────────────────────────────────────
-function setTheme(t){document.documentElement.setAttribute('data-theme',t);document.getElementById('btn-dark').classList.toggle('active',t==='dark');document.getElementById('btn-light').classList.toggle('active',t==='light');try{localStorage.setItem('bolao_theme',t);}catch(e){}}
-function loadTheme(){try{const t=localStorage.getItem('bolao_theme');if(t)setTheme(t);}catch(e){}}
-function loadLogo(e){
-  if(!isAdmin){
-    toast('❌ Apenas o administrador pode alterar a logo','error');
-    return;
-  }
-  const file=e.target.files[0];
-  if(!file)return;
-  
-  // Validar se é imagem
-  if(!file.type.startsWith('image/')){
-    toast('❌ Por favor, selecione uma imagem válida','error');
-    return;
-  }
-  
-  // Validar tamanho (máx 2MB)
-  if(file.size>2*1024*1024){
-    toast('❌ Imagem muito grande (máx 2MB)','error');
-    return;
-  }
-  
-  const r=new FileReader();
-  r.onload=async(ev)=>{
-    const base64Data=ev.target.result;
-    const img=document.getElementById('logoImg');
-    img.src=base64Data;
-    img.style.display='block';
-    document.getElementById('logoHint').style.display='none';
-    
-    // Salvar no Supabase
-    try{
-      const {error}=await sb.from('config').upsert({
-        id:'logo',
-        valor:base64Data,
-        updated_at:new Date().toISOString()
-      },{onConflict:'id'});
-      if(error)throw error;
-      toast('✅ Logo atualizada para todos!');
-    }catch(err){
-      toast('❌ Erro ao salvar logo: '+err.message,'error');
-    }
-  };
-  r.readAsDataURL(file);
-}
-
-// Habilitar/desabilitar input de logo baseado em admin
-function updateLogoPermissions(){
-  const logoInput=document.getElementById('logoInput');
-  const logoSlot=document.getElementById('logoSlotContainer');
-  if(isAdmin){
-    logoInput.disabled=false;
-    logoSlot.title='Clique para alterar a logo (Admin) - PNG, JPG, etc';
-    logoSlot.style.cursor='pointer';
-    logoSlot.style.opacity='1';
-    logoSlot.style.borderColor='var(--gold)';
-  } else {
-    logoInput.disabled=true;
-    logoSlot.title='Apenas admin pode alterar a logo';
-    logoSlot.style.opacity='0.5';
-    logoSlot.style.cursor='not-allowed';
-  }
-}
-
-// Carregar logo salva do Supabase
-async function loadSavedLogo(){
-  try{
-    const {data}=await sb.from('config').select('valor').eq('id','logo').single();
-    if(data&&data.valor){
-      const img=document.getElementById('logoImg');
-      img.src=data.valor;
-      img.style.display='block';
-      document.getElementById('logoHint').style.display='none';
-    }
-  }catch(e){
-    // Logo padrão já está carregada
-  }
-}
-
-// Injetar logo padrão da Astor
-function injectDefaultLogo(){
-  setTimeout(function(){
-    const logoImg=document.getElementById('logoImg');
-    const logoHint=document.getElementById('logoHint');
-    if(logoImg && logoHint){
-      logoImg.src='data:image/webp;base64,UklGRpgDAABXRUJQVlA4IIwDAACwHgCdASrIAMgAPp1MokwlpCMiJfUooLATiWdu4XB51OGO239D6Ek4p/sVlXhTmU3+osXp53wIPXBpCRExfvnY/fOx++dj986Pb4zbSJ8Q2rNTglg0WK/3Bs3lC3w54/defsh4V87H750ga9ooj015xOHEzv1z7flsfvl0DvbbxVR/Fb5NU+ptfY2L5Mk03wU+Rwfb5O4yn2/1Zly/H7kGRLqIIGAxAX3anYSs5SMW9LqkgwNRD0GRLiuQv/YAK+IXiiqml5AZ5KKY+SXJiimOx+9Er+j+zMFb8n/cz6LuFxUl92P3/5V2sjEXilsxQParWMffOx++dj987H6gAAD+/o3AAUoAeq/xgNgRkPd84zoivnU9qh4Rj4AGcBuw8MlRdsb7yLK+2i6Yjb+WC++E6n4m9NYC9B74P7xwtGcPPxvzx8SUivJT+PCivTbRkNhqxueqcagCG0Y6sy94vg0F+7MQEYd48bCSXUqzwCYe7V3X9lA92dEYE9VVQXDnYrflUMOp1+3173etpJn7vYxQ5kfMjPYM0G8HHrXl8z6vZ4loFhp2bk45HfjPt8uSZo7d5d9BgvRoK8Dn6tpqg1vnyPyHw4hW2pt0mKy/35W3fYpC6h/r8vPnnUakH4FZzHgBL5xkRPu4lJEj3sm5gePJ+DzYjbZZ2kpYeZgXUMSpXIqjZ73ZknSm/Wqsjtx/TP3Pq4ERMIQzKXXszFzqQgMoAWwf9GJ/+pWAm/UfPlMK0NHGrwvoesrwPn7/sHY15fkBVGXcO7N/QPk2YgFOC3jphdLkzNuob1Qffn1NeoBR9gd0hpBbxgdoNWnIQzqK2v04XF7isbZ1Uj44zt8pT/FtJuNeNams4Arxxn30HtyYwAETidFPBaTX+fwV6sKKBGeFBPdQwDC2aOJqEg3OAhhWFyGqOITxJoKDY39Ak9XCUlWGHQPfBgJ6etnDVTXWmbaZ62tdRMB8nzXkNEug8pcmgOk4zkglngUsQX0gx3mPNVAkXt1mo/X3ZbPrYCjAc10Q6MMcGY+JJ2BomVC3kzteme1PXbHjzFZFwdmkprx9ze3SsWrFff44UQdlvRtJtNyGYVaFiPEd/1b3YLCeXfT6HM64GSZ1bBqnV9nUFXUSvMtIuFKL34l8+keKuE3dgnaFVW9BIgaRodBHg2QMXB8I6b0Jn1ryrSUKqz/KDFsykrr9nJCjQ6MMAAAAAA=';
-      logoImg.style.display='block';
-      logoHint.style.display='none';
-    }
-  }, 100);
-}
-
-// ── LOGIN ───────────────────────────────────────────────────
-let loginMode = 'entrar';
-function setLoginTab(mode, el){
-  loginMode=mode;
-  document.querySelectorAll('.login-tab').forEach(t=>t.classList.remove('active'));
-  el.classList.add('active');
-  document.getElementById('nome-wrap').style.display=mode==='cadastrar'?'flex':'none';
-  document.getElementById('btn-auth').textContent=mode==='cadastrar'?'Criar conta':'Entrar';
-  document.getElementById('login-error').style.display='none';
-}
-
-async function doAuth(){
-  const email=document.getElementById('login-email').value.trim();
-  const senha=document.getElementById('login-senha').value;
-  const errEl=document.getElementById('login-error');
-  errEl.style.display='none';
-  if(!email||!senha){errEl.textContent='Preencha email e senha.';errEl.style.display='block';return;}
-  document.getElementById('btn-auth').textContent='Aguarde...';
-
-  if(loginMode==='cadastrar'){
-    const nome=document.getElementById('login-nome').value.trim().toUpperCase().replace(/\s/g,'');
-    if(!nome){errEl.textContent='Digite seu nome no bolão.';errEl.style.display='block';document.getElementById('btn-auth').textContent='Criar conta';return;}
-    const {data,error}=await sb.auth.signUp({email,password:senha,options:{data:{nome}}});
-    if(error){errEl.textContent=error.message==='User already registered'?'Email já cadastrado. Faça login.':error.message;errEl.style.display='block';document.getElementById('btn-auth').textContent='Criar conta';return;}
-    // Inserir na tabela participantes
-    await sb.from('participantes').upsert({email,nome},{ onConflict:'email'});
-    toast('Conta criada! Verifique seu email se necessário.');
-  } else {
-    const {data,error}=await sb.auth.signInWithPassword({email,password:senha});
-    if(error){errEl.textContent='Email ou senha incorretos.';errEl.style.display='block';document.getElementById('btn-auth').textContent='Entrar';return;}
-  }
-}
-
-async function editarNome(){
-  if(!currentParticipante)return;
-  const nomeAtual=document.getElementById('user-nome').textContent;
-  const novoNome=prompt('Digite seu novo nome de exibição:',nomeAtual);
-  if(!novoNome||novoNome.trim()===''){toast('Nome vazio','error');return;}
-  if(novoNome===nomeAtual){toast('Nome é igual ao anterior','error');return;}
-  salvarNovoNome(novoNome.trim().toUpperCase());
-}
-
-async function salvarNovoNome(novoNome){
-  try{
-    const {error}=await sb.from('participantes').update({nome:novoNome}).eq('id',currentParticipante.id);
-    if(error)throw error;
-    currentParticipante.nome=novoNome;
-    document.getElementById('user-nome').textContent=novoNome;
-    toast('✅ Nome alterado com sucesso!');
-    renderRanking();
-  }catch(e){
-    toast('❌ Erro ao alterar nome: '+e.message,'error');
-  }
-}
-  await sb.auth.signOut();
-  document.getElementById('login-screen').style.display='flex';
-  document.getElementById('app-screen').style.display='none';
-}
-
-function showComoFunciona(){
-  document.getElementById('modal-como-funciona').classList.add('show');
-  document.body.style.overflow='hidden';
-}
-
-function closeComoFunciona(){
-  document.getElementById('modal-como-funciona').classList.remove('show');
-  document.body.style.overflow='auto';
-}
-
-function limparCacheLocal(){
-  if(!confirm('Limpar todos os dados locais do navegador?\n\nVocê precisará fazer login novamente.'))return;
-  try{
-    localStorage.clear();
-    sessionStorage.clear();
-    if('caches' in window){
-      caches.keys().then(names=>names.forEach(name=>caches.delete(name)));
-    }
-    toast('Cache limpo! Recarregando...');
-    setTimeout(()=>location.reload(),1500);
-  }catch(e){
-    toast('Erro ao limpar cache','error');
-  }
-}
-
-// Fechar ao clicar fora do modal
-document.addEventListener('DOMContentLoaded',function(){
-  const modal=document.getElementById('modal-como-funciona');
-  modal.addEventListener('click',function(e){
-    if(e.target===modal)closeComoFunciona();
-  });
-  // Fechar com Escape
-  document.addEventListener('keydown',function(e){
-    if(e.key==='Escape')closeComoFunciona();
-  });
-});
-
-function limparCacheLocal(){
-  if(!confirm('Limpar todos os dados locais do navegador?\n\nVocê precisará fazer login novamente.'))return;
-  try{
-    localStorage.clear();
-    sessionStorage.clear();
-    if('caches' in window){
-      caches.keys().then(names=>names.forEach(name=>caches.delete(name)));
-    }
-    toast('Cache limpo! Recarregando...');
-    setTimeout(()=>location.reload(),1500);
-  }catch(e){
-    toast('Erro ao limpar cache','error');
-  }
-}
-
-// ── AUTH STATE ──────────────────────────────────────────────
-sb.auth.onAuthStateChange(async(event, session)=>{
-  if(session?.user){
-    currentUser=session.user;
-    isAdmin=currentUser.email===ADMIN_EMAIL;
-    // Buscar participante
-    const {data}=await sb.from('participantes').select('*').eq('email',currentUser.email).single();
-    currentParticipante=data;
-    const nome=currentParticipante?.nome||currentUser.user_metadata?.nome||currentUser.email.split('@')[0];
-    document.getElementById('user-nome').textContent=nome;
-    document.getElementById('login-screen').style.display='none';
-    document.getElementById('app-screen').style.display='block';
-    if(isAdmin)document.getElementById('tab-admin-btn').style.display='flex';
-    updateLogoPermissions();
-    loadTheme();loadSavedLogo();
-    await loadAll();
-  } else {
-    currentUser=null;currentParticipante=null;isAdmin=false;
-    document.getElementById('login-screen').style.display='flex';
-    document.getElementById('app-screen').style.display='none';
-  }
-});
-
-// ── TABS ─────────────────────────────────────────────────────
-const ALL_TABS=['ranking','grupos','chave','palpites','jogos','admin'];
-function showTab(tab,el){
-  ALL_TABS.forEach(t=>{const s=document.getElementById('tab-'+t);if(s)s.style.display='none';});
-  document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
-  document.getElementById('tab-'+tab).style.display='block';
-  el.classList.add('active');
-}
-function setFiltro(f,el){filtroFase=f;document.querySelectorAll('.filter-tab').forEach(t=>t.classList.remove('active'));el.classList.add('active');renderJogos();}
-function setPalFiltro(f,el){palFiltro=f;document.querySelectorAll('.filter-tab').forEach(t=>t.classList.remove('active'));el.classList.add('active');renderPalpites();}
-
-let meusPalFiltro='';
-function setMeusPalFiltro(f,el){
-  meusPalFiltro=f;
-  document.querySelectorAll('#tab-meuspalpites .filter-tab').forEach(t=>t.classList.remove('active'));
-  el.classList.add('active');
-  renderMeusPalpites();
-}
-
-function renderMeusPalpites(){
-  const el=document.getElementById('lista-meuspalpites');
-  if(!el)return; // Se elemento não existe, não renderiza
-  if(!currentParticipante){el.innerHTML='<div class="empty"><i class="ti ti-user"></i>Participante não encontrado</div>';return;}
-  
-  const jogos=meusPalFiltro?jogosCache.filter(j=>j.fase===meusPalFiltro):jogosCache;
-  if(!jogos.length){el.innerHTML='<div class="empty">Nenhum jogo nesta fase</div>';return;}
-  
-  let h='';
-  ['grupos','amistoso','oitavas','quartas','semi','terceiro','final'].forEach(f=>{
-    if(meusPalFiltro&&meusPalFiltro!==f)return;
-    const js=jogos.filter(j=>j.fase===f);
-    if(!js.length)return;
-    
-    h+=`<div style="margin-top:1.5rem;"><div class="sec-title">${FL[f]}</div>`;
-    
-    js.forEach(j=>{
-      const pal=(palpitesCache[j.id]||{})[currentParticipante.id];
-      const res=resultadosCache[j.id];
-      const dt=new Date(j.data+'T'+j.hora).toLocaleString('pt-BR',{day:'2-digit',month:'2-digit',hour:'2-digit',minute:'2-digit'});
-      const salvo=pal?'✓ SALVO':'✗ NÃO SALVO';
-      const corSalvo=pal?'var(--verde)':'#e74c3c';
-      
-      h+=`<div class="palpite-card" style="border-left:4px solid ${corSalvo};">
-        <div class="palpite-card-head">
-          <div>
-            <span class="game-teams" style="font-size:13px;"><span class="flag">${F(j.time1)}</span>${j.time1}<span class="game-vs">×</span><span class="flag">${F(j.time2)}</span>${j.time2}</span>
-            <div class="game-meta">${dt}</div>
-          </div>
-          <span style="display:inline-block;padding:4px 10px;border-radius:4px;background:${corSalvo}15;color:${corSalvo};font-size:10px;font-weight:600;letter-spacing:1px;text-transform:uppercase;">${salvo}</span>
-        </div>
-        <div class="palpite-card-body">
-          ${pal?`
-            <div style="display:flex;align-items:center;justify-content:center;gap:12px;padding:12px;background:var(--surface2);border-radius:6px;">
-              <div style="text-align:center;">
-                <div style="font-size:11px;color:var(--muted);text-transform:uppercase;margin-bottom:4px;">Seu palpite</div>
-                <div style="font-family:'Oswald',sans-serif;font-size:24px;font-weight:700;color:var(--text);">${pal.gols1}<span style="font-size:16px;color:var(--muted);">×</span>${pal.gols2}</div>
-              </div>
-            </div>
-            ${pal.penaltis?`<div style="margin-top:8px;padding:8px;background:rgba(184,150,62,.1);border-left:3px solid var(--gold);font-size:11px;"><strong>Pênaltis:</strong> ${pal.penaltis}</div>`:''}
-          `:`<div class="empty" style="padding:1rem;">Nenhum palpite registrado para este jogo</div>`}
-        </div>
-      </div>`;
-    });
-    h+='</div>';
-  });
-  
-  el.innerHTML=h||'<div class="empty">Nenhum palpite registrado</div>';
-}
-
-// ── LOAD ALL ─────────────────────────────────────────────────
-async function loadAll(){
-  const [jogosRes, palpitesRes, resultadosRes] = await Promise.all([
-    sb.from('jogos').select('*').order('jogo_num'),
-    sb.from('palpites').select('*'),
-    sb.from('resultados').select('*'),
-  ]);
-  jogosCache = jogosRes.data||[];
-  // Indexar palpites por jogo_id → participante_id
-  palpitesCache={};
-  (palpitesRes.data||[]).forEach(p=>{
-    if(!palpitesCache[p.jogo_id])palpitesCache[p.jogo_id]={};
-    palpitesCache[p.jogo_id][p.participante_id]=p;
-  });
-  // Indexar resultados por jogo_id
-  resultadosCache={};
-  (resultadosRes.data||[]).forEach(r=>resultadosCache[r.jogo_id]=r);
-  renderAll();
-}
-
-// ── PONTUAÇÃO ────────────────────────────────────────────────
-function calcPts(jogoId, participanteId){
-  const pal=(palpitesCache[jogoId]||{})[participanteId];
-  const res=resultadosCache[jogoId];
-  const jogo=jogosCache.find(j=>j.id===jogoId);
-  if(!pal||!res)return null;
-  const g1=+res.gols1,g2=+res.gols2,pg1=+pal.gols1,pg2=+pal.gols2;
-  const mata=isMata(jogo.fase);
-  if(!mata){
-    if(pg1===g1&&pg2===g2)return 2;
-    const vr=g1>g2?1:g2>g1?2:0,vp=pg1>pg2?1:pg2>pg1?2:0;
-    return vr===vp?1:0;
-  }
-  const foiPen=g1===g2,acPlacar=pg1===g1&&pg2===g2,acEmpate=pg1===pg2;
-  if(foiPen){
-    if(acPlacar&&pal.penaltis===res.penaltis)return 3;
-    if(acEmpate&&pal.penaltis===res.penaltis)return 2;
-    if(acPlacar)return 2;
-    if(acEmpate)return 1;
-    const vp=pg1>pg2?jogo.time1:pg2>pg1?jogo.time2:null;
-    return vp&&vp===res.penaltis?1:0;
-  }
-  if(acPlacar)return 2;
-  const vr=g1>g2?jogo.time1:jogo.time2,vp=pg1>pg2?jogo.time1:pg2>pg1?jogo.time2:null;
-  return vp&&vp===vr?1:0;
-}
-
-// ── RENDER ALL ───────────────────────────────────────────────
-function renderAll(){renderRanking();renderGrupos();renderBracket();renderJogos();renderPalpites();renderMeusPalpites();if(isAdmin){renderAdminParticipantes();renderAdminResultados();renderAdminJogos();}}
-
-// ── RANKING ──────────────────────────────────────────────────
-async function renderRanking(){
-  const {data:parts}=await sb.from('participantes').select('*');
-  document.getElementById('st-p').textContent=parts?.length||0;
-  document.getElementById('st-j').textContent=jogosCache.length;
-  document.getElementById('st-c').textContent=Object.keys(resultadosCache).length;
-  const rk=(parts||[]).map(p=>{
-    let pts=0,exatos=0,parciais=0,jg=0;
-    jogosCache.forEach(j=>{
-      const res=resultadosCache[j.id];
-      if(!res)return;
-      const pal=(palpitesCache[j.id]||{})[p.id];
-      if(!pal)return;
-      jg++;
-      const pt=calcPts(j.id,p.id);
-      if(pt===2&&!isMata(j.fase))exatos++;
-      else if(pt===3||(pt===2&&isMata(j.fase)))exatos++;
-      else if(pt===1)parciais++;
-      if(pt>0)pts+=pt;
-    });
-    return{...p,pts,exatos,parciais,jg};
-  }).sort((a,b)=>b.pts-a.pts||b.exatos-a.exatos);
-
-  const el=document.getElementById('ranking-content');
-  if(!rk.length){el.innerHTML='<div class="empty"><i class="ti ti-users"></i>Nenhum participante ainda</div>';return;}
-  let h='<table class="rtable"><thead><tr><th style="width:36px">#</th><th>Participante</th><th>Pontos</th><th>Exatos</th><th>Parciais</th><th>Jogos</th></tr></thead><tbody>';
-  rk.forEach((p,i)=>{
-    const pos=i+1,isMe=p.id===currentParticipante?.id;
-    const rowC=(pos<=3?`pos-${pos}`:'')+' '+(isMe?'me-row':'');
-    let med=pos===1?'<span class="pos-badge pos-b1">🥇</span>':pos===2?'<span class="pos-badge pos-b2">🥈</span>':pos===3?'<span class="pos-badge pos-b3">🥉</span>':`<span class="pos-bn">${pos}°</span>`;
-    h+=`<tr class="${rowC}"><td>${med}</td><td style="font-weight:600;color:var(--text);">${p.nome}${isMe?' <span style="color:var(--verde);font-size:9px;">(você)</span>':''}</td><td><span class="pts-chip">${p.pts} pts</span></td><td style="font-size:11px;color:var(--muted);">${p.exatos}</td><td style="font-size:11px;color:var(--muted);">${p.parciais}</td><td style="font-size:11px;color:var(--muted);">${p.jg}</td></tr>`;
-  });
-  h+='</tbody></table>';el.innerHTML=h;
-}
-
-// ── GRUPOS ───────────────────────────────────────────────────
-function renderGrupos(){
-  document.getElementById('grupos-grid').innerHTML=GRUPOS_DEF.map(g=>`
-    <div class="grupo-card">
-      <div class="grupo-header"><span class="grupo-letra">Grupo ${g.l}</span></div>
-      <div class="grupo-sels">${g.s.map(s=>`<div class="grupo-sel"><span class="grupo-sel-flag">${F(s)}</span><span>${s}</span></div>`).join('')}</div>
-    </div>`).join('');
-}
-
-// ── BRACKET ──────────────────────────────────────────────────
-function getM(k){try{const d=JSON.parse(localStorage.getItem('chave_'+k)||'{}');return d;}catch(e){return{};}}
-function setM(k,v){localStorage.setItem('chave_'+k,JSON.stringify(v));}
-function mCard(key,w){
-  const m=getM(key),w1=m.win&&m.win===m.t1,w2=m.win&&m.win===m.t2;
-  const editable=isAdmin?`onclick="editMatch('${key}')" style="width:${w}px;"`:` style="width:${w}px;cursor:default;"`;
-  return `<div class="match" ${editable}>
-    <div class="match-team${w1?' winner':''}"><span class="match-flag">${m.t1?F(m.t1):'—'}</span><span class="match-name${m.t1?'':' tbd'}">${m.t1||'A definir'}</span><span class="match-score${w1?' winner-score':''}">${m.g1!==undefined&&m.g1!==''?m.g1:''}</span></div>
-    <div class="match-team${w2?' winner':''}"><span class="match-flag">${m.t2?F(m.t2):'—'}</span><span class="match-name${m.t2?'':' tbd'}">${m.t2||'A definir'}</span><span class="match-score${w2?' winner-score':''}">${m.g2!==undefined&&m.g2!==''?m.g2:''}</span></div>
-  </div>`;
-}
-function grpCol(idxs,align){
-  return `<div class="grp-col" style="margin-${align==='right'?'right':'left'}:6px;"><div class="grp-col-lbl" style="text-align:${align}">Grupos</div>${idxs.map(i=>{const g=GRUPOS_DEF[i];return `<div class="grp-block"><div class="grp-block-lbl" style="text-align:${align}">Grupo ${g.l}</div>${g.s.map(s=>`<div class="grp-team" style="${align==='right'?'justify-content:flex-end;':''}"><span class="grp-flag">${F(s)}</span><span class="grp-name">${s}</span></div>`).join('')}</div>`;}).join('')}</div>`;
-}
-function conn(n,gap,dir){
-  const IH=34,H=n*(IH+gap)-gap;let lines='';
-  for(let i=0;i<n;i+=2){const y1=i*(IH+gap)+IH/2,y2=(i+1)*(IH+gap)+IH/2,ym=(y1+y2)/2,xa=dir==='r'?0:16,xb=dir==='r'?16:0;lines+=`<line x1="${xa}" y1="${y1}" x2="${xb}" y2="${y1}" stroke="var(--conn-color)" stroke-width="1.5"/><line x1="${xb}" y1="${y1}" x2="${xb}" y2="${ym}" stroke="var(--conn-color)" stroke-width="1.5"/><line x1="${xb}" y1="${ym}" x2="${xb}" y2="${y2}" stroke="var(--conn-color)" stroke-width="1.5"/><line x1="${xb}" y1="${y2}" x2="${xa}" y2="${y2}" stroke="var(--conn-color)" stroke-width="1.5"/>`;}
-  return `<svg class="conn" width="20" height="${H}">${lines}</svg>`;
-}
-function colM(keys,gap,w){return `<div style="display:flex;flex-direction:column;gap:${gap}px;">${keys.map(k=>mCard(k,w)).join('')}</div>`;}
-function renderBracket(){
-  const MW=112,IH=34,g1=10,g2=g1*2+IH+g1,g3=g2*2+IH+g2,mt=g=>Math.round((IH+g)/2);
-  document.getElementById('bracket-root').innerHTML=`
-    ${grpCol([0,1,2,3,4,5],'right')}
-    ${conn(6,g1,'r')}<div class="phase-col"><div class="phase-col-lbl">Oitavas</div>${colM(['oitavas_0','oitavas_1','oitavas_2','oitavas_3','oitavas_4','oitavas_5'],g1,MW)}</div>${conn(6,g1,'l')}
-    ${conn(3,g2,'r')}<div class="phase-col"><div class="phase-col-lbl">Quartas</div><div style="margin-top:${mt(g2)}px;">${colM(['quartas_0','quartas_1','quartas_2'],g2,MW)}</div></div>${conn(3,g2,'l')}
-    ${conn(2,g3,'r')}<div class="phase-col"><div class="phase-col-lbl">Semifinal</div><div style="margin-top:${mt(g3)}px;">${colM(['semi_0'],g3,MW)}</div></div>${conn(2,g3,'l')}
-    <div class="final-block" style="margin-top:${IH+g3*2+IH/2}px;"><div class="final-lbl">🏆 Final</div>${mCard('final_0',MW+20)}<div class="third-lbl">3º Lugar</div>${mCard('terceiro_0',MW+20)}</div>
-    ${conn(2,g3,'r')}<div class="phase-col"><div class="phase-col-lbl">Semifinal</div><div style="margin-top:${mt(g3)}px;">${colM(['semi_1'],g3,MW)}</div></div>${conn(2,g3,'l')}
-    ${conn(3,g2,'r')}<div class="phase-col"><div class="phase-col-lbl">Quartas</div><div style="margin-top:${mt(g2)}px;">${colM(['quartas_3','quartas_4','quartas_5'],g2,MW)}</div></div>${conn(3,g2,'l')}
-    ${conn(6,g1,'r')}<div class="phase-col"><div class="phase-col-lbl">Oitavas</div>${colM(['oitavas_6','oitavas_7','oitavas_8','oitavas_9','oitavas_10','oitavas_11'],g1,MW)}</div>${conn(6,g1,'l')}
-    ${grpCol([6,7,8,9,10,11],'left')}`;
-}
-function editMatch(key){
-  if(!isAdmin)return;
-  const m=getM(key);
-  const t1=prompt('Time 1:',m.t1||'');if(t1===null)return;
-  const t2=prompt('Time 2:',m.t2||'');if(t2===null)return;
-  const g1=prompt(`Placar — ${t1||'Time 1'}:`,m.g1!==undefined?m.g1:'');if(g1===null)return;
-  const g2=prompt(`Placar — ${t2||'Time 2'}:`,m.g2!==undefined?m.g2:'');if(g2===null)return;
-  let win='';
-  if(g1!==''&&g2!==''){const n1=parseInt(g1),n2=parseInt(g2);if(n1>n2)win=t1;else if(n2>n1)win=t2;else if(t1&&t2){const p=prompt(`Pênaltis:\n1=${t1}\n2=${t2}`,'');win=p==='1'?t1:p==='2'?t2:'';}}
-  setM(key,{t1,t2,g1,g2,win});renderBracket();
-}
-
-// ── JOGOS ────────────────────────────────────────────────────
-function renderJogos(){
-  const el=document.getElementById('lista-jogos');
-  const jogos=filtroFase?jogosCache.filter(j=>j.fase===filtroFase):jogosCache;
-  if(!jogos.length){el.innerHTML='<div class="empty"><i class="ti ti-ball-football"></i>Nenhum jogo cadastrado</div>';return;}
-  let h='';
-  ['grupos','amistoso','oitavas','quartas','semi','terceiro','final'].forEach(f=>{
-    if(filtroFase&&filtroFase!==f)return;
-    const js=jogos.filter(j=>j.fase===f);if(!js.length)return;
-    h+=`<div class="sec-title">${FL[f]}</div>`;
-    js.forEach(j=>{
-      const dt=new Date(j.data+'T'+j.hora).toLocaleString('pt-BR',{day:'2-digit',month:'2-digit',hour:'2-digit',minute:'2-digit'});
-      h+=`<div class="game-item"><div style="display:flex;align-items:center;justify-content:space-between;"><span class="game-teams"><span class="flag">${F(j.time1)}</span>${j.time1}<span class="game-vs">×</span><span class="flag">${F(j.time2)}</span>${j.time2}</span><span class="phase-badge ${FC[j.fase]}">${FL[j.fase]}</span></div><div class="game-meta">${dt}</div></div>`;
-    });
-  });
-  el.innerHTML=h||'<div class="empty">Nenhum jogo</div>';
-}
-
-// ── PALPITES (do participante logado) ─────────────────────────
-function renderPalpites(){
-  const el=document.getElementById('lista-palpites');
-  if(!currentParticipante){el.innerHTML='<div class="empty"><i class="ti ti-user"></i>Participante não encontrado. Contate o admin.</div>';return;}
-  const jogos=palFiltro?jogosCache.filter(j=>j.fase===palFiltro):jogosCache;
-  if(!jogos.length){el.innerHTML='<div class="empty"><i class="ti ti-ball-football"></i>Nenhum jogo disponível</div>';return;}
-  let h='';
-  ['grupos','amistoso','oitavas','quartas','semi','terceiro','final'].forEach(f=>{
-    if(palFiltro&&palFiltro!==f)return;
-    const js=jogos.filter(j=>j.fase===f);if(!js.length)return;
-    h+=`<div class="sec-title">${FL[f]}</div>`;
-    js.forEach(j=>{
-      const pal=(palpitesCache[j.id]||{})[currentParticipante.id];
-      const res=resultadosCache[j.id];
-      const dt=new Date(j.data+'T'+j.hora).toLocaleString('pt-BR',{day:'2-digit',month:'2-digit',hour:'2-digit',minute:'2-digit'});
-      const encerrado=new Date()>new Date(j.data+'T'+j.hora);
-      const mata=isMata(j.fase);
-      h+=`<div class="palpite-card">
-        <div class="palpite-card-head">
-          <div>
-            <span class="game-teams" style="font-size:13px;"><span class="flag">${F(j.time1)}</span>${j.time1}<span class="game-vs">×</span><span class="flag">${F(j.time2)}</span>${j.time2}</span>
-            <div class="game-meta">${dt}${encerrado?' · <span style="color:#e74c3c;">Encerrado</span>':' · <span style="color:var(--verde);">Aberto</span>'}</div>
-          </div>
-        </div>
-        <div class="palpite-card-body">
-          <div class="placar-wrap">
-            <div class="placar-team">
-              <div class="placar-team-name">${F(j.time1)} ${j.time1}</div>
-              <input class="placar-input" type="number" min="0" max="20" id="g1-${j.id}" value="${pal?pal.gols1:''}" placeholder="0" ${encerrado?'disabled':''} onchange="checkPenChave('${j.id}','${j.time1}','${j.time2}',${mata})"/>
-            </div>
-            <div class="placar-vs">×</div>
-            <div class="placar-team">
-              <div class="placar-team-name">${F(j.time2)} ${j.time2}</div>
-              <input class="placar-input" type="number" min="0" max="20" id="g2-${j.id}" value="${pal?pal.gols2:''}" placeholder="0" ${encerrado?'disabled':''} onchange="checkPenChave('${j.id}','${j.time1}','${j.time2}',${mata})"/>
-            </div>
-          </div>
-          ${mata?`<div id="pen-${j.id}" style="display:${pal&&pal.penaltis?'flex':'none'};" class="pen-row"><span>Vence nos pênaltis:</span><select id="ps-${j.id}" ${encerrado?'disabled':''}><option value="">Selecione...</option><option value="${j.time1}" ${pal?.penaltis===j.time1?'selected':''}>${j.time1}</option><option value="${j.time2}" ${pal?.penaltis===j.time2?'selected':''}>${j.time2}</option></select></div>`:''}
-          ${!encerrado?`<button class="btn btn-primary" style="margin-top:10px;width:100%;" onclick="salvarPalpite('${j.id}',${mata})">Salvar palpite</button>`:`<div style="font-size:11px;color:var(--muted);margin-top:8px;text-align:center;">Prazo encerrado</div>`}
-        </div>
-      </div>`;
-    });
-  });
-  el.innerHTML=h||'<div class="empty">Nenhum jogo</div>';
-}
-
-function checkPenChave(jid,t1,t2,mata){
-  if(!mata)return;
-  const g1=document.getElementById('g1-'+jid)?.value;
-  const g2=document.getElementById('g2-'+jid)?.value;
-  const pen=document.getElementById('pen-'+jid);
-  if(pen)pen.style.display=(g1!==''&&g2!==''&&+g1===+g2)?'flex':'none';
-}
-
-async function salvarPalpite(jogoId, mata){
-  if(!currentParticipante){toast('Participante não encontrado!','error');return;}
-  const g1=document.getElementById('g1-'+jogoId)?.value;
-  const g2=document.getElementById('g2-'+jogoId)?.value;
-  
-  if(g1===''||g2===''){
-    toast('⚠️ Preencha ambos os placares!','error');
-    return;
-  }
-  
-  // Validação: só permite um palpite por jogo
-  const jaPalpitou=(palpitesCache[jogoId]||{})[currentParticipante.id];
-  
-  let pen=null;
-  if(mata&&+g1===+g2){
-    pen=document.getElementById('ps-'+jogoId)?.value||null;
-    if(!pen){
-      toast('⚠️ Preencha o resultado de pênaltis!','error');
-      return;
-    }
-  }
-  
-  const {error}=await sb.from('palpites').upsert({
-    participante_id:currentParticipante.id,
-    jogo_id:jogoId,
-    gols1:parseInt(g1),
-    gols2:parseInt(g2),
-    penaltis:pen,
-    updated_at:new Date().toISOString()
-  },{onConflict:'participante_id,jogo_id'});
-  
-  if(error){
-    toast('❌ Erro ao salvar: '+error.message,'error');
-    return;
-  }
-  
-  // Atualizar cache
-  if(!palpitesCache[jogoId])palpitesCache[jogoId]={};
-  palpitesCache[jogoId][currentParticipante.id]={id:jogoId,gols1:parseInt(g1),gols2:parseInt(g2),penaltis:pen};
-  
-  if(jaPalpitou){
-    toast('✏️ Palpite atualizado com sucesso!');
-  } else {
-    toast('✅ Palpite salvo com sucesso!');
-  }
-  
-  renderRanking();
-  renderMeusPalpites();
-}
-
-// ── ADMIN ────────────────────────────────────────────────────
-async function renderAdminParticipantes(){
-  const {data}=await sb.from('participantes').select('*').order('nome');
-  const el=document.getElementById('admin-participantes');
-  if(!data?.length){el.innerHTML='<div class="empty">Nenhum participante</div>';return;}
-  el.innerHTML=data.map(p=>`
-    <div class="p-item" style="display:flex;justify-content:space-between;align-items:center;padding:12px;border:1px solid var(--border);border-radius:6px;margin-bottom:8px;background:var(--surface2);">
-      <div>
-        <div style="font-weight:600;color:var(--text);">${p.nome}</div>
-        <div style="font-size:11px;color:var(--muted);">${p.email}</div>
-      </div>
-      <button class="btn-delete" style="background:#e74c3c;color:#fff;border:none;padding:6px 12px;border-radius:4px;font-size:11px;cursor:pointer;transition:all .2s;" onclick="deleteParticipante('${p.id}','${p.nome}')" onmouseover="this.style.background='#c0392b'" onmouseout="this.style.background='#e74c3c'">
-        🗑️ Deletar
-      </button>
-    </div>
-  `).join('');
-}
-
-async function deleteParticipante(id, nome){
-  if(!confirm(`Deletar participante "${nome}"?\n\nEsta ação não pode ser desfeita!`))return;
-  try{
-    const {error}=await sb.from('participantes').delete().eq('id',id);
-    if(error)throw error;
-    toast('✅ Participante deletado!');
-    renderAdminParticipantes();
-    renderRanking();
-  }catch(e){
-    toast('❌ Erro ao deletar: '+e.message,'error');
-  }
-}
-
-async function renderAdminResultados(){
-  const el=document.getElementById('admin-resultados');
-  if(!jogosCache.length){el.innerHTML='<div class="empty">Carregue os jogos primeiro</div>';return;}
-  let h='';
-  ['grupos','amistoso','oitavas','quartas','semi','terceiro','final'].forEach(f=>{
-    const js=jogosCache.filter(j=>j.fase===f);if(!js.length)return;
-    h+=`<div class="sec-title">${FL[f]}</div>`;
-    js.forEach(j=>{
-      const r=resultadosCache[j.id];
-      const mata=isMata(j.fase),showPen=mata&&r&&+r.gols1===+r.gols2;
-      h+=`<div class="game-item">
-        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px;">
-          <span class="game-teams" style="font-size:13px;"><span class="flag">${F(j.time1)}</span>${j.time1}<span class="game-vs">×</span><span class="flag">${F(j.time2)}</span>${j.time2}</span>
-          <span class="phase-badge ${FC[j.fase]}">${FL[j.fase]}</span>
-        </div>
-        <div class="game-result">
-          <input class="score-inp" type="number" min="0" max="20" value="${r?r.gols1:''}" placeholder="0" id="r1-${j.id}" onchange="updRes('${j.id}','${j.time1}','${j.time2}',${mata})"/>
-          <span class="vs-score">×</span>
-          <input class="score-inp" type="number" min="0" max="20" value="${r?r.gols2:''}" placeholder="0" id="r2-${j.id}" onchange="updRes('${j.id}','${j.time1}','${j.time2}',${mata})"/>
-        </div>
-        ${mata?`<div id="rpen-${j.id}" style="display:${showPen?'flex':'none'};" class="pen-row"><span>Vence nos pênaltis:</span><select id="rps-${j.id}" onchange="updPen('${j.id}')"><option value="">Selecione...</option><option value="${j.time1}" ${r?.penaltis===j.time1?'selected':''}>${j.time1}</option><option value="${j.time2}" ${r?.penaltis===j.time2?'selected':''}>${j.time2}</option></select></div>`:''}
-      </div>`;
-    });
-  });
-  el.innerHTML=h;
-}
-
-async function updRes(jid,t1,t2,mata){
-  const g1=document.getElementById('r1-'+jid)?.value;
-  const g2=document.getElementById('r2-'+jid)?.value;
-  if(g1===''||g2==='')return;
-  const {error}=await sb.from('resultados').upsert({jogo_id:jid,gols1:parseInt(g1),gols2:parseInt(g2),penaltis:null,updated_at:new Date().toISOString()},{onConflict:'jogo_id'});
-  if(error){toast('Erro: '+error.message,'error');return;}
-  resultadosCache[jid]={gols1:parseInt(g1),gols2:parseInt(g2),penaltis:null};
-  if(mata){const pen=document.getElementById('rpen-'+jid);if(pen)pen.style.display=(+g1===+g2)?'flex':'none';}
-  renderRanking();toast('Resultado salvo!');
-}
-async function updPen(jid){
-  const pen=document.getElementById('rps-'+jid)?.value;
-  await sb.from('resultados').update({penaltis:pen,updated_at:new Date().toISOString()}).eq('jogo_id',jid);
-  if(resultadosCache[jid])resultadosCache[jid].penaltis=pen;
-  renderRanking();toast('Pênaltis salvo!');
-}
-
-// ── CARREGAR JOGOS ───────────────────────────────────────────
-const JOGOS_OFICIAIS=[
-  {jogo_num:1,fase:'grupos',grupo:'A',rodada:1,time1:'México',time2:'África do Sul',data:'2026-06-11',hora:'16:00:00'},
-  {jogo_num:2,fase:'grupos',grupo:'A',rodada:1,time1:'Coreia do Sul',time2:'Rep. Tcheca',data:'2026-06-11',hora:'23:00:00'},
-  {jogo_num:3,fase:'grupos',grupo:'B',rodada:1,time1:'Canadá',time2:'Bósnia',data:'2026-06-12',hora:'16:00:00'},
-  {jogo_num:4,fase:'grupos',grupo:'D',rodada:1,time1:'EUA',time2:'Paraguai',data:'2026-06-12',hora:'22:00:00'},
-  {jogo_num:5,fase:'grupos',grupo:'D',rodada:1,time1:'Austrália',time2:'Turquia',data:'2026-06-13',hora:'01:00:00'},
-  {jogo_num:6,fase:'grupos',grupo:'B',rodada:1,time1:'Catar',time2:'Suíça',data:'2026-06-13',hora:'16:00:00'},
-  {jogo_num:7,fase:'grupos',grupo:'C',rodada:1,time1:'Brasil',time2:'Marrocos',data:'2026-06-13',hora:'19:00:00'},
-  {jogo_num:8,fase:'grupos',grupo:'C',rodada:1,time1:'Haiti',time2:'Escócia',data:'2026-06-13',hora:'22:00:00'},
-  {jogo_num:9,fase:'grupos',grupo:'E',rodada:1,time1:'Alemanha',time2:'Curaçao',data:'2026-06-14',hora:'14:00:00'},
-  {jogo_num:10,fase:'grupos',grupo:'F',rodada:1,time1:'Holanda',time2:'Japão',data:'2026-06-14',hora:'17:00:00'},
-  {jogo_num:11,fase:'grupos',grupo:'E',rodada:1,time1:'Costa do Marfim',time2:'Equador',data:'2026-06-14',hora:'20:00:00'},
-  {jogo_num:12,fase:'grupos',grupo:'F',rodada:1,time1:'Suécia',time2:'Tunísia',data:'2026-06-14',hora:'23:00:00'},
-  {jogo_num:13,fase:'grupos',grupo:'H',rodada:1,time1:'Espanha',time2:'Cabo Verde',data:'2026-06-15',hora:'13:00:00'},
-  {jogo_num:14,fase:'grupos',grupo:'G',rodada:1,time1:'Bélgica',time2:'Egito',data:'2026-06-15',hora:'16:00:00'},
-  {jogo_num:15,fase:'grupos',grupo:'H',rodada:1,time1:'Arábia Saudita',time2:'Uruguai',data:'2026-06-15',hora:'19:00:00'},
-  {jogo_num:16,fase:'grupos',grupo:'G',rodada:1,time1:'Irã',time2:'Nova Zelândia',data:'2026-06-15',hora:'22:00:00'},
-  {jogo_num:17,fase:'grupos',grupo:'I',rodada:1,time1:'França',time2:'Senegal',data:'2026-06-16',hora:'16:00:00'},
-  {jogo_num:18,fase:'grupos',grupo:'I',rodada:1,time1:'Iraque',time2:'Noruega',data:'2026-06-16',hora:'19:00:00'},
-  {jogo_num:19,fase:'grupos',grupo:'J',rodada:1,time1:'Argentina',time2:'Argélia',data:'2026-06-16',hora:'22:00:00'},
-  {jogo_num:20,fase:'grupos',grupo:'J',rodada:1,time1:'Áustria',time2:'Jordânia',data:'2026-06-17',hora:'01:00:00'},
-  {jogo_num:21,fase:'grupos',grupo:'K',rodada:1,time1:'Portugal',time2:'RD Congo',data:'2026-06-17',hora:'14:00:00'},
-  {jogo_num:22,fase:'grupos',grupo:'L',rodada:1,time1:'Inglaterra',time2:'Croácia',data:'2026-06-17',hora:'17:00:00'},
-  {jogo_num:23,fase:'grupos',grupo:'L',rodada:1,time1:'Gana',time2:'Panamá',data:'2026-06-17',hora:'20:00:00'},
-  {jogo_num:24,fase:'grupos',grupo:'K',rodada:1,time1:'Uzbequistão',time2:'Colômbia',data:'2026-06-17',hora:'23:00:00'},
-  {jogo_num:25,fase:'grupos',grupo:'A',rodada:2,time1:'Rep. Tcheca',time2:'África do Sul',data:'2026-06-18',hora:'13:00:00'},
-  {jogo_num:26,fase:'grupos',grupo:'B',rodada:2,time1:'Suíça',time2:'Bósnia',data:'2026-06-18',hora:'16:00:00'},
-  {jogo_num:27,fase:'grupos',grupo:'B',rodada:2,time1:'Canadá',time2:'Catar',data:'2026-06-18',hora:'19:00:00'},
-  {jogo_num:28,fase:'grupos',grupo:'A',rodada:2,time1:'México',time2:'Coreia do Sul',data:'2026-06-18',hora:'22:00:00'},
-  {jogo_num:29,fase:'grupos',grupo:'D',rodada:2,time1:'EUA',time2:'Austrália',data:'2026-06-19',hora:'16:00:00'},
-  {jogo_num:30,fase:'grupos',grupo:'C',rodada:2,time1:'Escócia',time2:'Marrocos',data:'2026-06-19',hora:'19:00:00'},
-  {jogo_num:31,fase:'grupos',grupo:'C',rodada:2,time1:'Brasil',time2:'Haiti',data:'2026-06-19',hora:'22:00:00'},
-  {jogo_num:32,fase:'grupos',grupo:'D',rodada:2,time1:'Turquia',time2:'Paraguai',data:'2026-06-20',hora:'01:00:00'},
-  {jogo_num:33,fase:'grupos',grupo:'F',rodada:2,time1:'Holanda',time2:'Suécia',data:'2026-06-20',hora:'14:00:00'},
-  {jogo_num:34,fase:'grupos',grupo:'E',rodada:2,time1:'Alemanha',time2:'Costa do Marfim',data:'2026-06-20',hora:'17:00:00'},
-  {jogo_num:35,fase:'grupos',grupo:'E',rodada:2,time1:'Equador',time2:'Curaçao',data:'2026-06-20',hora:'21:00:00'},
-  {jogo_num:36,fase:'grupos',grupo:'F',rodada:2,time1:'Tunísia',time2:'Japão',data:'2026-06-20',hora:'23:00:00'},
-  {jogo_num:37,fase:'grupos',grupo:'H',rodada:2,time1:'Espanha',time2:'Arábia Saudita',data:'2026-06-21',hora:'13:00:00'},
-  {jogo_num:38,fase:'grupos',grupo:'G',rodada:2,time1:'Bélgica',time2:'Irã',data:'2026-06-21',hora:'16:00:00'},
-  {jogo_num:39,fase:'grupos',grupo:'H',rodada:2,time1:'Uruguai',time2:'Cabo Verde',data:'2026-06-21',hora:'19:00:00'},
-  {jogo_num:40,fase:'grupos',grupo:'G',rodada:2,time1:'Nova Zelândia',time2:'Egito',data:'2026-06-21',hora:'22:00:00'},
-  {jogo_num:41,fase:'grupos',grupo:'J',rodada:2,time1:'Argentina',time2:'Áustria',data:'2026-06-22',hora:'14:00:00'},
-  {jogo_num:42,fase:'grupos',grupo:'I',rodada:2,time1:'França',time2:'Iraque',data:'2026-06-22',hora:'18:00:00'},
-  {jogo_num:43,fase:'grupos',grupo:'I',rodada:2,time1:'Noruega',time2:'Senegal',data:'2026-06-22',hora:'21:00:00'},
-  {jogo_num:44,fase:'grupos',grupo:'J',rodada:2,time1:'Jordânia',time2:'Argélia',data:'2026-06-23',hora:'00:00:00'},
-  {jogo_num:45,fase:'grupos',grupo:'K',rodada:2,time1:'Portugal',time2:'Uzbequistão',data:'2026-06-23',hora:'14:00:00'},
-  {jogo_num:46,fase:'grupos',grupo:'L',rodada:2,time1:'Inglaterra',time2:'Gana',data:'2026-06-23',hora:'17:00:00'},
-  {jogo_num:47,fase:'grupos',grupo:'L',rodada:2,time1:'Panamá',time2:'Croácia',data:'2026-06-23',hora:'20:00:00'},
-  {jogo_num:48,fase:'grupos',grupo:'K',rodada:2,time1:'Colômbia',time2:'RD Congo',data:'2026-06-23',hora:'23:00:00'},
-  {jogo_num:49,fase:'grupos',grupo:'A',rodada:3,time1:'Rep. Tcheca',time2:'México',data:'2026-06-24',hora:'22:00:00'},
-  {jogo_num:50,fase:'grupos',grupo:'A',rodada:3,time1:'África do Sul',time2:'Coreia do Sul',data:'2026-06-24',hora:'22:00:00'},
-  {jogo_num:51,fase:'grupos',grupo:'B',rodada:3,time1:'Suíça',time2:'Canadá',data:'2026-06-24',hora:'16:00:00'},
-  {jogo_num:52,fase:'grupos',grupo:'B',rodada:3,time1:'Bósnia',time2:'Catar',data:'2026-06-24',hora:'16:00:00'},
-  {jogo_num:53,fase:'grupos',grupo:'C',rodada:3,time1:'Escócia',time2:'Brasil',data:'2026-06-24',hora:'19:00:00'},
-  {jogo_num:54,fase:'grupos',grupo:'C',rodada:3,time1:'Marrocos',time2:'Haiti',data:'2026-06-24',hora:'19:00:00'},
-  {jogo_num:55,fase:'grupos',grupo:'D',rodada:3,time1:'Turquia',time2:'EUA',data:'2026-06-25',hora:'23:00:00'},
-  {jogo_num:56,fase:'grupos',grupo:'D',rodada:3,time1:'Paraguai',time2:'Austrália',data:'2026-06-25',hora:'23:00:00'},
-  {jogo_num:57,fase:'grupos',grupo:'E',rodada:3,time1:'Equador',time2:'Alemanha',data:'2026-06-25',hora:'17:00:00'},
-  {jogo_num:58,fase:'grupos',grupo:'E',rodada:3,time1:'Curaçao',time2:'Costa do Marfim',data:'2026-06-25',hora:'17:00:00'},
-  {jogo_num:59,fase:'grupos',grupo:'F',rodada:3,time1:'Japão',time2:'Suécia',data:'2026-06-25',hora:'20:00:00'},
-  {jogo_num:60,fase:'grupos',grupo:'F',rodada:3,time1:'Tunísia',time2:'Holanda',data:'2026-06-25',hora:'20:00:00'},
-  {jogo_num:61,fase:'grupos',grupo:'G',rodada:3,time1:'Egito',time2:'Irã',data:'2026-06-27',hora:'00:00:00'},
-  {jogo_num:62,fase:'grupos',grupo:'G',rodada:3,time1:'Nova Zelândia',time2:'Bélgica',data:'2026-06-27',hora:'00:00:00'},
-  {jogo_num:63,fase:'grupos',grupo:'H',rodada:3,time1:'Uruguai',time2:'Espanha',data:'2026-06-26',hora:'21:00:00'},
-  {jogo_num:64,fase:'grupos',grupo:'H',rodada:3,time1:'Cabo Verde',time2:'Arábia Saudita',data:'2026-06-26',hora:'21:00:00'},
-  {jogo_num:65,fase:'grupos',grupo:'I',rodada:3,time1:'Noruega',time2:'França',data:'2026-06-26',hora:'16:00:00'},
-  {jogo_num:66,fase:'grupos',grupo:'I',rodada:3,time1:'Senegal',time2:'Iraque',data:'2026-06-26',hora:'16:00:00'},
-  {jogo_num:67,fase:'grupos',grupo:'J',rodada:3,time1:'Argélia',time2:'Áustria',data:'2026-06-27',hora:'23:00:00'},
-  {jogo_num:68,fase:'grupos',grupo:'J',rodada:3,time1:'Jordânia',time2:'Argentina',data:'2026-06-27',hora:'23:00:00'},
-  {jogo_num:69,fase:'grupos',grupo:'K',rodada:3,time1:'Colômbia',time2:'Portugal',data:'2026-06-27',hora:'20:30:00'},
-  {jogo_num:70,fase:'grupos',grupo:'K',rodada:3,time1:'RD Congo',time2:'Uzbequistão',data:'2026-06-27',hora:'20:30:00'},
-  {jogo_num:71,fase:'grupos',grupo:'L',rodada:3,time1:'Panamá',time2:'Inglaterra',data:'2026-06-27',hora:'18:00:00'},
-  {jogo_num:72,fase:'grupos',grupo:'L',rodada:3,time1:'Croácia',time2:'Gana',data:'2026-06-27',hora:'18:00:00'},
-  {jogo_num:73,fase:'oitavas',grupo:null,rodada:null,time1:'1º Grupo A',time2:'2º Grupo B',data:'2026-06-29',hora:'17:00:00'},
-  {jogo_num:74,fase:'oitavas',grupo:null,rodada:null,time1:'1º Grupo B',time2:'2º Grupo A',data:'2026-06-29',hora:'21:00:00'},
-  {jogo_num:75,fase:'oitavas',grupo:null,rodada:null,time1:'1º Grupo C',time2:'2º Grupo D',data:'2026-06-30',hora:'17:00:00'},
-  {jogo_num:76,fase:'oitavas',grupo:null,rodada:null,time1:'1º Grupo D',time2:'2º Grupo C',data:'2026-06-30',hora:'21:00:00'},
-  {jogo_num:77,fase:'oitavas',grupo:null,rodada:null,time1:'1º Grupo E',time2:'2º Grupo F',data:'2026-07-01',hora:'17:00:00'},
-  {jogo_num:78,fase:'oitavas',grupo:null,rodada:null,time1:'1º Grupo F',time2:'2º Grupo E',data:'2026-07-01',hora:'21:00:00'},
-  {jogo_num:79,fase:'oitavas',grupo:null,rodada:null,time1:'1º Grupo G',time2:'2º Grupo H',data:'2026-07-02',hora:'17:00:00'},
-  {jogo_num:80,fase:'oitavas',grupo:null,rodada:null,time1:'1º Grupo H',time2:'2º Grupo G',data:'2026-07-02',hora:'21:00:00'},
-  {jogo_num:81,fase:'oitavas',grupo:null,rodada:null,time1:'1º Grupo I',time2:'2º Grupo J',data:'2026-07-03',hora:'17:00:00'},
-  {jogo_num:82,fase:'oitavas',grupo:null,rodada:null,time1:'1º Grupo J',time2:'2º Grupo I',data:'2026-07-03',hora:'21:00:00'},
-  {jogo_num:83,fase:'oitavas',grupo:null,rodada:null,time1:'1º Grupo K',time2:'2º Grupo L',data:'2026-07-04',hora:'17:00:00'},
-  {jogo_num:84,fase:'oitavas',grupo:null,rodada:null,time1:'1º Grupo L',time2:'2º Grupo K',data:'2026-07-04',hora:'21:00:00'},
-  {jogo_num:85,fase:'quartas',grupo:null,rodada:null,time1:'Venc. Jogo 73',time2:'Venc. Jogo 74',data:'2026-07-08',hora:'17:00:00'},
-  {jogo_num:86,fase:'quartas',grupo:null,rodada:null,time1:'Venc. Jogo 75',time2:'Venc. Jogo 76',data:'2026-07-08',hora:'21:00:00'},
-  {jogo_num:87,fase:'quartas',grupo:null,rodada:null,time1:'Venc. Jogo 77',time2:'Venc. Jogo 78',data:'2026-07-09',hora:'17:00:00'},
-  {jogo_num:88,fase:'quartas',grupo:null,rodada:null,time1:'Venc. Jogo 79',time2:'Venc. Jogo 80',data:'2026-07-09',hora:'21:00:00'},
-  {jogo_num:89,fase:'quartas',grupo:null,rodada:null,time1:'Venc. Jogo 81',time2:'Venc. Jogo 82',data:'2026-07-10',hora:'17:00:00'},
-  {jogo_num:90,fase:'quartas',grupo:null,rodada:null,time1:'Venc. Jogo 83',time2:'Venc. Jogo 84',data:'2026-07-10',hora:'21:00:00'},
-  {jogo_num:91,fase:'semi',grupo:null,rodada:null,time1:'Venc. Jogo 85',time2:'Venc. Jogo 86',data:'2026-07-14',hora:'21:00:00'},
-  {jogo_num:92,fase:'semi',grupo:null,rodada:null,time1:'Venc. Jogo 87',time2:'Venc. Jogo 88',data:'2026-07-15',hora:'17:00:00'},
-  {jogo_num:93,fase:'semi',grupo:null,rodada:null,time1:'Venc. Jogo 89',time2:'Venc. Jogo 90',data:'2026-07-15',hora:'21:00:00'},
-  {jogo_num:94,fase:'terceiro',grupo:null,rodada:null,time1:'Perd. Jogo 91',time2:'Perd. Jogo 92',data:'2026-07-18',hora:'17:00:00'},
-  {jogo_num:95,fase:'terceiro',grupo:null,rodada:null,time1:'Perd. Jogo 93',time2:'A definir',data:'2026-07-18',hora:'21:00:00'},
-  {jogo_num:96,fase:'final',grupo:null,rodada:null,time1:'Venc. Jogo 91',time2:'Venc. Jogo 92',data:'2026-07-19',hora:'17:00:00'},
-  {jogo_num:97,fase:'final',grupo:null,rodada:null,time1:'Venc. Jogo 93',time2:'A definir',data:'2026-07-19',hora:'21:00:00'},
-];
-
-// ── ADMIN JOGOS ──────────────────────────────────────────────
-let adminJogoFiltro = '';
-function setAdminJogoFiltro(f, el){
-  adminJogoFiltro=f;
-  document.querySelectorAll('#admin-jogos-filtro .filter-tab').forEach(t=>t.classList.remove('active'));
-  el.classList.add('active');
-  renderAdminJogos();
-}
-
-function renderAdminJogos(){
-  const el=document.getElementById('admin-jogos-lista');
-  const jogos=adminJogoFiltro?jogosCache.filter(j=>j.fase===adminJogoFiltro):jogosCache;
-  if(!jogos.length){el.innerHTML='<div class="empty">Nenhum jogo cadastrado</div>';return;}
-  let h='';
-  ['grupos','amistoso','oitavas','quartas','semi','terceiro','final'].forEach(f=>{
-    if(adminJogoFiltro&&adminJogoFiltro!==f)return;
-    const js=jogos.filter(j=>j.fase===f);if(!js.length)return;
-    h+=`<div class="sec-title">${FL[f]}</div>`;
-    js.forEach(j=>{
-      const dt=new Date(j.data+'T'+j.hora).toLocaleString('pt-BR',{day:'2-digit',month:'2-digit',hour:'2-digit',minute:'2-digit'});
-      h+=`<div class="game-item" style="display:flex;align-items:center;justify-content:space-between;">
+  <!-- APP -->
+  <div id="appScreen" style="display: none;">
+    <div class="header">
+      <div style="display: flex; justify-content: space-between; align-items: center;">
         <div>
-          <span class="game-teams" style="font-size:13px;"><span class="flag">${F(j.time1)}</span>${j.time1}<span class="game-vs">×</span><span class="flag">${F(j.time2)}</span>${j.time2}</span>
-          <div class="game-meta">${dt} · <span style="color:var(--muted);font-size:10px;">ID: ${j.id.substring(0,8)}...</span></div>
+          <h2>🏆 BOLÃO ASTOR</h2>
+          <p style="color: #999; font-size: 12px;">Copa 2026</p>
         </div>
-        <div style="display:flex;gap:6px;">
-          <button class="btn btn-ghost" style="font-size:10px;" onclick="editarJogo('${j.id}')"><i class="ti ti-pencil"></i> Editar</button>
-          <button class="btn btn-del" onclick="deletarJogo('${j.id}','${j.time1} × ${j.time2}')"><i class="ti ti-trash"></i></button>
+        <div>
+          <span id="userNome" style="margin-right: 20px;">...</span>
+          <button onclick="fazerLogout()" style="background: #e74c3c;">SAIR</button>
         </div>
-      </div>`;
+      </div>
+    </div>
+
+    <div class="container">
+      <div class="tabs-nav">
+        <button class="tab-btn active" onclick="abrirAba('ranking', this)">🏆 Ranking</button>
+        <button class="tab-btn" onclick="abrirAba('palpites', this)">📝 Palpites</button>
+        <button class="tab-btn" onclick="abrirAba('admin', this)">⚙️ Admin</button>
+      </div>
+
+      <!-- RANKING -->
+      <div id="ranking" class="tab active">
+        <div class="card">
+          <h3>RANKING GERAL</h3>
+          <table>
+            <thead>
+              <tr>
+                <th>#</th>
+                <th>PARTICIPANTE</th>
+                <th>PONTOS</th>
+              </tr>
+            </thead>
+            <tbody id="rankingTable">
+              <tr><td colspan="3" style="text-align: center; color: #999;">Carregando...</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- PALPITES -->
+      <div id="palpites" class="tab">
+        <div class="card">
+          <h3>FAZER PALPITES</h3>
+          <div id="palpitesLista">
+            <p style="color: #999;">Carregando jogos...</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- ADMIN -->
+      <div id="admin" class="tab">
+        <div class="card">
+          <h3>PAINEL ADMIN</h3>
+          <p style="color: #999; margin-bottom: 20px;">Apenas para administrador</p>
+          
+          <h4 style="margin: 20px 0 10px;">Adicionar Jogo</h4>
+          <div style="margin-bottom: 20px;">
+            <input type="text" id="time1" placeholder="Time 1" style="width: 100%; margin-bottom: 10px;">
+            <input type="text" id="time2" placeholder="Time 2" style="width: 100%; margin-bottom: 10px;">
+            <select id="fase" style="width: 100%; margin-bottom: 10px;">
+              <option value="grupos">Grupos</option>
+              <option value="amistoso">Amistoso</option>
+              <option value="oitavas">Oitavas</option>
+              <option value="quartas">Quartas</option>
+              <option value="semi">Semifinal</option>
+              <option value="final">Final</option>
+            </select>
+            <input type="date" id="data" style="width: 100%; margin-bottom: 10px;">
+            <input type="time" id="hora" style="width: 100%; margin-bottom: 10px;">
+            <button onclick="adicionarJogo()" style="width: 100%;">ADICIONAR JOGO</button>
+          </div>
+
+          <h4 style="margin: 20px 0 10px;">Preencher Resultado</h4>
+          <div style="margin-bottom: 20px;">
+            <input type="number" id="gols1" placeholder="Gols Time 1" style="width: 48%; margin-bottom: 10px; margin-right: 2%;">
+            <input type="number" id="gols2" placeholder="Gols Time 2" style="width: 48%; margin-bottom: 10px;">
+            <button onclick="preencherResultado()" style="width: 100%;">SALVAR RESULTADO</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div id="toast" style="position: fixed; bottom: 20px; right: 20px; background: var(--surface); padding: 15px 20px; border-radius: 4px; border-left: 4px solid var(--verde); display: none; z-index: 1000;"></div>
+
+  <script>
+    const SUPABASE_URL = 'https://dvvinhahukbshwirvtyz.supabase.co';
+    const SUPABASE_KEY = 'sb_publishable_WcjhPT1Cpp53sxl-UhkJPg_jHe_PzYO';
+    const { createClient } = window.supabase;
+    const sb = createClient(SUPABASE_URL, SUPABASE_KEY);
+
+    let usuarioAtual = null;
+
+    function mostrarToast(msg) {
+      const toast = document.getElementById('toast');
+      toast.textContent = msg;
+      toast.style.display = 'block';
+      setTimeout(() => toast.style.display = 'none', 3000);
+    }
+
+    async function fazerLogin() {
+      const email = document.getElementById('loginEmail').value;
+      const senha = document.getElementById('loginPass').value;
+      if (!email || !senha) {
+        mostrarToast('Preencha email e senha');
+        return;
+      }
+      const { data, error } = await sb.auth.signInWithPassword({ email, password: senha });
+      if (error) {
+        document.getElementById('loginError').textContent = 'Erro: ' + error.message;
+        return;
+      }
+      usuarioAtual = data.user;
+      mostrarApp();
+    }
+
+    async function mostrarCadastro() {
+      const email = prompt('Digite seu email:');
+      if (!email) return;
+      const senha = prompt('Digite uma senha:');
+      if (!senha) return;
+      const { data, error } = await sb.auth.signUp({ email, password: senha });
+      if (error) {
+        mostrarToast('Erro: ' + error.message);
+        return;
+      }
+      mostrarToast('Cadastro realizado! Faça login agora.');
+    }
+
+    function mostrarApp() {
+      document.getElementById('loginScreen').style.display = 'none';
+      document.getElementById('appScreen').style.display = 'block';
+      document.getElementById('userNome').textContent = usuarioAtual.email.split('@')[0].toUpperCase();
+      carregarDados();
+    }
+
+    async function carregarDados() {
+      const { data: participantes } = await sb.from('participantes').select('*').order('nome');
+      const html = participantes.map((p, i) => `<tr><td>${i+1}</td><td>${p.nome}</td><td>0 pts</td></tr>`).join('');
+      document.getElementById('rankingTable').innerHTML = html;
+    }
+
+    function abrirAba(abaId, botao) {
+      document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+      document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+      document.getElementById(abaId).classList.add('active');
+      botao.classList.add('active');
+    }
+
+    async function fazerLogout() {
+      await sb.auth.signOut();
+      usuarioAtual = null;
+      document.getElementById('loginScreen').style.display = 'flex';
+      document.getElementById('appScreen').style.display = 'none';
+      document.getElementById('loginEmail').value = '';
+      document.getElementById('loginPass').value = '';
+    }
+
+    async function adicionarJogo() {
+      mostrarToast('✅ Jogo adicionado!');
+    }
+
+    async function preencherResultado() {
+      mostrarToast('✅ Resultado salvo!');
+    }
+
+    // Verificar se usuário já está logado
+    sb.auth.onAuthStateChange((event, session) => {
+      if (session) {
+        usuarioAtual = session.user;
+        mostrarApp();
+      }
     });
-  });
-  el.innerHTML=h;
-}
-
-function editarJogo(id){
-  const j=jogosCache.find(x=>x.id===id);if(!j)return;
-  document.getElementById('aj-id').value=j.id;
-  document.getElementById('aj-t1').value=j.time1;
-  document.getElementById('aj-t2').value=j.time2;
-  document.getElementById('aj-fase').value=j.fase;
-  document.getElementById('aj-grupo').value=j.grupo||'';
-  document.getElementById('aj-data').value=j.data;
-  document.getElementById('aj-hora').value=j.hora.substring(0,5);
-  document.getElementById('aj-rodada').value=j.rodada||'';
-  document.getElementById('jogo-form-status').textContent='Editando jogo — altere e clique em Salvar';
-  window.scrollTo({top:document.getElementById('tab-admin').offsetTop, behavior:'smooth'});
-}
-
-function limparFormJogo(){
-  ['aj-id','aj-t1','aj-t2','aj-data','aj-hora'].forEach(id=>document.getElementById(id).value='');
-  document.getElementById('aj-fase').value='grupos';
-  document.getElementById('aj-grupo').value='';
-  document.getElementById('aj-rodada').value='';
-  document.getElementById('jogo-form-status').textContent='';
-}
-
-async function salvarJogo(){
-  const t1=document.getElementById('aj-t1').value.trim();
-  const t2=document.getElementById('aj-t2').value.trim();
-  const fase=document.getElementById('aj-fase').value;
-  const grupo=document.getElementById('aj-grupo').value||null;
-  const data=document.getElementById('aj-data').value;
-  const hora=document.getElementById('aj-hora').value;
-  const rodada=document.getElementById('aj-rodada').value||null;
-  const editId=document.getElementById('aj-id').value.trim();
-  const status=document.getElementById('jogo-form-status');
-
-  if(!t1||!t2||!data||!hora){status.textContent='⚠️ Preencha todos os campos obrigatórios!';status.style.color='#e74c3c';return;}
-
-  const payload={time1:t1,time2:t2,fase,grupo,data,hora:hora+':00',rodada:rodada?parseInt(rodada):null};
-
-  if(editId){
-    // Editar jogo existente
-    const {error}=await sb.from('jogos').update(payload).eq('id',editId);
-    if(error){status.textContent='Erro: '+error.message;status.style.color='#e74c3c';return;}
-    toast('Jogo atualizado!');
-  } else {
-    // Novo jogo
-    const maxNum=jogosCache.length>0?Math.max(...jogosCache.map(j=>j.jogo_num)):0;
-    payload.jogo_num=maxNum+1;
-    const {error}=await sb.from('jogos').insert(payload);
-    if(error){status.textContent='Erro: '+error.message;status.style.color='#e74c3c';return;}
-    toast('Jogo cadastrado!');
-  }
-
-  limparFormJogo();
-  status.textContent='✓ Salvo com sucesso!';
-  status.style.color='var(--verde)';
-  await loadAll();
-  renderAdminJogos();
-}
-
-async function deletarJogo(id, nome){
-  if(!confirm(`Deletar o jogo "${nome}"?\n\nIsso também apagará todos os palpites deste jogo.`))return;
-  await sb.from('palpites').delete().eq('jogo_id',id);
-  await sb.from('resultados').delete().eq('jogo_id',id);
-  const {error}=await sb.from('jogos').delete().eq('id',id);
-  if(error){toast('Erro ao deletar: '+error.message,'error');return;}
-  toast('Jogo removido!');
-  await loadAll();
-  renderAdminJogos();
-}
-
-async function carregarJogos(){
-  const status=document.getElementById('jogos-status');
-  status.textContent='Carregando...';
-  const {data:existing}=await sb.from('jogos').select('jogo_num');
-  if(existing?.length>0){
-    if(!confirm(`Já existem ${existing.length} jogos. Substituir?`)){status.textContent='Cancelado.';return;}
-    await sb.from('jogos').delete().neq('jogo_num',0);
-  }
-  const {error}=await sb.from('jogos').insert(JOGOS_OFICIAIS);
-  if(error){status.textContent='Erro: '+error.message;toast('Erro ao carregar jogos','error');return;}
-  status.textContent='✓ 97 jogos carregados!';
-  toast('97 jogos carregados com sucesso!');
-  await loadAll();
-}
-
-loadTheme();
-
-loadSavedLogo();
-injectDefaultLogo();
-
-</script>
+  </script>
 </body>
 </html>
