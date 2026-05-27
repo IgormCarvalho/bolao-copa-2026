@@ -344,8 +344,8 @@ input:focus,select:focus{outline:none;border-color:var(--verde);}
     <div class="logo-slot" title="Clique para adicionar o logo" id="logoSlotContainer">
       <img id="logoImg" alt="Logo" src="data:image/webp;base64,UklGRpgDAABXRUJQVlA4IIwDAACwHgCdASrIAMgAPp1MokwlpCMiJfUooLATiWdu4XB51OGO239D6Ek4p/sVlXhTmU3+osXp53wIPXBpCRExfvnY/fOx++dj986Pb4zbSJ8Q2rNTglg0WK/3Bs3lC3w54/defsh4V87H750ga9ooj015xOHEzv1z7flsfvl0DvbbxVR/Fb5NU+ptfY2L5Mk03wU+Rwfb5O4yn2/1Zly/H7kGRLqIIGAxAX3anYSs5SMW9LqkgwNRD0GRLiuQv/YAK+IXiiqml5AZ5KKY+SXJiimOx+9Er+j+zMFb8n/cz6LuFxUl92P3/5V2sjEXilsxQParWMffOx++dj987H6gAAD+/o3AAUoAeq/xgNgRkPd84zoivnU9qh4Rj4AGcBuw8MlRdsb7yLK+2i6Yjb+WC++E6n4m9NYC9B74P7xwtGcPPxvzx8SUivJT+PCivTbRkNhqxueqcagCG0Y6sy94vg0F+7MQEYd48bCSXUqzwCYe7V3X9lA92dEYE9VVQXDnYrflUMOp1+3173etpJn7vYxQ5kfMjPYM0G8HHrXl8z6vZ4loFhp2bk45HfjPt8uSZo7d5d9BgvRoK8Dn6tpqg1vnyPyHw4hW2pt0mKy/35W3fYpC6h/r8vPnnUakH4FZzHgBL5xkRPu4lJEj3sm5gePJ+DzYjbZZ2kpYeZgXUMSpXIqjZ73ZknSm/Wqsjtx/TP3Pq4ERMIQzKXXszFzqQgMoAWwf9GJ/+pWAm/UfPlMK0NHGrwvoesrwPn7/sHY15fkBVGXcO7N/QPk2YgFOC3jphdLkzNuob1Qffn1NeoBR9gd0hpBbxgdoNWnIQzqK2v04XF7isbZ1Uj44zt8pT/FtJuNeNams4Arxxn30HtyYwAETidFPBaTX+fwV6sKKBGeFBPdQwDC2aOJqEg3OAhhWFyGqOITxJoKDY39Ak9XCUlWGHQPfBgJ6etnDVTXWmbaZ62tdRMB8nzXkNEug8pcmgOk4zkglngUsQX0gx3mPNVAkXt1mo/X3ZbPrYCjAc10Q6MMcGY+JJ2BomVC3kzteme1PXbHjzFZFwdmkprx9ze3SsWrFff44UQdlvRtJtNyGYVaFiPEd/1b3YLCeXfT6HM64GSZ1bBqnV9nUFXUSvMtIuFKL34l8+keKuE3dgnaFVW9BIgaRodBHg2QMXB8I6b0Jn1ryrSUKqz/KDFsykrr9nJCjQ6MMAAAAAA=" style="display:block;"/>
       <div class="logo-slot-hint" id="logoHint" style="display:none;">Logo</div>
-      <input type="file" accept="image/*" onchange="loadLogo(event)" id="logoInput" disabled/>
-      <div id="adminLogoHint" style="display:none;position:absolute;bottom:-20px;left:0;font-size:8px;color:var(--gold);white-space:nowrap;background:var(--surface);padding:2px 4px;border-radius:3px;margin-top:4px;">👤 Apenas Admin</div>
+      <input type="file" accept="image/png,image/jpeg,image/jpg,image/webp,image/gif" onchange="loadLogo(event)" id="logoInput" disabled/>
+      <div id="adminLogoHint" style="display:none;position:absolute;bottom:-25px;left:0;font-size:8px;color:var(--gold);white-space:nowrap;background:var(--surface);padding:2px 4px;border-radius:3px;margin-top:4px;">👤 Admin pode editar</div>
     </div>
     <div class="header-divider"></div>
     <div class="header-texts">
@@ -355,7 +355,9 @@ input:focus,select:focus{outline:none;border-color:var(--verde);}
     </div>
     <div class="header-right">
       <div class="copa-tag">Copa 2026</div>
-      <div class="user-chip"><i class="ti ti-user"></i><span id="user-nome">...</span></div>
+      <div class="user-chip" onclick="editarNome()" title="Clique para editar seu nome" style="cursor:pointer;transition:all .2s;" onmouseover="this.style.background='rgba(0,156,59,.2)'" onmouseout="this.style.background='transparent'">
+        <i class="ti ti-user"></i><span id="user-nome">...</span><i class="ti ti-edit" style="font-size:11px;margin-left:4px;opacity:0.7;"></i>
+      </div>
       <div class="theme-toggle">
         <button class="theme-btn active" id="btn-dark" onclick="setTheme('dark')"><i class="ti ti-moon"></i></button>
         <button class="theme-btn" id="btn-light" onclick="setTheme('light')"><i class="ti ti-sun"></i></button>
@@ -413,6 +415,7 @@ input:focus,select:focus{outline:none;border-color:var(--verde);}
   <div class="filter-tabs">
     <div class="filter-tab active" onclick="setPalFiltro('',this)">Todos</div>
     <div class="filter-tab" onclick="setPalFiltro('grupos',this)">Grupos</div>
+    <div class="filter-tab" onclick="setPalFiltro('amistoso',this)">Amistoso</div>
     <div class="filter-tab" onclick="setPalFiltro('oitavas',this)">Oitavas</div>
     <div class="filter-tab" onclick="setPalFiltro('quartas',this)">Quartas</div>
     <div class="filter-tab" onclick="setPalFiltro('semi',this)">Semi</div>
@@ -429,6 +432,7 @@ input:focus,select:focus{outline:none;border-color:var(--verde);}
     <div class="filter-tabs">
       <div class="filter-tab active" onclick="setMeusPalFiltro('',this)">Todos</div>
       <div class="filter-tab" onclick="setMeusPalFiltro('grupos',this)">Grupos</div>
+      <div class="filter-tab" onclick="setMeusPalFiltro('amistoso',this)">Amistoso</div>
       <div class="filter-tab" onclick="setMeusPalFiltro('oitavas',this)">Oitavas</div>
       <div class="filter-tab" onclick="setMeusPalFiltro('quartas',this)">Quartas</div>
       <div class="filter-tab" onclick="setMeusPalFiltro('semi',this)">Semi</div>
@@ -666,8 +670,8 @@ function F(n){return FLAGS[n]||'🏳️';}
 
 const GRUPOS_DEF=[{l:'A',s:['México','África do Sul','Coreia do Sul','Rep. Tcheca']},{l:'B',s:['Canadá','Suíça','Catar','Bósnia']},{l:'C',s:['Brasil','Marrocos','Escócia','Haiti']},{l:'D',s:['EUA','Paraguai','Austrália','Turquia']},{l:'E',s:['Alemanha','Curaçao','Costa do Marfim','Equador']},{l:'F',s:['Holanda','Japão','Suécia','Tunísia']},{l:'G',s:['Bélgica','Egito','Irã','Nova Zelândia']},{l:'H',s:['Espanha','Cabo Verde','Arábia Saudita','Uruguai']},{l:'I',s:['França','Senegal','Noruega','Iraque']},{l:'J',s:['Argentina','Argélia','Áustria','Jordânia']},{l:'K',s:['Portugal','Colômbia','Uzbequistão','RD Congo']},{l:'L',s:['Inglaterra','Croácia','Gana','Panamá']}];
 
-const FL={grupos:'Grupos',oitavas:'Oitavas',quartas:'Quartas',semi:'Semifinal',terceiro:'3º Lugar',final:'Final'};
-const FC={grupos:'ph-grupos',oitavas:'ph-oitavas',quartas:'ph-quartas',semi:'ph-semi',terceiro:'ph-terceiro',final:'ph-final'};
+const FL={grupos:'Grupos',amistoso:'Amistoso',oitavas:'Oitavas',quartas:'Quartas',semi:'Semifinal',terceiro:'3º Lugar',final:'Final'};
+const FC={grupos:'ph-grupos',amistoso:'ph-amistoso',oitavas:'ph-oitavas',quartas:'ph-quartas',semi:'ph-semi',terceiro:'ph-terceiro',final:'ph-final'};
 const isMata=f=>['oitavas','quartas','semi','terceiro','final'].includes(f);
 
 // ── TOAST ───────────────────────────────────────────────────
@@ -687,6 +691,19 @@ function loadLogo(e){
   }
   const file=e.target.files[0];
   if(!file)return;
+  
+  // Validar se é imagem
+  if(!file.type.startsWith('image/')){
+    toast('❌ Por favor, selecione uma imagem válida','error');
+    return;
+  }
+  
+  // Validar tamanho (máx 2MB)
+  if(file.size>2*1024*1024){
+    toast('❌ Imagem muito grande (máx 2MB)','error');
+    return;
+  }
+  
   const r=new FileReader();
   r.onload=async(ev)=>{
     const base64Data=ev.target.result;
@@ -717,12 +734,14 @@ function updateLogoPermissions(){
   const logoSlot=document.getElementById('logoSlotContainer');
   if(isAdmin){
     logoInput.disabled=false;
-    logoSlot.title='Clique para alterar a logo (Admin)';
+    logoSlot.title='Clique para alterar a logo (Admin) - PNG, JPG, etc';
     logoSlot.style.cursor='pointer';
+    logoSlot.style.opacity='1';
+    logoSlot.style.borderColor='var(--gold)';
   } else {
     logoInput.disabled=true;
     logoSlot.title='Apenas admin pode alterar a logo';
-    logoSlot.style.opacity='0.6';
+    logoSlot.style.opacity='0.5';
     logoSlot.style.cursor='not-allowed';
   }
 }
@@ -741,7 +760,6 @@ async function loadSavedLogo(){
     // Logo padrão já está carregada
   }
 }
-function loadSavedLogo(){try{const src=localStorage.getItem('bolao_logo');if(src){const img=document.getElementById('logoImg');img.src=src;img.style.display='block';document.getElementById('logoHint').style.display='none';}}catch(e){}}
 
 // Injetar logo padrão da Astor
 function injectDefaultLogo(){
@@ -789,7 +807,27 @@ async function doAuth(){
   }
 }
 
-async function doLogout(){
+async function editarNome(){
+  if(!currentParticipante)return;
+  const nomeAtual=document.getElementById('user-nome').textContent;
+  const novoNome=prompt('Digite seu novo nome de exibição:',nomeAtual);
+  if(!novoNome||novoNome.trim()===''){toast('Nome vazio','error');return;}
+  if(novoNome===nomeAtual){toast('Nome é igual ao anterior','error');return;}
+  salvarNovoNome(novoNome.trim().toUpperCase());
+}
+
+async function salvarNovoNome(novoNome){
+  try{
+    const {error}=await sb.from('participantes').update({nome:novoNome}).eq('id',currentParticipante.id);
+    if(error)throw error;
+    currentParticipante.nome=novoNome;
+    document.getElementById('user-nome').textContent=novoNome;
+    toast('✅ Nome alterado com sucesso!');
+    renderRanking();
+  }catch(e){
+    toast('❌ Erro ao alterar nome: '+e.message,'error');
+  }
+}
   await sb.auth.signOut();
   document.getElementById('login-screen').style.display='flex';
   document.getElementById('app-screen').style.display='none';
@@ -891,13 +929,14 @@ function setMeusPalFiltro(f,el){
 
 function renderMeusPalpites(){
   const el=document.getElementById('lista-meuspalpites');
+  if(!el)return; // Se elemento não existe, não renderiza
   if(!currentParticipante){el.innerHTML='<div class="empty"><i class="ti ti-user"></i>Participante não encontrado</div>';return;}
   
   const jogos=meusPalFiltro?jogosCache.filter(j=>j.fase===meusPalFiltro):jogosCache;
   if(!jogos.length){el.innerHTML='<div class="empty">Nenhum jogo nesta fase</div>';return;}
   
   let h='';
-  ['grupos','oitavas','quartas','semi','terceiro','final'].forEach(f=>{
+  ['grupos','amistoso','oitavas','quartas','semi','terceiro','final'].forEach(f=>{
     if(meusPalFiltro&&meusPalFiltro!==f)return;
     const js=jogos.filter(j=>j.fase===f);
     if(!js.length)return;
@@ -1083,7 +1122,7 @@ function renderJogos(){
   const jogos=filtroFase?jogosCache.filter(j=>j.fase===filtroFase):jogosCache;
   if(!jogos.length){el.innerHTML='<div class="empty"><i class="ti ti-ball-football"></i>Nenhum jogo cadastrado</div>';return;}
   let h='';
-  ['grupos','oitavas','quartas','semi','terceiro','final'].forEach(f=>{
+  ['grupos','amistoso','oitavas','quartas','semi','terceiro','final'].forEach(f=>{
     if(filtroFase&&filtroFase!==f)return;
     const js=jogos.filter(j=>j.fase===f);if(!js.length)return;
     h+=`<div class="sec-title">${FL[f]}</div>`;
@@ -1102,7 +1141,7 @@ function renderPalpites(){
   const jogos=palFiltro?jogosCache.filter(j=>j.fase===palFiltro):jogosCache;
   if(!jogos.length){el.innerHTML='<div class="empty"><i class="ti ti-ball-football"></i>Nenhum jogo disponível</div>';return;}
   let h='';
-  ['grupos','oitavas','quartas','semi','terceiro','final'].forEach(f=>{
+  ['grupos','amistoso','oitavas','quartas','semi','terceiro','final'].forEach(f=>{
     if(palFiltro&&palFiltro!==f)return;
     const js=jogos.filter(j=>j.fase===f);if(!js.length)return;
     h+=`<div class="sec-title">${FL[f]}</div>`;
@@ -1233,7 +1272,7 @@ async function renderAdminResultados(){
   const el=document.getElementById('admin-resultados');
   if(!jogosCache.length){el.innerHTML='<div class="empty">Carregue os jogos primeiro</div>';return;}
   let h='';
-  ['grupos','oitavas','quartas','semi','terceiro','final'].forEach(f=>{
+  ['grupos','amistoso','oitavas','quartas','semi','terceiro','final'].forEach(f=>{
     const js=jogosCache.filter(j=>j.fase===f);if(!js.length)return;
     h+=`<div class="sec-title">${FL[f]}</div>`;
     js.forEach(j=>{
@@ -1388,7 +1427,7 @@ function renderAdminJogos(){
   const jogos=adminJogoFiltro?jogosCache.filter(j=>j.fase===adminJogoFiltro):jogosCache;
   if(!jogos.length){el.innerHTML='<div class="empty">Nenhum jogo cadastrado</div>';return;}
   let h='';
-  ['grupos','oitavas','quartas','semi','terceiro','final'].forEach(f=>{
+  ['grupos','amistoso','oitavas','quartas','semi','terceiro','final'].forEach(f=>{
     if(adminJogoFiltro&&adminJogoFiltro!==f)return;
     const js=jogos.filter(j=>j.fase===f);if(!js.length)return;
     h+=`<div class="sec-title">${FL[f]}</div>`;
