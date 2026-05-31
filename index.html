@@ -719,11 +719,14 @@ function updateLogoPermissions(){
     logoInput.disabled=false;
     logoSlot.title='Clique para alterar a logo (Admin)';
     logoSlot.style.cursor='pointer';
+    logoSlot.style.border='1.5px dashed #444';
+    logoSlot.style.opacity='1';
   } else {
     logoInput.disabled=true;
-    logoSlot.title='Apenas admin pode alterar a logo';
-    logoSlot.style.opacity='0.6';
-    logoSlot.style.cursor='not-allowed';
+    logoSlot.title='';
+    logoSlot.style.cursor='default';
+    logoSlot.style.border='none';
+    logoSlot.style.opacity='1';
   }
 }
 
@@ -741,7 +744,7 @@ async function loadSavedLogo(){
     // Logo padrão já está carregada
   }
 }
-function loadSavedLogo(){try{const src=localStorage.getItem('bolao_logo');if(src){const img=document.getElementById('logoImg');img.src=src;img.style.display='block';document.getElementById('logoHint').style.display='none';}}catch(e){}}
+
 
 // Injetar logo padrão da Astor
 function injectDefaultLogo(){
