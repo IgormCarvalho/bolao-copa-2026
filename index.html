@@ -203,6 +203,35 @@ input:focus,select:focus{outline:none;border-color:var(--verde);}
 .toast.success{border-color:rgba(0,156,59,.4);color:var(--verde);}
 .toast.error{border-color:rgba(231,76,60,.4);color:#e74c3c;}
 
+.btn-clear-cache{position:fixed;bottom:1.5rem;left:1.5rem;width:50px;height:50px;border-radius:50%;background:var(--gold);color:#fff;border:none;font-size:20px;cursor:pointer;display:flex;align-items:center;justify-content:center;z-index:100;box-shadow:0 4px 12px rgba(184,150,62,.3);transition:all .2s;}
+.btn-clear-cache:hover{background:var(--gold);box-shadow:0 6px 16px rgba(184,150,62,.5);transform:scale(1.1);}
+.btn-clear-cache:active{transform:scale(0.95);}
+
+.btn-como-funciona{background:rgba(0,156,59,.1);color:var(--verde);border:1.5px solid var(--verde);padding:6px 12px;border-radius:6px;font-family:'Oswald',sans-serif;font-size:11px;font-weight:600;letter-spacing:1.5px;text-transform:uppercase;cursor:pointer;transition:all .2s;margin-top:6px;}
+.btn-como-funciona:hover{background:rgba(0,156,59,.2);transform:scale(1.05);}
+.btn-como-funciona:active{transform:scale(0.95);}
+
+.modal-como-funciona{position:fixed;inset:0;background:rgba(0,0,0,.7);display:none;z-index:1000;overflow-y:auto;padding:2rem 1rem;}
+.modal-como-funciona.show{display:flex;align-items:flex-start;justify-content:center;padding-top:2rem;}
+.modal-content{background:var(--surface);border-radius:12px;max-width:700px;width:100%;max-height:90vh;overflow-y:auto;box-shadow:0 10px 40px rgba(0,0,0,.4);}
+.modal-header{padding:1.5rem;border-bottom:1px solid var(--border);display:flex;justify-content:space-between;align-items:center;position:sticky;top:0;background:var(--surface);}
+.modal-header h2{font-family:'Oswald',sans-serif;font-size:18px;font-weight:700;letter-spacing:2px;color:var(--text);margin:0;}
+.modal-close{background:transparent;border:none;font-size:24px;cursor:pointer;color:var(--muted);transition:color .2s;}
+.modal-close:hover{color:var(--text);}
+.modal-body{padding:1.5rem;}
+.info-section{margin-bottom:2rem;}
+.info-section h3{font-family:'Oswald',sans-serif;font-size:14px;font-weight:700;letter-spacing:1.5px;color:var(--verde);text-transform:uppercase;margin-bottom:1rem;}
+.info-section p{font-size:13px;line-height:1.6;color:var(--text);margin-bottom:0.75rem;}
+.info-box{background:rgba(0,156,59,.08);border-left:3px solid var(--verde);padding:1rem;border-radius:5px;margin:1rem 0;font-size:12px;color:var(--text);}
+.pontos-table{width:100%;border-collapse:collapse;margin:1rem 0;font-size:12px;}
+.pontos-table th,.pontos-table td{padding:8px;border:1px solid var(--border);text-align:left;}
+.pontos-table th{background:var(--surface2);font-weight:600;color:var(--verde);}
+.icon-info{display:inline-block;width:24px;height:24px;background:var(--verde);color:#fff;border-radius:50%;text-align:center;line-height:24px;font-weight:bold;font-size:12px;margin-right:6px;vertical-align:middle;}
+
+@media(max-width:480px){
+  .btn-clear-cache{width:45px;height:45px;bottom:1rem;left:1rem;font-size:18px;}
+}
+
 /* ADMIN */
 .admin-section{background:rgba(184,150,62,.04);border:1px solid rgba(184,150,62,.15);border-radius:8px;padding:1.25rem;margin-bottom:1rem;}
 .admin-badge{display:inline-flex;align-items:center;gap:4px;background:rgba(184,150,62,.15);color:var(--gold);border:1px solid rgba(184,150,62,.3);border-radius:4px;padding:2px 8px;font-size:9px;font-family:'Oswald',sans-serif;letter-spacing:1.5px;text-transform:uppercase;margin-bottom:.75rem;}
@@ -312,15 +341,17 @@ input:focus,select:focus{outline:none;border-color:var(--verde);}
 <div class="header">
   <div class="header-stripe"></div>
   <div class="header-inner">
-    <div class="logo-slot" title="Clique para adicionar o logo">
-      <img id="logoImg" alt="Logo"/>
-      <div class="logo-slot-hint" id="logoHint">Logo</div>
-      <input type="file" accept="image/*" onchange="loadLogo(event)"/>
+    <div class="logo-slot" title="Clique para adicionar o logo" id="logoSlotContainer">
+      <img id="logoImg" alt="Logo" src="data:image/webp;base64,UklGRpgDAABXRUJQVlA4IIwDAACwHgCdASrIAMgAPp1MokwlpCMiJfUooLATiWdu4XB51OGO239D6Ek4p/sVlXhTmU3+osXp53wIPXBpCRExfvnY/fOx++dj986Pb4zbSJ8Q2rNTglg0WK/3Bs3lC3w54/defsh4V87H750ga9ooj015xOHEzv1z7flsfvl0DvbbxVR/Fb5NU+ptfY2L5Mk03wU+Rwfb5O4yn2/1Zly/H7kGRLqIIGAxAX3anYSs5SMW9LqkgwNRD0GRLiuQv/YAK+IXiiqml5AZ5KKY+SXJiimOx+9Er+j+zMFb8n/cz6LuFxUl92P3/5V2sjEXilsxQParWMffOx++dj987H6gAAD+/o3AAUoAeq/xgNgRkPd84zoivnU9qh4Rj4AGcBuw8MlRdsb7yLK+2i6Yjb+WC++E6n4m9NYC9B74P7xwtGcPPxvzx8SUivJT+PCivTbRkNhqxueqcagCG0Y6sy94vg0F+7MQEYd48bCSXUqzwCYe7V3X9lA92dEYE9VVQXDnYrflUMOp1+3173etpJn7vYxQ5kfMjPYM0G8HHrXl8z6vZ4loFhp2bk45HfjPt8uSZo7d5d9BgvRoK8Dn6tpqg1vnyPyHw4hW2pt0mKy/35W3fYpC6h/r8vPnnUakH4FZzHgBL5xkRPu4lJEj3sm5gePJ+DzYjbZZ2kpYeZgXUMSpXIqjZ73ZknSm/Wqsjtx/TP3Pq4ERMIQzKXXszFzqQgMoAWwf9GJ/+pWAm/UfPlMK0NHGrwvoesrwPn7/sHY15fkBVGXcO7N/QPk2YgFOC3jphdLkzNuob1Qffn1NeoBR9gd0hpBbxgdoNWnIQzqK2v04XF7isbZ1Uj44zt8pT/FtJuNeNams4Arxxn30HtyYwAETidFPBaTX+fwV6sKKBGeFBPdQwDC2aOJqEg3OAhhWFyGqOITxJoKDY39Ak9XCUlWGHQPfBgJ6etnDVTXWmbaZ62tdRMB8nzXkNEug8pcmgOk4zkglngUsQX0gx3mPNVAkXt1mo/X3ZbPrYCjAc10Q6MMcGY+JJ2BomVC3kzteme1PXbHjzFZFwdmkprx9ze3SsWrFff44UQdlvRtJtNyGYVaFiPEd/1b3YLCeXfT6HM64GSZ1bBqnV9nUFXUSvMtIuFKL34l8+keKuE3dgnaFVW9BIgaRodBHg2QMXB8I6b0Jn1ryrSUKqz/KDFsykrr9nJCjQ6MMAAAAAA=" style="display:block;"/>
+      <div class="logo-slot-hint" id="logoHint" style="display:none;">Logo</div>
+      <input type="file" accept="image/*" onchange="loadLogo(event)" id="logoInput" disabled/>
+      <div id="adminLogoHint" style="display:none;position:absolute;bottom:-20px;left:0;font-size:8px;color:var(--gold);white-space:nowrap;background:var(--surface);padding:2px 4px;border-radius:3px;margin-top:4px;">👤 Apenas Admin</div>
     </div>
     <div class="header-divider"></div>
     <div class="header-texts">
       <div class="header-company">Astor Capital</div>
       <div class="header-sub">Bolão Copa do Mundo 2026</div>
+      <button class="btn-como-funciona" onclick="showComoFunciona()" title="Saiba como funciona o bolão">❓ Como funciona?</button>
     </div>
     <div class="header-right">
       <div class="copa-tag">Copa 2026</div>
@@ -329,6 +360,7 @@ input:focus,select:focus{outline:none;border-color:var(--verde);}
         <button class="theme-btn active" id="btn-dark" onclick="setTheme('dark')"><i class="ti ti-moon"></i></button>
         <button class="theme-btn" id="btn-light" onclick="setTheme('light')"><i class="ti ti-sun"></i></button>
       </div>
+      <button class="btn-logout" onclick="limparCacheLocal()" title="Limpar dados locais"><i class="ti ti-trash"></i> Limpar</button>
       <button class="btn-logout" onclick="doLogout()"><i class="ti ti-logout"></i> Sair</button>
     </div>
   </div>
@@ -339,6 +371,7 @@ input:focus,select:focus{outline:none;border-color:var(--verde);}
   <div class="tab" onclick="showTab('grupos',this)"><i class="ti ti-layout-grid"></i>Grupos</div>
   <div class="tab" onclick="showTab('chave',this)"><i class="ti ti-tournament"></i>Chave</div>
   <div class="tab" onclick="showTab('palpites',this)"><i class="ti ti-edit"></i>Palpites</div>
+  <div class="tab" onclick="showTab('meuspalpites',this)"><i class="ti ti-checklist"></i>Meus Palpites</div>
   <div class="tab" onclick="showTab('jogos',this)"><i class="ti ti-ball-football"></i>Jogos</div>
   <div class="tab admin-tab" id="tab-admin-btn" style="display:none;" onclick="showTab('admin',this)"><i class="ti ti-settings"></i>Admin</div>
 </div>
@@ -386,6 +419,23 @@ input:focus,select:focus{outline:none;border-color:var(--verde);}
     <div class="filter-tab" onclick="setPalFiltro('final',this)">Final</div>
   </div>
   <div id="lista-palpites"><div class="loading"><i class="ti ti-loader"></i></div></div>
+</div>
+
+<!-- MEUS PALPITES -->
+<div id="tab-meuspalpites" class="section" style="display:none;">
+  <div class="card">
+    <div class="card-title">MEUS PALPITES SALVOS</div>
+    <div class="alert alert-info">Aqui você vê todos os seus palpites registrados e pode verificar quais foram salvos com sucesso.</div>
+    <div class="filter-tabs">
+      <div class="filter-tab active" onclick="setMeusPalFiltro('',this)">Todos</div>
+      <div class="filter-tab" onclick="setMeusPalFiltro('grupos',this)">Grupos</div>
+      <div class="filter-tab" onclick="setMeusPalFiltro('oitavas',this)">Oitavas</div>
+      <div class="filter-tab" onclick="setMeusPalFiltro('quartas',this)">Quartas</div>
+      <div class="filter-tab" onclick="setMeusPalFiltro('semi',this)">Semi</div>
+      <div class="filter-tab" onclick="setMeusPalFiltro('final',this)">Final</div>
+    </div>
+    <div id="lista-meuspalpites"><div class="loading"><i class="ti ti-loader"></i></div></div>
+  </div>
 </div>
 
 <!-- JOGOS -->
@@ -492,6 +542,106 @@ input:focus,select:focus{outline:none;border-color:var(--verde);}
 
 <div class="toast" id="toast"></div>
 
+<!-- Modal Como Funciona -->
+<div id="modal-como-funciona" class="modal-como-funciona">
+  <div class="modal-content">
+    <div class="modal-header">
+      <h2>🏆 Como Funciona o Bolão?</h2>
+      <button class="modal-close" onclick="closeComoFunciona()">✕</button>
+    </div>
+    <div class="modal-body">
+      
+      <div class="info-section">
+        <h3>📋 O que é o Bolão?</h3>
+        <p>Um jogo onde você prevê os placares dos jogos da Copa 2026 e ganha pontos baseado na precisão das suas apostas. Quanto mais acertos, mais pontos você faz!</p>
+        <div class="info-box">
+          💡 <strong>Dica:</strong> Você pode mudar seus palpites quantas vezes quiser, mas depois que o jogo começa, não consegue mais palpitar.
+        </div>
+      </div>
+
+      <div class="info-section">
+        <h3>⚽ Como Palpitar?</h3>
+        <p><span class="icon-info">1</span> Clique na aba <strong>"Palpites"</strong></p>
+        <p><span class="icon-info">2</span> Escolha um jogo e preencha os dois placares (ex: 2 × 1)</p>
+        <p><span class="icon-info">3</span> Se for mata-mata com empate, indique quem vence nos pênaltis</p>
+        <p><span class="icon-info">4</span> Clique em "Salvar palpite"</p>
+        <p><span class="icon-info">5</span> Veja em "Meus Palpites" que ficou salvo</p>
+        <div class="info-box">
+          ⏰ <strong>Prazo:</strong> Você só consegue palpitar até 1 minuto antes do jogo começar. Depois disso, o palpite fica bloqueado.
+        </div>
+      </div>
+
+      <div class="info-section">
+        <h3>🎯 Sistema de Pontuação</h3>
+        <p><strong>Fase de Grupos:</strong></p>
+        <table class="pontos-table">
+          <tr><th>Acerto</th><th>Pontos</th></tr>
+          <tr><td>Só o vencedor/empate</td><td>1 pt</td></tr>
+          <tr><td>Placar exato</td><td>2 pts</td></tr>
+        </table>
+
+        <p style="margin-top:1rem;"><strong>Mata-mata (Oitavas, Quartas, Semifinal, Final):</strong></p>
+        <table class="pontos-table">
+          <tr><th>Acerto</th><th>Pontos</th></tr>
+          <tr><td>Só o vencedor</td><td>1 pt</td></tr>
+          <tr><td>Placar exato (sem pênaltis)</td><td>2 pts</td></tr>
+          <tr><td>Empate + vencedor nos pênaltis</td><td>2 pts</td></tr>
+          <tr><td>Placar exato + pênaltis correto</td><td>3 pts</td></tr>
+        </table>
+
+        <div class="info-box">
+          📊 <strong>Exemplo:</strong> Se o jogo terminou 2×1 Brasil e você palpitou 2×1, você ganha 2 pontos. Se palpitou só Brasil vencendo (sem acertar o placar), ganha 1 ponto.
+        </div>
+      </div>
+
+      <div class="info-section">
+        <h3>🏅 Ranking e Desempate</h3>
+        <p>O ranking é ordenado por:</p>
+        <p><span class="icon-info">1</span> <strong>Pontos totais</strong> (quanto mais, melhor)</p>
+        <p><span class="icon-info">2</span> <strong>Placares exatos acertados</strong> (em caso de empate em pontos)</p>
+        <p>No ranking você vê sua posição, pontos totais e quantos placares exatos você acertou.</p>
+      </div>
+
+      <div class="info-section">
+        <h3>📱 Abas Disponíveis</h3>
+        <p><strong>🏆 Ranking:</strong> Veja a classificação geral de todos os participantes</p>
+        <p><strong>📊 Grupos:</strong> Veja os 12 grupos e os 48 times da Copa</p>
+        <p><strong>🎯 Chave:</strong> Veja o chaveamento do mata-mata (oitavas até final)</p>
+        <p><strong>📝 Palpites:</strong> Faça e edite seus palpites nos jogos</p>
+        <p><strong>✅ Meus Palpites:</strong> Veja todos os seus palpites salvos e confirme que foram registrados</p>
+        <p><strong>⚽ Jogos:</strong> Veja lista completa de todos os 97 jogos da Copa</p>
+      </div>
+
+      <div class="info-section">
+        <h3>💾 Salvar Palpites</h3>
+        <p>Seus palpites são salvos automaticamente no banco de dados quando você clica "Salvar palpite". Você verá uma mensagem de confirmação.</p>
+        <div class="info-box">
+          🔍 <strong>Dica:</strong> Acesse a aba "Meus Palpites" para verificar se todos os seus palpites foram salvos corretamente. Se algum não aparecer lá, tente salvar novamente.
+        </div>
+      </div>
+
+      <div class="info-section">
+        <h3>🔧 Dúvidas Comuns</h3>
+        <p><strong>❓ Posso mudar meu palpite?</strong><br/>Sim! Enquanto o jogo não começou, você pode voltar e mudar quantas vezes quiser.</p>
+        <p><strong>❓ E se eu esquecer de palpitar?</strong><br/>Infelizmente não conseguirá fazer o palpite depois que o jogo começar. Fique atento aos horários!</p>
+        <p><strong>❓ Como sei se meu palpite foi salvo?</strong><br/>Você verá uma mensagem verde "✅ Palpite salvo!" e poderá ver em "Meus Palpites" com status ✓ SALVO</p>
+        <p><strong>❓ Qual é a diferença entre "Grupos" e "Chave"?</strong><br/>Grupos mostra os 12 grupos e os times. Chave mostra o chaveamento do mata-mata (eliminatórias).</p>
+      </div>
+
+      <div class="info-section" style="background:rgba(184,150,62,.08);padding:1rem;border-radius:8px;border-left:3px solid var(--gold);">
+        <h3 style="color:var(--gold);">🎊 Boa Sorte!</h3>
+        <p>Agora você sabe como funciona. Boa sorte no bolão e aproveite a Copa 2026! 🏆⚽</p>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<!-- Botão flutuante de limpar cache -->
+<button id="btn-clear-cache" class="btn-clear-cache" onclick="limparCacheLocal()" title="Limpar cache do navegador">
+  <i class="ti ti-trash"></i>
+</button>
+
 <script>
 // ── SUPABASE CONFIG ──────────────────────────────────────────
 const SUPA_URL = 'https://dvvinhahukbshwirvtyz.supabase.co';
@@ -530,8 +680,81 @@ function toast(msg, type='success'){
 // ── THEME ───────────────────────────────────────────────────
 function setTheme(t){document.documentElement.setAttribute('data-theme',t);document.getElementById('btn-dark').classList.toggle('active',t==='dark');document.getElementById('btn-light').classList.toggle('active',t==='light');try{localStorage.setItem('bolao_theme',t);}catch(e){}}
 function loadTheme(){try{const t=localStorage.getItem('bolao_theme');if(t)setTheme(t);}catch(e){}}
-function loadLogo(e){const file=e.target.files[0];if(!file)return;const r=new FileReader();r.onload=ev=>{const img=document.getElementById('logoImg');img.src=ev.target.result;img.style.display='block';document.getElementById('logoHint').style.display='none';try{localStorage.setItem('bolao_logo',ev.target.result);}catch(err){}};r.readAsDataURL(file);}
+function loadLogo(e){
+  if(!isAdmin){
+    toast('❌ Apenas o administrador pode alterar a logo','error');
+    return;
+  }
+  const file=e.target.files[0];
+  if(!file)return;
+  const r=new FileReader();
+  r.onload=async(ev)=>{
+    const base64Data=ev.target.result;
+    const img=document.getElementById('logoImg');
+    img.src=base64Data;
+    img.style.display='block';
+    document.getElementById('logoHint').style.display='none';
+    
+    // Salvar no Supabase
+    try{
+      const {error}=await sb.from('config').upsert({
+        id:'logo',
+        valor:base64Data,
+        updated_at:new Date().toISOString()
+      },{onConflict:'id'});
+      if(error)throw error;
+      toast('✅ Logo atualizada para todos!');
+    }catch(err){
+      toast('❌ Erro ao salvar logo: '+err.message,'error');
+    }
+  };
+  r.readAsDataURL(file);
+}
+
+// Habilitar/desabilitar input de logo baseado em admin
+function updateLogoPermissions(){
+  const logoInput=document.getElementById('logoInput');
+  const logoSlot=document.getElementById('logoSlotContainer');
+  if(isAdmin){
+    logoInput.disabled=false;
+    logoSlot.title='Clique para alterar a logo (Admin)';
+    logoSlot.style.cursor='pointer';
+  } else {
+    logoInput.disabled=true;
+    logoSlot.title='Apenas admin pode alterar a logo';
+    logoSlot.style.opacity='0.6';
+    logoSlot.style.cursor='not-allowed';
+  }
+}
+
+// Carregar logo salva do Supabase
+async function loadSavedLogo(){
+  try{
+    const {data}=await sb.from('config').select('valor').eq('id','logo').single();
+    if(data&&data.valor){
+      const img=document.getElementById('logoImg');
+      img.src=data.valor;
+      img.style.display='block';
+      document.getElementById('logoHint').style.display='none';
+    }
+  }catch(e){
+    // Logo padrão já está carregada
+  }
+}
 function loadSavedLogo(){try{const src=localStorage.getItem('bolao_logo');if(src){const img=document.getElementById('logoImg');img.src=src;img.style.display='block';document.getElementById('logoHint').style.display='none';}}catch(e){}}
+
+// Injetar logo padrão da Astor
+function injectDefaultLogo(){
+  setTimeout(function(){
+    const logoImg=document.getElementById('logoImg');
+    const logoHint=document.getElementById('logoHint');
+    if(logoImg && logoHint){
+      logoImg.src='data:image/webp;base64,UklGRpgDAABXRUJQVlA4IIwDAACwHgCdASrIAMgAPp1MokwlpCMiJfUooLATiWdu4XB51OGO239D6Ek4p/sVlXhTmU3+osXp53wIPXBpCRExfvnY/fOx++dj986Pb4zbSJ8Q2rNTglg0WK/3Bs3lC3w54/defsh4V87H750ga9ooj015xOHEzv1z7flsfvl0DvbbxVR/Fb5NU+ptfY2L5Mk03wU+Rwfb5O4yn2/1Zly/H7kGRLqIIGAxAX3anYSs5SMW9LqkgwNRD0GRLiuQv/YAK+IXiiqml5AZ5KKY+SXJiimOx+9Er+j+zMFb8n/cz6LuFxUl92P3/5V2sjEXilsxQParWMffOx++dj987H6gAAD+/o3AAUoAeq/xgNgRkPd84zoivnU9qh4Rj4AGcBuw8MlRdsb7yLK+2i6Yjb+WC++E6n4m9NYC9B74P7xwtGcPPxvzx8SUivJT+PCivTbRkNhqxueqcagCG0Y6sy94vg0F+7MQEYd48bCSXUqzwCYe7V3X9lA92dEYE9VVQXDnYrflUMOp1+3173etpJn7vYxQ5kfMjPYM0G8HHrXl8z6vZ4loFhp2bk45HfjPt8uSZo7d5d9BgvRoK8Dn6tpqg1vnyPyHw4hW2pt0mKy/35W3fYpC6h/r8vPnnUakH4FZzHgBL5xkRPu4lJEj3sm5gePJ+DzYjbZZ2kpYeZgXUMSpXIqjZ73ZknSm/Wqsjtx/TP3Pq4ERMIQzKXXszFzqQgMoAWwf9GJ/+pWAm/UfPlMK0NHGrwvoesrwPn7/sHY15fkBVGXcO7N/QPk2YgFOC3jphdLkzNuob1Qffn1NeoBR9gd0hpBbxgdoNWnIQzqK2v04XF7isbZ1Uj44zt8pT/FtJuNeNams4Arxxn30HtyYwAETidFPBaTX+fwV6sKKBGeFBPdQwDC2aOJqEg3OAhhWFyGqOITxJoKDY39Ak9XCUlWGHQPfBgJ6etnDVTXWmbaZ62tdRMB8nzXkNEug8pcmgOk4zkglngUsQX0gx3mPNVAkXt1mo/X3ZbPrYCjAc10Q6MMcGY+JJ2BomVC3kzteme1PXbHjzFZFwdmkprx9ze3SsWrFff44UQdlvRtJtNyGYVaFiPEd/1b3YLCeXfT6HM64GSZ1bBqnV9nUFXUSvMtIuFKL34l8+keKuE3dgnaFVW9BIgaRodBHg2QMXB8I6b0Jn1ryrSUKqz/KDFsykrr9nJCjQ6MMAAAAAA=';
+      logoImg.style.display='block';
+      logoHint.style.display='none';
+    }
+  }, 100);
+}
 
 // ── LOGIN ───────────────────────────────────────────────────
 let loginMode = 'entrar';
@@ -572,6 +795,58 @@ async function doLogout(){
   document.getElementById('app-screen').style.display='none';
 }
 
+function showComoFunciona(){
+  document.getElementById('modal-como-funciona').classList.add('show');
+  document.body.style.overflow='hidden';
+}
+
+function closeComoFunciona(){
+  document.getElementById('modal-como-funciona').classList.remove('show');
+  document.body.style.overflow='auto';
+}
+
+function limparCacheLocal(){
+  if(!confirm('Limpar todos os dados locais do navegador?\n\nVocê precisará fazer login novamente.'))return;
+  try{
+    localStorage.clear();
+    sessionStorage.clear();
+    if('caches' in window){
+      caches.keys().then(names=>names.forEach(name=>caches.delete(name)));
+    }
+    toast('Cache limpo! Recarregando...');
+    setTimeout(()=>location.reload(),1500);
+  }catch(e){
+    toast('Erro ao limpar cache','error');
+  }
+}
+
+// Fechar ao clicar fora do modal
+document.addEventListener('DOMContentLoaded',function(){
+  const modal=document.getElementById('modal-como-funciona');
+  modal.addEventListener('click',function(e){
+    if(e.target===modal)closeComoFunciona();
+  });
+  // Fechar com Escape
+  document.addEventListener('keydown',function(e){
+    if(e.key==='Escape')closeComoFunciona();
+  });
+});
+
+function limparCacheLocal(){
+  if(!confirm('Limpar todos os dados locais do navegador?\n\nVocê precisará fazer login novamente.'))return;
+  try{
+    localStorage.clear();
+    sessionStorage.clear();
+    if('caches' in window){
+      caches.keys().then(names=>names.forEach(name=>caches.delete(name)));
+    }
+    toast('Cache limpo! Recarregando...');
+    setTimeout(()=>location.reload(),1500);
+  }catch(e){
+    toast('Erro ao limpar cache','error');
+  }
+}
+
 // ── AUTH STATE ──────────────────────────────────────────────
 sb.auth.onAuthStateChange(async(event, session)=>{
   if(session?.user){
@@ -585,6 +860,7 @@ sb.auth.onAuthStateChange(async(event, session)=>{
     document.getElementById('login-screen').style.display='none';
     document.getElementById('app-screen').style.display='block';
     if(isAdmin)document.getElementById('tab-admin-btn').style.display='flex';
+    updateLogoPermissions();
     loadTheme();loadSavedLogo();
     await loadAll();
   } else {
@@ -604,6 +880,63 @@ function showTab(tab,el){
 }
 function setFiltro(f,el){filtroFase=f;document.querySelectorAll('.filter-tab').forEach(t=>t.classList.remove('active'));el.classList.add('active');renderJogos();}
 function setPalFiltro(f,el){palFiltro=f;document.querySelectorAll('.filter-tab').forEach(t=>t.classList.remove('active'));el.classList.add('active');renderPalpites();}
+
+let meusPalFiltro='';
+function setMeusPalFiltro(f,el){
+  meusPalFiltro=f;
+  document.querySelectorAll('#tab-meuspalpites .filter-tab').forEach(t=>t.classList.remove('active'));
+  el.classList.add('active');
+  renderMeusPalpites();
+}
+
+function renderMeusPalpites(){
+  const el=document.getElementById('lista-meuspalpites');
+  if(!currentParticipante){el.innerHTML='<div class="empty"><i class="ti ti-user"></i>Participante não encontrado</div>';return;}
+  
+  const jogos=meusPalFiltro?jogosCache.filter(j=>j.fase===meusPalFiltro):jogosCache;
+  if(!jogos.length){el.innerHTML='<div class="empty">Nenhum jogo nesta fase</div>';return;}
+  
+  let h='';
+  ['grupos','oitavas','quartas','semi','terceiro','final'].forEach(f=>{
+    if(meusPalFiltro&&meusPalFiltro!==f)return;
+    const js=jogos.filter(j=>j.fase===f);
+    if(!js.length)return;
+    
+    h+=`<div style="margin-top:1.5rem;"><div class="sec-title">${FL[f]}</div>`;
+    
+    js.forEach(j=>{
+      const pal=(palpitesCache[j.id]||{})[currentParticipante.id];
+      const res=resultadosCache[j.id];
+      const dt=new Date(j.data+'T'+j.hora).toLocaleString('pt-BR',{day:'2-digit',month:'2-digit',hour:'2-digit',minute:'2-digit'});
+      const salvo=pal?'✓ SALVO':'✗ NÃO SALVO';
+      const corSalvo=pal?'var(--verde)':'#e74c3c';
+      
+      h+=`<div class="palpite-card" style="border-left:4px solid ${corSalvo};">
+        <div class="palpite-card-head">
+          <div>
+            <span class="game-teams" style="font-size:13px;"><span class="flag">${F(j.time1)}</span>${j.time1}<span class="game-vs">×</span><span class="flag">${F(j.time2)}</span>${j.time2}</span>
+            <div class="game-meta">${dt}</div>
+          </div>
+          <span style="display:inline-block;padding:4px 10px;border-radius:4px;background:${corSalvo}15;color:${corSalvo};font-size:10px;font-weight:600;letter-spacing:1px;text-transform:uppercase;">${salvo}</span>
+        </div>
+        <div class="palpite-card-body">
+          ${pal?`
+            <div style="display:flex;align-items:center;justify-content:center;gap:12px;padding:12px;background:var(--surface2);border-radius:6px;">
+              <div style="text-align:center;">
+                <div style="font-size:11px;color:var(--muted);text-transform:uppercase;margin-bottom:4px;">Seu palpite</div>
+                <div style="font-family:'Oswald',sans-serif;font-size:24px;font-weight:700;color:var(--text);">${pal.gols1}<span style="font-size:16px;color:var(--muted);">×</span>${pal.gols2}</div>
+              </div>
+            </div>
+            ${pal.penaltis?`<div style="margin-top:8px;padding:8px;background:rgba(184,150,62,.1);border-left:3px solid var(--gold);font-size:11px;"><strong>Pênaltis:</strong> ${pal.penaltis}</div>`:''}
+          `:`<div class="empty" style="padding:1rem;">Nenhum palpite registrado para este jogo</div>`}
+        </div>
+      </div>`;
+    });
+    h+='</div>';
+  });
+  
+  el.innerHTML=h||'<div class="empty">Nenhum palpite registrado</div>';
+}
 
 // ── LOAD ALL ─────────────────────────────────────────────────
 async function loadAll(){
@@ -653,7 +986,7 @@ function calcPts(jogoId, participanteId){
 }
 
 // ── RENDER ALL ───────────────────────────────────────────────
-function renderAll(){renderRanking();renderGrupos();renderBracket();renderJogos();renderPalpites();if(isAdmin){renderAdminParticipantes();renderAdminResultados();renderAdminJogos();}}
+function renderAll(){renderRanking();renderGrupos();renderBracket();renderJogos();renderPalpites();renderMeusPalpites();if(isAdmin){renderAdminParticipantes();renderAdminResultados();renderAdminJogos();}}
 
 // ── RANKING ──────────────────────────────────────────────────
 async function renderRanking(){
@@ -821,9 +1154,24 @@ async function salvarPalpite(jogoId, mata){
   if(!currentParticipante){toast('Participante não encontrado!','error');return;}
   const g1=document.getElementById('g1-'+jogoId)?.value;
   const g2=document.getElementById('g2-'+jogoId)?.value;
-  if(g1===''||g2===''){toast('Preencha o placar!','error');return;}
+  
+  if(g1===''||g2===''){
+    toast('⚠️ Preencha ambos os placares!','error');
+    return;
+  }
+  
+  // Validação: só permite um palpite por jogo
+  const jaPalpitou=(palpitesCache[jogoId]||{})[currentParticipante.id];
+  
   let pen=null;
-  if(mata&&+g1===+g2){pen=document.getElementById('ps-'+jogoId)?.value||null;}
+  if(mata&&+g1===+g2){
+    pen=document.getElementById('ps-'+jogoId)?.value||null;
+    if(!pen){
+      toast('⚠️ Preencha o resultado de pênaltis!','error');
+      return;
+    }
+  }
+  
   const {error}=await sb.from('palpites').upsert({
     participante_id:currentParticipante.id,
     jogo_id:jogoId,
@@ -832,12 +1180,24 @@ async function salvarPalpite(jogoId, mata){
     penaltis:pen,
     updated_at:new Date().toISOString()
   },{onConflict:'participante_id,jogo_id'});
-  if(error){toast('Erro ao salvar: '+error.message,'error');return;}
+  
+  if(error){
+    toast('❌ Erro ao salvar: '+error.message,'error');
+    return;
+  }
+  
   // Atualizar cache
   if(!palpitesCache[jogoId])palpitesCache[jogoId]={};
-  palpitesCache[jogoId][currentParticipante.id]={gols1:parseInt(g1),gols2:parseInt(g2),penaltis:pen};
-  toast('Palpite salvo! ✓');
+  palpitesCache[jogoId][currentParticipante.id]={id:jogoId,gols1:parseInt(g1),gols2:parseInt(g2),penaltis:pen};
+  
+  if(jaPalpitou){
+    toast('✏️ Palpite atualizado com sucesso!');
+  } else {
+    toast('✅ Palpite salvo com sucesso!');
+  }
+  
   renderRanking();
+  renderMeusPalpites();
 }
 
 // ── ADMIN ────────────────────────────────────────────────────
@@ -1114,5 +1474,9 @@ async function carregarJogos(){
 
 loadTheme();
 
+loadSavedLogo();
+injectDefaultLogo();
+
+</script>
 </body>
 </html>
