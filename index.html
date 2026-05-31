@@ -871,15 +871,15 @@ sb.auth.onAuthStateChange(async(event, session)=>{
 });
 
 // ── TABS ─────────────────────────────────────────────────────
-const ALL_TABS=['ranking','grupos','chave','palpites','jogos','admin'];
+const ALL_TABS=['ranking','grupos','chave','palpites','meuspalpites','jogos','admin'];
 function showTab(tab,el){
   ALL_TABS.forEach(t=>{const s=document.getElementById('tab-'+t);if(s)s.style.display='none';});
   document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
   document.getElementById('tab-'+tab).style.display='block';
   el.classList.add('active');
 }
-function setFiltro(f,el){filtroFase=f;document.querySelectorAll('.filter-tab').forEach(t=>t.classList.remove('active'));el.classList.add('active');renderJogos();}
-function setPalFiltro(f,el){palFiltro=f;document.querySelectorAll('.filter-tab').forEach(t=>t.classList.remove('active'));el.classList.add('active');renderPalpites();}
+function setFiltro(f,el){filtroFase=f;document.querySelectorAll('#tab-jogos .filter-tab').forEach(t=>t.classList.remove('active'));el.classList.add('active');renderJogos();}
+function setPalFiltro(f,el){palFiltro=f;document.querySelectorAll('#tab-palpites .filter-tab').forEach(t=>t.classList.remove('active'));el.classList.add('active');renderPalpites();}
 
 let meusPalFiltro='';
 function setMeusPalFiltro(f,el){
