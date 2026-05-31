@@ -730,32 +730,27 @@ function updateLogoPermissions(){
   }
 }
 
-// Carregar logo salva do Supabase
+// Carregar logo salva do Supabase (com fallback para logo padrão)
+const DEFAULT_LOGO='data:image/webp;base64,UklGRpgDAABXRUJQVlA4IIwDAACwHgCdASrIAMgAPp1MokwlpCMiJfUooLATiWdu4XB51OGO239D6Ek4p/sVlXhTmU3+osXp53wIPXBpCRExfvnY/fOx++dj986Pb4zbSJ8Q2rNTglg0WK/3Bs3lC3w54/defsh4V87H750ga9ooj015xOHEzv1z7flsfvl0DvbbxVR/Fb5NU+ptfY2L5Mk03wU+Rwfb5O4yn2/1Zly/H7kGRLqIIGAxAX3anYSs5SMW9LqkgwNRD0GRLiuQv/YAK+IXiiqml5AZ5KKY+SXJiimOx+9Er+j+zMFb8n/cz6LuFxUl92P3/5V2sjEXilsxQParWMffOx++dj987H6gAAD+/o3AAUoAeq/xgNgRkPd84zoivnU9qh4Rj4AGcBuw8MlRdsb7yLK+2i6Yjb+WC++E6n4m9NYC9B74P7xwtGcPPxvzx8SUivJT+PCivTbRkNhqxueqcagCG0Y6sy94vg0F+7MQEYd48bCSXUqzwCYe7V3X9lA92dEYE9VVQXDnYrflUMOp1+3173etpJn7vYxQ5kfMjPYM0G8HHrXl8z6vZ4loFhp2bk45HfjPt8uSZo7d5d9BgvRoK8Dn6tpqg1vnyPyHw4hW2pt0mKy/35W3fYpC6h/r8vPnnUakH4FZzHgBL5xkRPu4lJEj3sm5gePJ+DzYjbZZ2kpYeZgXUMSpXIqjZ73ZknSm/Wqsjtx/TP3Pq4ERMIQzKXXszFzqQgMoAWwf9GJ/+pWAm/UfPlMK0NHGrwvoesrwPn7/sHY15fkBVGXcO7N/QPk2YgFOC3jphdLkzNuob1Qffn1NeoBR9gd0hpBbxgdoNWnIQzqK2v04XF7isbZ1Uj44zt8pT/FtJuNeNams4Arxxn30HtyYwAETidFPBaTX+fwV6sKKBGeFBPdQwDC2aOJqEg3OAhhWFyGqOITxJoKDY39Ak9XCUlWGHQPfBgJ6etnDVTXWmbaZ62tdRMB8nzXkNEug8pcmgOk4zkglngUsQX0gx3mPNVAkXt1mo/X3ZbPrYCjAc10Q6MMcGY+JJ2BomVC3kzteme1PXbHjzFZFwdmkprx9ze3SsWrFff44UQdlvRtJtNyGYVaFiPEd/1b3YLCeXfT6HM64GSZ1bBqnV9nUFXUSvMtIuFKL34l8+keKuE3dgnaFVW9BIgaRodBHg2QMXB8I6b0Jn1ryrSUKqz/KDFsykrr9nJCjQ6MMAAAAAA==';
 async function loadSavedLogo(){
+  const img=document.getElementById('logoImg');
+  const hint=document.getElementById('logoHint');
+  // Sempre garante logo padrão primeiro
+  img.src=DEFAULT_LOGO;
+  img.style.display='block';
+  if(hint)hint.style.display='none';
+  // Tenta carregar do Supabase (só substitui se encontrar)
   try{
     const {data}=await sb.from('config').select('valor').eq('id','logo').single();
     if(data&&data.valor){
-      const img=document.getElementById('logoImg');
       img.src=data.valor;
-      img.style.display='block';
-      document.getElementById('logoHint').style.display='none';
     }
   }catch(e){
-    // Logo padrão já está carregada
+    // Fica com a logo padrão
   }
 }
 
 
-// Injetar logo padrão da Astor
-function injectDefaultLogo(){
-  setTimeout(function(){
-    const logoImg=document.getElementById('logoImg');
-    const logoHint=document.getElementById('logoHint');
-    if(logoImg && logoHint){
-      logoImg.src='data:image/webp;base64,UklGRpgDAABXRUJQVlA4IIwDAACwHgCdASrIAMgAPp1MokwlpCMiJfUooLATiWdu4XB51OGO239D6Ek4p/sVlXhTmU3+osXp53wIPXBpCRExfvnY/fOx++dj986Pb4zbSJ8Q2rNTglg0WK/3Bs3lC3w54/defsh4V87H750ga9ooj015xOHEzv1z7flsfvl0DvbbxVR/Fb5NU+ptfY2L5Mk03wU+Rwfb5O4yn2/1Zly/H7kGRLqIIGAxAX3anYSs5SMW9LqkgwNRD0GRLiuQv/YAK+IXiiqml5AZ5KKY+SXJiimOx+9Er+j+zMFb8n/cz6LuFxUl92P3/5V2sjEXilsxQParWMffOx++dj987H6gAAD+/o3AAUoAeq/xgNgRkPd84zoivnU9qh4Rj4AGcBuw8MlRdsb7yLK+2i6Yjb+WC++E6n4m9NYC9B74P7xwtGcPPxvzx8SUivJT+PCivTbRkNhqxueqcagCG0Y6sy94vg0F+7MQEYd48bCSXUqzwCYe7V3X9lA92dEYE9VVQXDnYrflUMOp1+3173etpJn7vYxQ5kfMjPYM0G8HHrXl8z6vZ4loFhp2bk45HfjPt8uSZo7d5d9BgvRoK8Dn6tpqg1vnyPyHw4hW2pt0mKy/35W3fYpC6h/r8vPnnUakH4FZzHgBL5xkRPu4lJEj3sm5gePJ+DzYjbZZ2kpYeZgXUMSpXIqjZ73ZknSm/Wqsjtx/TP3Pq4ERMIQzKXXszFzqQgMoAWwf9GJ/+pWAm/UfPlMK0NHGrwvoesrwPn7/sHY15fkBVGXcO7N/QPk2YgFOC3jphdLkzNuob1Qffn1NeoBR9gd0hpBbxgdoNWnIQzqK2v04XF7isbZ1Uj44zt8pT/FtJuNeNams4Arxxn30HtyYwAETidFPBaTX+fwV6sKKBGeFBPdQwDC2aOJqEg3OAhhWFyGqOITxJoKDY39Ak9XCUlWGHQPfBgJ6etnDVTXWmbaZ62tdRMB8nzXkNEug8pcmgOk4zkglngUsQX0gx3mPNVAkXt1mo/X3ZbPrYCjAc10Q6MMcGY+JJ2BomVC3kzteme1PXbHjzFZFwdmkprx9ze3SsWrFff44UQdlvRtJtNyGYVaFiPEd/1b3YLCeXfT6HM64GSZ1bBqnV9nUFXUSvMtIuFKL34l8+keKuE3dgnaFVW9BIgaRodBHg2QMXB8I6b0Jn1ryrSUKqz/KDFsykrr9nJCjQ6MMAAAAAA=';
-      logoImg.style.display='block';
-      logoHint.style.display='none';
-    }
   }, 100);
 }
 
@@ -1477,8 +1472,6 @@ async function carregarJogos(){
 
 loadTheme();
 
-loadSavedLogo();
-injectDefaultLogo();
 
 </script>
 </body>
