@@ -258,7 +258,14 @@ input:focus,select:focus{outline:none;border-color:var(--verde);}
 }
 
 /* ADMIN */
-.admin-section{background:rgba(184,150,62,.04);border:1px solid rgba(184,150,62,.15);border-radius:8px;padding:1.25rem;margin-bottom:1rem;}
+.admin-section{background:rgba(184,150,62,.04);border:1px solid rgba(184,150,62,.15);border-radius:8px;margin-bottom:8px;overflow:hidden;}
+.admin-section-header{display:flex;align-items:center;justify-content:space-between;padding:1rem 1.25rem;cursor:pointer;user-select:none;transition:background .15s;}
+.admin-section-header:hover{background:rgba(184,150,62,.06);}
+.admin-section-header .card-title{margin-bottom:0;font-size:12px;}
+.admin-section-chevron{font-size:16px;color:var(--muted);transition:transform .25s;}
+.admin-section-chevron.open{transform:rotate(180deg);}
+.admin-section-body{padding:0 1.25rem;max-height:0;overflow:hidden;transition:max-height .35s ease,padding .25s ease;}
+.admin-section-body.open{max-height:9999px;padding:0 1.25rem 1.25rem;}
 .admin-badge{display:inline-flex;align-items:center;gap:4px;background:rgba(184,150,62,.15);color:var(--gold);border:1px solid rgba(184,150,62,.3);border-radius:4px;padding:2px 8px;font-size:9px;font-family:'Oswald',sans-serif;letter-spacing:1.5px;text-transform:uppercase;margin-bottom:.75rem;}
 
 @media(max-width:768px){
@@ -556,89 +563,122 @@ input:focus,select:focus{outline:none;border-color:var(--verde);}
   <div class="admin-badge"><i class="ti ti-shield"></i> Painel Administrativo</div>
 
   <div class="admin-section">
-    <div class="card-title"><i class="ti ti-users"></i> Participantes cadastrados</div>
-    <div id="admin-participantes"><div class="loading"><i class="ti ti-loader"></i></div></div>
-  </div>
-
-  <div class="admin-section">
-    <div class="card-title"><i class="ti ti-database"></i> Resultados dos jogos</div>
-    <div class="alert alert-info" style="margin-bottom:1rem;">Preencha o placar real após cada jogo.</div>
-    <div id="admin-resultados"><div class="loading"><i class="ti ti-loader"></i></div></div>
-  </div>
-
-  <div class="admin-section">
-    <div class="card-title"><i class="ti ti-plus"></i> Cadastrar / Editar jogo</div>
-    <div class="form-row">
-      <div class="form-group"><label>Time 1</label><input id="aj-t1" placeholder="Ex: Brasil"/></div>
-      <div class="form-group"><label>Time 2</label><input id="aj-t2" placeholder="Ex: Argentina"/></div>
+    <div class="admin-section-header" onclick="toggleAdmin(this)">
+      <div class="card-title" style="margin:0;"><i class="ti ti-database"></i> Resultados dos jogos</div>
+      <i class="ti ti-chevron-down admin-section-chevron open"></i>
     </div>
-    <div class="form-row">
-      <div class="form-group"><label>Fase</label>
-        <select id="aj-fase">
-          <option value="grupos">Fase de Grupos</option>
-          <option value="dezesseis">Dezesseis avos de Final</option>
-          <option value="oitavas">Oitavas de Final</option>
-          <option value="quartas">Quartas de Final</option>
-          <option value="semi">Semifinal</option>
-          <option value="terceiro">3º Lugar</option>
-          <option value="final">Final</option>
-          <option value="amistoso">Amistoso</option>
-        </select>
+    <div class="admin-section-body open">
+      <div class="alert alert-info" style="margin-bottom:1rem;margin-top:.75rem;">Preencha o placar real após cada jogo.</div>
+      <div id="admin-resultados"><div class="loading"><i class="ti ti-loader"></i></div></div>
+    </div>
+  </div>
+
+  <div class="admin-section">
+    <div class="admin-section-header" onclick="toggleAdmin(this)">
+      <div class="card-title" style="margin:0;"><i class="ti ti-plus"></i> Cadastrar / Editar jogo</div>
+      <i class="ti ti-chevron-down admin-section-chevron"></i>
+    </div>
+    <div class="admin-section-body">
+      <div style="padding-top:.75rem;">
+      <div class="form-row">
+        <div class="form-group"><label>Time 1</label><input id="aj-t1" placeholder="Ex: Brasil"/></div>
+        <div class="form-group"><label>Time 2</label><input id="aj-t2" placeholder="Ex: Argentina"/></div>
       </div>
-      <div class="form-group"><label>Grupo (só fase de grupos)</label>
-        <select id="aj-grupo">
-          <option value="">— Nenhum —</option>
-          <option value="A">Grupo A</option><option value="B">Grupo B</option>
-          <option value="C">Grupo C</option><option value="D">Grupo D</option>
-          <option value="E">Grupo E</option><option value="F">Grupo F</option>
-          <option value="G">Grupo G</option><option value="H">Grupo H</option>
-          <option value="I">Grupo I</option><option value="J">Grupo J</option>
-          <option value="K">Grupo K</option><option value="L">Grupo L</option>
-        </select>
+      <div class="form-row">
+        <div class="form-group"><label>Fase</label>
+          <select id="aj-fase">
+            <option value="grupos">Fase de Grupos</option>
+            <option value="dezesseis">Dezesseis avos de Final</option>
+            <option value="oitavas">Oitavas de Final</option>
+            <option value="quartas">Quartas de Final</option>
+            <option value="semi">Semifinal</option>
+            <option value="terceiro">3º Lugar</option>
+            <option value="final">Final</option>
+            <option value="amistoso">Amistoso</option>
+          </select>
+        </div>
+        <div class="form-group"><label>Grupo (só fase de grupos)</label>
+          <select id="aj-grupo">
+            <option value="">— Nenhum —</option>
+            <option value="A">Grupo A</option><option value="B">Grupo B</option>
+            <option value="C">Grupo C</option><option value="D">Grupo D</option>
+            <option value="E">Grupo E</option><option value="F">Grupo F</option>
+            <option value="G">Grupo G</option><option value="H">Grupo H</option>
+            <option value="I">Grupo I</option><option value="J">Grupo J</option>
+            <option value="K">Grupo K</option><option value="L">Grupo L</option>
+          </select>
+        </div>
       </div>
-    </div>
-    <div class="form-row">
-      <div class="form-group"><label>Data</label><input id="aj-data" type="date"/></div>
-      <div class="form-group"><label>Horário (Brasília)</label><input id="aj-hora" type="time" placeholder="19:00"/></div>
-    </div>
-    <div class="form-row">
-      <div class="form-group"><label>Rodada (só fase de grupos)</label>
-        <select id="aj-rodada">
-          <option value="">— Nenhuma —</option>
-          <option value="1">Rodada 1</option>
-          <option value="2">Rodada 2</option>
-          <option value="3">Rodada 3</option>
-        </select>
+      <div class="form-row">
+        <div class="form-group"><label>Data</label><input id="aj-data" type="date"/></div>
+        <div class="form-group"><label>Horário (Brasília)</label><input id="aj-hora" type="time" placeholder="19:00"/></div>
       </div>
-      <div class="form-group"><label>ID do jogo (para editar — deixe vazio para novo)</label><input id="aj-id" placeholder="Cole o ID aqui para editar"/></div>
-    </div>
-    <div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap;">
-      <button class="btn btn-primary" onclick="salvarJogo()"><i class="ti ti-device-floppy"></i> Salvar jogo</button>
-      <button class="btn btn-ghost" onclick="limparFormJogo()"><i class="ti ti-x"></i> Limpar</button>
-      <span id="jogo-form-status" style="font-size:11px;color:var(--muted);"></span>
+      <div class="form-row">
+        <div class="form-group"><label>Rodada (só fase de grupos)</label>
+          <select id="aj-rodada">
+            <option value="">— Nenhuma —</option>
+            <option value="1">Rodada 1</option>
+            <option value="2">Rodada 2</option>
+            <option value="3">Rodada 3</option>
+          </select>
+        </div>
+        <div class="form-group"><label>ID do jogo (para editar — deixe vazio para novo)</label><input id="aj-id" placeholder="Cole o ID aqui para editar"/></div>
+      </div>
+      <div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap;">
+        <button class="btn btn-primary" onclick="salvarJogo()"><i class="ti ti-device-floppy"></i> Salvar jogo</button>
+        <button class="btn btn-ghost" onclick="limparFormJogo()"><i class="ti ti-x"></i> Limpar</button>
+        <span id="jogo-form-status" style="font-size:11px;color:var(--muted);"></span>
+      </div>
+      </div>
     </div>
   </div>
 
   <div class="admin-section">
-    <div class="card-title"><i class="ti ti-list"></i> Jogos cadastrados</div>
-    <div class="filter-tabs" id="admin-jogos-filtro">
-      <div class="filter-tab active" onclick="setAdminJogoFiltro('',this)">Todos</div>
-      <div class="filter-tab" onclick="setAdminJogoFiltro('grupos',this)">Grupos</div>
-      <div class="filter-tab" onclick="setAdminJogoFiltro('dezesseis',this)">Dezesseis</div>
-    <div class="filter-tab" onclick="setAdminJogoFiltro('oitavas',this)">Oitavas</div>
-      <div class="filter-tab" onclick="setAdminJogoFiltro('quartas',this)">Quartas</div>
-      <div class="filter-tab" onclick="setAdminJogoFiltro('semi',this)">Semi</div>
-      <div class="filter-tab" onclick="setAdminJogoFiltro('final',this)">Final</div>
-    <div class="filter-tab" onclick="setAdminJogoFiltro('amistoso',this)">Amistoso</div>
+    <div class="admin-section-header" onclick="toggleAdmin(this)">
+      <div class="card-title" style="margin:0;"><i class="ti ti-list"></i> Jogos cadastrados</div>
+      <i class="ti ti-chevron-down admin-section-chevron"></i>
     </div>
-    <div id="admin-jogos-lista"><div class="loading"><i class="ti ti-loader"></i></div></div>
+    <div class="admin-section-body">
+      <div style="padding-top:.75rem;">
+      <div class="filter-tabs" id="admin-jogos-filtro">
+        <div class="filter-tab active" onclick="setAdminJogoFiltro('',this)">Todos</div>
+        <div class="filter-tab" onclick="setAdminJogoFiltro('grupos',this)">Grupos</div>
+        <div class="filter-tab" onclick="setAdminJogoFiltro('dezesseis',this)">Dezesseis</div>
+        <div class="filter-tab" onclick="setAdminJogoFiltro('oitavas',this)">Oitavas</div>
+        <div class="filter-tab" onclick="setAdminJogoFiltro('quartas',this)">Quartas</div>
+        <div class="filter-tab" onclick="setAdminJogoFiltro('semi',this)">Semi</div>
+        <div class="filter-tab" onclick="setAdminJogoFiltro('final',this)">Final</div>
+        <div class="filter-tab" onclick="setAdminJogoFiltro('amistoso',this)">Amistoso</div>
+      </div>
+      <div id="admin-jogos-lista"><div class="loading"><i class="ti ti-loader"></i></div></div>
+      </div>
+    </div>
   </div>
 
   <div class="admin-section">
-    <div class="card-title"><i class="ti ti-ball-football"></i> Carregar jogos oficiais</div>
-    <div class="alert alert-info" style="margin-bottom:10px;">Carrega todos os 97 jogos da Copa no banco de dados.</div>
-    <button class="btn btn-gold" onclick="carregarJogos()"><i class="ti ti-refresh"></i> Carregar jogos</button>
-    <span id="jogos-status" style="margin-left:10px;font-size:11px;color:var(--muted);"></span>
+    <div class="admin-section-header" onclick="toggleAdmin(this)">
+      <div class="card-title" style="margin:0;"><i class="ti ti-users"></i> Participantes cadastrados</div>
+      <i class="ti ti-chevron-down admin-section-chevron"></i>
+    </div>
+    <div class="admin-section-body">
+      <div style="padding-top:.75rem;">
+      <div id="admin-participantes"><div class="loading"><i class="ti ti-loader"></i></div></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="admin-section">
+    <div class="admin-section-header" onclick="toggleAdmin(this)">
+      <div class="card-title" style="margin:0;"><i class="ti ti-ball-football"></i> Carregar jogos oficiais</div>
+      <i class="ti ti-chevron-down admin-section-chevron"></i>
+    </div>
+    <div class="admin-section-body">
+      <div style="padding-top:.75rem;">
+      <div class="alert alert-info" style="margin-bottom:10px;">Carrega todos os 97 jogos da Copa no banco de dados.</div>
+      <button class="btn btn-gold" onclick="carregarJogos()"><i class="ti ti-refresh"></i> Carregar jogos</button>
+      <span id="jogos-status" style="margin-left:10px;font-size:11px;color:var(--muted);"></span>
+      </div>
+    </div>
   </div>
 </div>
 
@@ -1193,6 +1233,14 @@ function calcPts(jogoId, participanteId){
 }
 
 // ── RENDER ALL ───────────────────────────────────────────────
+function toggleAdmin(header){
+  const chevron=header.querySelector('.admin-section-chevron');
+  const body=header.nextElementSibling;
+  const isOpen=body.classList.contains('open');
+  body.classList.toggle('open',!isOpen);
+  chevron.classList.toggle('open',!isOpen);
+}
+
 function renderAll(){renderRanking();renderGrupos();renderBracket();renderJogos();renderPalpites();renderMeusPalpites();renderNextGame();if(isAdmin){renderAdminParticipantes();renderAdminResultados();renderAdminJogos();}}
 
 function openMobileDrawer(){
