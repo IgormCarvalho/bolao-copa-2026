@@ -156,6 +156,19 @@ input:focus,select:focus{outline:none;border-color:var(--verde);}
 .grupo-sel{display:flex;align-items:center;gap:8px;padding:6px 14px;border-bottom:1px solid var(--border2);font-size:12px;font-weight:500;}
 .grupo-sel:last-child{border-bottom:none;}
 .grupo-sel-flag{font-size:16px;width:22px;text-align:center;}
+.gtable{width:100%;border-collapse:collapse;}
+.gtable th{font-size:9px;letter-spacing:1px;text-transform:uppercase;color:var(--muted);padding:5px 6px;border-bottom:1px solid var(--border);text-align:center;font-weight:500;}
+.gtable th:nth-child(2){text-align:left;}
+.gtable td{padding:6px 6px;border-bottom:1px solid var(--border2);font-size:11px;text-align:center;color:var(--text2);}
+.gtable td:nth-child(2){text-align:left;font-weight:600;color:var(--text);}
+.gtable tr:last-child td{border-bottom:none;}
+.gtable tr:nth-child(1) td,.gtable tr:nth-child(2) td{background:rgba(0,156,59,.04);}
+.gtable tr:nth-child(3) td{background:rgba(184,150,62,.04);}
+.gpos{display:inline-flex;align-items:center;justify-content:center;width:16px;height:16px;border-radius:3px;font-family:'Oswald',sans-serif;font-size:10px;font-weight:700;}
+.gpos-1,.gpos-2{background:rgba(0,156,59,.2);color:var(--verde);}
+.gpos-3{background:rgba(184,150,62,.15);color:var(--gold);}
+.gpos-4{color:var(--muted);}
+.gpts{font-family:'Oswald',sans-serif;font-size:13px;font-weight:700;color:var(--text);}
 
 /* ── BRACKET ── */
 .bracket-outer{padding:2rem 1.5rem;overflow-x:auto;}
@@ -254,8 +267,10 @@ input:focus,select:focus{outline:none;border-color:var(--verde);}
   .bracket-inner{gap:6px;min-width:auto;}
   .phase-lbl{font-size:9px;padding:6px;}
   #grupos-content{grid-template-columns:1fr;gap:12px;padding:1rem;}
+  .grupos-grid{grid-template-columns:1fr!important;}
   .grupo-card{min-height:auto;}
   .grupo-sel{padding:8px 12px;font-size:12px;}
+  .gtable td,.gtable th{padding:5px 4px;font-size:11px;}
   .stat-card{padding:.75rem;}
   .stat-num{font-size:24px;}
   .rtable{font-size:11px;}
@@ -292,6 +307,7 @@ input:focus,select:focus{outline:none;border-color:var(--verde);}
   .stat-card{padding:.5rem;margin-bottom:.5rem;}
   .stat-num{font-size:20px;}
   #grupos-content{grid-template-columns:1fr;gap:10px;padding:.75rem;}
+  .grupos-grid{grid-template-columns:1fr!important;gap:10px;}
   .grupo-card{padding:.75rem;}
   .grupo-header{padding:6px 10px;}
   .grupo-letra{font-size:14px;}
@@ -1137,11 +1153,50 @@ async function renderRanking(){
 
 // ── GRUPOS ───────────────────────────────────────────────────
 function renderGrupos(){
-  document.getElementById('grupos-grid').innerHTML=GRUPOS_DEF.map(g=>`
-    <div class="grupo-card">
+  document.getElementById('grupos-grid').innerHTML=GRUPOS_DEF.map(g=>{
+    // Calcular stats de cada seleção no grupo
+    const stats={};
+    g.s.forEach(s=>{stats[s]={j:0,v:0,e:0,d:0,gp:0,gc:0,pts:0};});
+
+    jogosCache.filter(j=>j.fase==='grupos'&&j.grupo===g.l).forEach(j=>{
+      const r=resultadosCache[j.id];
+      if(!r)return;
+      const g1=+r.gols1,g2=+r.gols2;
+      const s1=stats[j.time1],s2=stats[j.time2];
+      if(!s1||!s2)return;
+      s1.j++;s2.j++;
+      s1.gp+=g1;s1.gc+=g2;
+      s2.gp+=g2;s2.gc+=g1;
+      if(g1>g2){s1.v++;s1.pts+=3;s2.d++;}
+      else if(g2>g1){s2.v++;s2.pts+=3;s1.d++;}
+      else{s1.e++;s2.e++;s1.pts++;s2.pts++;}
+    });
+
+    // Ordenar: pts → saldo → gols pró → nome
+    const tabela=g.s.map(s=>({nome:s,...stats[s],sg:stats[s].gp-stats[s].gc}))
+      .sort((a,b)=>b.pts-a.pts||b.sg-a.sg||b.gp-a.gp||a.nome.localeCompare(b.nome));
+
+    const posClass=['gpos-1','gpos-2','gpos-3','gpos-4'];
+    const rows=tabela.map((s,i)=>`
+      <tr>
+        <td><span class="gpos ${posClass[i]}">${i+1}</span></td>
+        <td><span style="font-size:13px;margin-right:4px;">${F(s.nome)}</span>${s.nome}</td>
+        <td>${s.j}</td>
+        <td>${s.v}</td>
+        <td>${s.e}</td>
+        <td>${s.d}</td>
+        <td>${s.sg>0?'+'+s.sg:s.sg}</td>
+        <td class="gpts">${s.pts}</td>
+      </tr>`).join('');
+
+    return `<div class="grupo-card">
       <div class="grupo-header"><span class="grupo-letra">Grupo ${g.l}</span></div>
-      <div class="grupo-sels">${g.s.map(s=>`<div class="grupo-sel"><span class="grupo-sel-flag">${F(s)}</span><span>${s}</span></div>`).join('')}</div>
-    </div>`).join('');
+      <table class="gtable">
+        <thead><tr><th>#</th><th>Seleção</th><th>J</th><th>V</th><th>E</th><th>D</th><th>SG</th><th>Pts</th></tr></thead>
+        <tbody>${rows}</tbody>
+      </table>
+    </div>`;
+  }).join('');
 }
 
 // ── BRACKET ──────────────────────────────────────────────────
