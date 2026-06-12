@@ -46,6 +46,15 @@ body{font-family:'Montserrat',sans-serif;background:var(--bg);color:var(--text);
 .logo-slot input{position:absolute;inset:0;opacity:0;cursor:pointer;width:100%;height:100%;}
 .header-divider{width:1px;height:34px;background:var(--border);}
 .header-texts{flex:1;}
+.next-game-banner{flex:1;display:flex;align-items:center;justify-content:center;}
+.next-game-card{display:flex;align-items:center;gap:14px;background:var(--surface2);border:1px solid rgba(184,150,62,.35);border-radius:10px;padding:10px 20px;position:relative;overflow:hidden;}
+.next-game-card::before{content:'';position:absolute;inset:0;background:linear-gradient(135deg,rgba(184,150,62,.06) 0%,transparent 60%);pointer-events:none;}
+.next-game-label{font-size:9px;color:var(--gold);letter-spacing:2px;text-transform:uppercase;font-family:'Oswald',sans-serif;white-space:nowrap;margin-bottom:2px;}
+.next-game-teams{font-family:'Oswald',sans-serif;font-size:17px;font-weight:600;color:var(--text);white-space:nowrap;letter-spacing:.5px;}
+.next-game-time{font-family:'Oswald',sans-serif;font-size:22px;font-weight:700;color:var(--gold);white-space:nowrap;line-height:1;}
+.next-game-date{font-size:10px;color:var(--muted);text-transform:uppercase;letter-spacing:1px;margin-top:2px;text-align:center;}
+.next-game-divider{width:1px;height:36px;background:var(--border);}
+.next-game-phase{font-size:9px;padding:2px 7px;border-radius:3px;white-space:nowrap;margin-top:4px;display:inline-block;}
 .header-company{font-family:'Oswald',sans-serif;font-size:19px;font-weight:600;letter-spacing:3px;color:var(--white);text-transform:uppercase;}
 .header-sub{font-size:10px;color:var(--muted);letter-spacing:2px;text-transform:uppercase;margin-top:1px;}
 .header-right{display:flex;align-items:center;gap:10px;}
@@ -253,6 +262,7 @@ input:focus,select:focus{outline:none;border-color:var(--verde);}
 @media(max-width:768px){
   .header{flex-direction:row;gap:6px;padding:.75rem;overflow-x:auto;flex-wrap:wrap;}
   .header-right{gap:4px;min-width:fit-content;}
+  .next-game-banner{display:none;}
   .theme-toggle{padding:2px;gap:1px;}
   .theme-btn{padding:3px 6px;font-size:9px;}
   .tabs{padding:0;overflow-x:auto;flex-wrap:nowrap;}
@@ -396,6 +406,7 @@ input:focus,select:focus{outline:none;border-color:var(--verde);}
       <div class="header-sub">Bolão Copa do Mundo 2026</div>
       <button class="btn-como-funciona" onclick="showComoFunciona()" title="Saiba como funciona o bolão">❓ Como funciona?</button>
     </div>
+    <div class="next-game-banner" id="next-game-banner"></div>
     <div class="header-right">
       <div class="copa-tag">Copa 2026</div>
       <div class="user-chip"><i class="ti ti-user"></i><span id="user-nome">...</span></div>
@@ -1114,7 +1125,36 @@ function calcPts(jogoId, participanteId){
 }
 
 // ── RENDER ALL ───────────────────────────────────────────────
-function renderAll(){renderRanking();renderGrupos();renderBracket();renderJogos();renderPalpites();renderMeusPalpites();if(isAdmin){renderAdminParticipantes();renderAdminResultados();renderAdminJogos();}}
+function renderAll(){renderRanking();renderGrupos();renderBracket();renderJogos();renderPalpites();renderMeusPalpites();renderNextGame();if(isAdmin){renderAdminParticipantes();renderAdminResultados();renderAdminJogos();}}
+
+function renderNextGame(){
+  const el=document.getElementById('next-game-banner');
+  if(!el)return;
+  const agora=new Date();
+  const proximo=jogosCache
+    .filter(j=>new Date(j.data+'T'+j.hora)>agora)
+    .sort((a,b)=>new Date(a.data+'T'+a.hora)-new Date(b.data+'T'+b.hora))[0];
+  if(!proximo){el.innerHTML='';return;}
+  const dt=new Date(proximo.data+'T'+proximo.hora);
+  const hoje=new Date();
+  const amanha=new Date();amanha.setDate(hoje.getDate()+1);
+  const diaStr=dt.toDateString()===hoje.toDateString()?'Hoje':dt.toDateString()===amanha.toDateString()?'Amanhã':dt.toLocaleDateString('pt-BR',{day:'2-digit',month:'2-digit'});
+  const hora=dt.toLocaleTimeString('pt-BR',{hour:'2-digit',minute:'2-digit'});
+  const fase=FL[proximo.fase]||proximo.fase;
+  const faseClass=FC[proximo.fase]||'';
+  el.innerHTML=`<div class="next-game-card">
+    <div>
+      <div class="next-game-label">⏱ Próximo jogo</div>
+      <div class="next-game-teams">${F(proximo.time1)} ${proximo.time1} <span style="color:var(--muted);font-size:13px;margin:0 4px;">×</span> ${F(proximo.time2)} ${proximo.time2}</div>
+      <span class="phase-badge ${faseClass} next-game-phase">${fase}</span>
+    </div>
+    <div class="next-game-divider"></div>
+    <div style="text-align:center;">
+      <div class="next-game-time">${hora}</div>
+      <div class="next-game-date">${diaStr}</div>
+    </div>
+  </div>`;
+}
 
 // ── RANKING ──────────────────────────────────────────────────
 async function renderRanking(){
