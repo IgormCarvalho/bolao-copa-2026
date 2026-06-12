@@ -251,6 +251,7 @@ input:focus,select:focus{outline:none;border-color:var(--verde);}
 .pontos-table th{background:var(--surface2);font-weight:600;color:var(--verde);}
 .icon-info{display:inline-block;width:24px;height:24px;background:var(--verde);color:#fff;border-radius:50%;text-align:center;line-height:24px;font-weight:bold;font-size:12px;margin-right:6px;vertical-align:middle;}
 
+.mobile-menu-btn{display:none;background:var(--surface2);border:1px solid var(--border);border-radius:8px;padding:6px 10px;cursor:pointer;color:var(--text);font-size:18px;}
 @media(max-width:480px){
   .btn-clear-cache{width:45px;height:45px;bottom:1rem;left:1rem;font-size:18px;}
 }
@@ -368,7 +369,6 @@ input:focus,select:focus{outline:none;border-color:var(--verde);}
 .nome-clicavel:hover{color:var(--verde);border-bottom-color:var(--verde);}
 
 /* ── MOBILE DRAWER ── */
-.mobile-menu-btn{display:none;background:var(--surface2);border:1px solid var(--border);border-radius:8px;padding:6px 10px;cursor:pointer;color:var(--text);font-size:18px;}
 .mobile-drawer-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.6);z-index:200;}
 .mobile-drawer-overlay.show{display:block;}
 .mobile-drawer{position:fixed;top:0;right:-280px;width:260px;height:100%;background:var(--surface);border-left:1px solid var(--border);z-index:201;transition:right .25s ease;padding:0;display:flex;flex-direction:column;}
@@ -458,6 +458,7 @@ input:focus,select:focus{outline:none;border-color:var(--verde);}
     </div>
   </div>
 </div>
+<div class="next-game-mobile" id="next-game-mobile"></div>
 
 <div class="tabs" id="tabs-bar">
   <div class="tab active" onclick="showTab('ranking',this)"><i class="ti ti-trophy"></i>Ranking</div>
@@ -665,7 +666,6 @@ input:focus,select:focus{outline:none;border-color:var(--verde);}
 </div>
 
 <!-- Next game mobile banner -->
-<div class="next-game-mobile" id="next-game-mobile"></div>
 </div><!-- /app -->
 </div><!-- /app-screen -->
 
