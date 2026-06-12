@@ -263,6 +263,13 @@ input:focus,select:focus{outline:none;border-color:var(--verde);}
   .header{flex-direction:row;gap:6px;padding:.75rem;overflow-x:auto;flex-wrap:wrap;}
   .header-right{gap:4px;min-width:fit-content;}
   .next-game-banner{display:none;}
+  .next-game-mobile{display:block;}
+  #hdr-copa{display:none;}
+  #hdr-theme{display:none;}
+  #hdr-limpar{display:none;}
+  #hdr-sair{display:none;}
+  .btn-como-funciona{display:none;}
+  .mobile-menu-btn{display:flex;}
   .theme-toggle{padding:2px;gap:1px;}
   .theme-btn{padding:3px 6px;font-size:9px;}
   .tabs{padding:0;overflow-x:auto;flex-wrap:nowrap;}
@@ -353,6 +360,31 @@ input:focus,select:focus{outline:none;border-color:var(--verde);}
 .pal-pts-0{background:rgba(231,76,60,.08);color:#e74c3c;border:1px solid rgba(231,76,60,.2);}
 .nome-clicavel{cursor:pointer;border-bottom:1px dashed var(--muted);transition:color .15s;}
 .nome-clicavel:hover{color:var(--verde);border-bottom-color:var(--verde);}
+
+/* ── MOBILE DRAWER ── */
+.mobile-menu-btn{display:none;background:var(--surface2);border:1px solid var(--border);border-radius:8px;padding:6px 10px;cursor:pointer;color:var(--text);font-size:18px;}
+.mobile-drawer-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.6);z-index:200;}
+.mobile-drawer-overlay.show{display:block;}
+.mobile-drawer{position:fixed;top:0;right:-280px;width:260px;height:100%;background:var(--surface);border-left:1px solid var(--border);z-index:201;transition:right .25s ease;padding:0;display:flex;flex-direction:column;}
+.mobile-drawer.show{right:0;}
+.mobile-drawer-head{padding:1.25rem 1.25rem 1rem;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;}
+.mobile-drawer-head h3{font-family:'Oswald',sans-serif;font-size:16px;letter-spacing:2px;color:var(--text);margin:0;}
+.mobile-drawer-close{background:transparent;border:none;font-size:20px;cursor:pointer;color:var(--muted);}
+.mobile-drawer-body{padding:1rem;display:flex;flex-direction:column;gap:8px;flex:1;}
+.mobile-drawer-item{display:flex;align-items:center;gap:10px;padding:10px 12px;border-radius:8px;background:var(--surface2);border:1px solid var(--border);cursor:pointer;font-size:13px;color:var(--text);font-family:'Montserrat',sans-serif;transition:border-color .15s;}
+.mobile-drawer-item:hover{border-color:var(--verde);}
+.mobile-drawer-item i{font-size:16px;color:var(--muted);}
+.mobile-drawer-sep{height:1px;background:var(--border);margin:4px 0;}
+.mobile-drawer-theme{display:flex;align-items:center;justify-content:space-between;padding:10px 12px;border-radius:8px;background:var(--surface2);border:1px solid var(--border);}
+.mobile-drawer-theme span{font-size:13px;color:var(--text);}
+.next-game-mobile{display:none;background:var(--surface2);border-bottom:1px solid rgba(184,150,62,.3);padding:8px 1rem;}
+.next-game-mobile-inner{display:flex;align-items:center;justify-content:space-between;max-width:100%;}
+.next-game-mobile-left{display:flex;flex-direction:column;gap:1px;}
+.next-game-mobile-lbl{font-size:8px;color:var(--gold);letter-spacing:1.5px;text-transform:uppercase;font-family:'Oswald',sans-serif;}
+.next-game-mobile-teams{font-family:'Oswald',sans-serif;font-size:13px;font-weight:600;color:var(--text);}
+.next-game-mobile-right{text-align:right;}
+.next-game-mobile-time{font-family:'Oswald',sans-serif;font-size:18px;font-weight:700;color:var(--gold);line-height:1;}
+.next-game-mobile-date{font-size:9px;color:var(--muted);text-transform:uppercase;letter-spacing:1px;}
 </style>
 </head>
 <body>
@@ -408,14 +440,15 @@ input:focus,select:focus{outline:none;border-color:var(--verde);}
     </div>
     <div class="next-game-banner" id="next-game-banner"></div>
     <div class="header-right">
-      <div class="copa-tag">Copa 2026</div>
+      <div class="copa-tag" id="hdr-copa">Copa 2026</div>
       <div class="user-chip"><i class="ti ti-user"></i><span id="user-nome">...</span></div>
-      <div class="theme-toggle">
+      <div class="theme-toggle" id="hdr-theme">
         <button class="theme-btn active" id="btn-dark" onclick="setTheme('dark')"><i class="ti ti-moon"></i></button>
         <button class="theme-btn" id="btn-light" onclick="setTheme('light')"><i class="ti ti-sun"></i></button>
       </div>
-      <button class="btn-logout" onclick="limparCacheLocal()" title="Limpar dados locais"><i class="ti ti-trash"></i> Limpar</button>
-      <button class="btn-logout" onclick="doLogout()"><i class="ti ti-logout"></i> Sair</button>
+      <button class="btn-logout" id="hdr-limpar" onclick="limparCacheLocal()" title="Limpar dados locais"><i class="ti ti-trash"></i> Limpar</button>
+      <button class="btn-logout" id="hdr-sair" onclick="doLogout()"><i class="ti ti-logout"></i> Sair</button>
+      <button class="mobile-menu-btn" onclick="openMobileDrawer()"><i class="ti ti-menu-2"></i></button>
     </div>
   </div>
 </div>
@@ -601,6 +634,32 @@ input:focus,select:focus{outline:none;border-color:var(--verde);}
     <span id="jogos-status" style="margin-left:10px;font-size:11px;color:var(--muted);"></span>
   </div>
 </div>
+
+<!-- Mobile Drawer -->
+<div class="mobile-drawer-overlay" id="mobile-overlay" onclick="closeMobileDrawer()"></div>
+<div class="mobile-drawer" id="mobile-drawer">
+  <div class="mobile-drawer-head">
+    <h3>⚙ MENU</h3>
+    <button class="mobile-drawer-close" onclick="closeMobileDrawer()">✕</button>
+  </div>
+  <div class="mobile-drawer-body">
+    <div class="mobile-drawer-item" onclick="showComoFunciona();closeMobileDrawer()"><i class="ti ti-help-circle"></i>Como funciona?</div>
+    <div class="mobile-drawer-sep"></div>
+    <div class="mobile-drawer-theme">
+      <span><i class="ti ti-palette" style="margin-right:8px;"></i>Tema</span>
+      <div class="theme-toggle">
+        <button class="theme-btn active" id="btn-dark-m" onclick="setTheme('dark');document.getElementById('btn-dark-m').classList.add('active');document.getElementById('btn-light-m').classList.remove('active');"><i class="ti ti-moon"></i></button>
+        <button class="theme-btn" id="btn-light-m" onclick="setTheme('light');document.getElementById('btn-light-m').classList.add('active');document.getElementById('btn-dark-m').classList.remove('active');"><i class="ti ti-sun"></i></button>
+      </div>
+    </div>
+    <div class="mobile-drawer-sep"></div>
+    <div class="mobile-drawer-item" onclick="limparCacheLocal()"><i class="ti ti-refresh" style="color:var(--gold);"></i>Limpar cache</div>
+    <div class="mobile-drawer-item" onclick="doLogout()" style="margin-top:auto;border-color:rgba(231,76,60,.3);"><i class="ti ti-logout" style="color:#e74c3c;"></i>Sair</div>
+  </div>
+</div>
+
+<!-- Next game mobile banner -->
+<div class="next-game-mobile" id="next-game-mobile"></div>
 </div><!-- /app -->
 </div><!-- /app-screen -->
 
@@ -1127,6 +1186,17 @@ function calcPts(jogoId, participanteId){
 // ── RENDER ALL ───────────────────────────────────────────────
 function renderAll(){renderRanking();renderGrupos();renderBracket();renderJogos();renderPalpites();renderMeusPalpites();renderNextGame();if(isAdmin){renderAdminParticipantes();renderAdminResultados();renderAdminJogos();}}
 
+function openMobileDrawer(){
+  document.getElementById('mobile-drawer').classList.add('show');
+  document.getElementById('mobile-overlay').classList.add('show');
+  document.body.style.overflow='hidden';
+}
+function closeMobileDrawer(){
+  document.getElementById('mobile-drawer').classList.remove('show');
+  document.getElementById('mobile-overlay').classList.remove('show');
+  document.body.style.overflow='auto';
+}
+
 function renderNextGame(){
   const el=document.getElementById('next-game-banner');
   if(!el)return;
@@ -1142,6 +1212,23 @@ function renderNextGame(){
   const hora=dt.toLocaleTimeString('pt-BR',{hour:'2-digit',minute:'2-digit'});
   const fase=FL[proximo.fase]||proximo.fase;
   const faseClass=FC[proximo.fase]||'';
+  // Mobile banner
+  const mel=document.getElementById('next-game-mobile');
+  if(mel){
+    if(!proximo){mel.innerHTML='';return;}
+    mel.innerHTML=`<div class="next-game-mobile-inner">
+      <div class="next-game-mobile-left">
+        <div class="next-game-mobile-lbl">⏱ Próximo jogo</div>
+        <div class="next-game-mobile-teams">${F(proximo.time1)} ${proximo.time1} × ${F(proximo.time2)} ${proximo.time2}</div>
+        <span class="phase-badge ${faseClass}" style="font-size:8px;padding:2px 6px;margin-top:2px;display:inline-block;">${fase}</span>
+      </div>
+      <div class="next-game-mobile-right">
+        <div class="next-game-mobile-time">${hora}</div>
+        <div class="next-game-mobile-date">${diaStr}</div>
+      </div>
+    </div>`;
+  }
+
   el.innerHTML=`<div class="next-game-card">
     <div>
       <div class="next-game-label">⏱ Próximo jogo</div>
