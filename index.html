@@ -1145,11 +1145,14 @@ function renderMeusPalpites(){
 // ── LOAD ALL ─────────────────────────────────────────────────
 async function loadAll(){
   const [jogosRes, palpitesRes, resultadosRes] = await Promise.all([
-    sb.from('jogos').select('*').order('jogo_num'),
+    sb.from('jogos').select('*').order('data').order('hora'),
     sb.from('palpites').select('*'),
     sb.from('resultados').select('*'),
   ]);
-  jogosCache = jogosRes.data||[];
+  jogosCache = (jogosRes.data||[]).sort((a,b)=>{
+    const da=new Date(a.data+'T'+a.hora), db=new Date(b.data+'T'+b.hora);
+    return da-db;
+  });
   // Indexar palpites por jogo_id → participante_id
   palpitesCache={};
   (palpitesRes.data||[]).forEach(p=>{
