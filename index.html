@@ -1233,6 +1233,22 @@ function calcPts(jogoId, participanteId){
 }
 
 // ── RENDER ALL ───────────────────────────────────────────────
+function irParaPalpites(){
+  const tabEl=document.querySelector('.tab:nth-child(4)');
+  if(tabEl){showTab('palpites',tabEl);}
+  // Aguarda render e rola até o card do próximo jogo
+  setTimeout(()=>{
+    const agora=new Date();
+    const proximo=jogosCache.find(j=>new Date(j.data+'T'+j.hora)>agora);
+    if(!proximo)return;
+    const card=document.getElementById('g1-'+proximo.id);
+    if(card){
+      const el=card.closest('.palpite-card');
+      if(el){el.scrollIntoView({behavior:'smooth',block:'center'});}
+    }
+  },150);
+}
+
 function toggleAdmin(header){
   const chevron=header.querySelector('.admin-section-chevron');
   const body=header.nextElementSibling;
@@ -1273,9 +1289,9 @@ function renderNextGame(){
   const mel=document.getElementById('next-game-mobile');
   if(mel){
     if(!proximo){mel.innerHTML='';return;}
-    mel.innerHTML=`<div class="next-game-mobile-inner">
+    mel.innerHTML=`<div class="next-game-mobile-inner" onclick="irParaPalpites()" style="cursor:pointer;">
       <div class="next-game-mobile-left">
-        <div class="next-game-mobile-lbl">⏱ Próximo jogo</div>
+        <div class="next-game-mobile-lbl">⏱ Próximo jogo · <span style="font-size:8px;opacity:.7;">toque para palpitar</span></div>
         <div class="next-game-mobile-teams">${F(proximo.time1)} ${proximo.time1} × ${F(proximo.time2)} ${proximo.time2}</div>
         <span class="phase-badge ${faseClass}" style="font-size:8px;padding:2px 6px;margin-top:2px;display:inline-block;">${fase}</span>
       </div>
@@ -1286,9 +1302,9 @@ function renderNextGame(){
     </div>`;
   }
 
-  el.innerHTML=`<div class="next-game-card">
+  el.innerHTML=`<div class="next-game-card" onclick="irParaPalpites()" style="cursor:pointer;title='Clique para palpitar'">
     <div>
-      <div class="next-game-label">⏱ Próximo jogo</div>
+      <div class="next-game-label">⏱ Próximo jogo · <span style="font-size:8px;opacity:.7;">clique para palpitar</span></div>
       <div class="next-game-teams">${F(proximo.time1)} ${proximo.time1} <span style="color:var(--muted);font-size:13px;margin:0 4px;">×</span> ${F(proximo.time2)} ${proximo.time2}</div>
       <span class="phase-badge ${faseClass} next-game-phase">${fase}</span>
     </div>
