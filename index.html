@@ -260,18 +260,24 @@ input:focus,select:focus{outline:none;border-color:var(--verde);}
 .admin-badge{display:inline-flex;align-items:center;gap:4px;background:rgba(184,150,62,.15);color:var(--gold);border:1px solid rgba(184,150,62,.3);border-radius:4px;padding:2px 8px;font-size:9px;font-family:'Oswald',sans-serif;letter-spacing:1.5px;text-transform:uppercase;margin-bottom:.75rem;}
 
 @media(max-width:768px){
-  .header{flex-direction:row;gap:6px;padding:.75rem;overflow-x:auto;flex-wrap:wrap;}
-  .header-right{gap:4px;min-width:fit-content;}
+  /* Header mobile compacto */
+  .header-inner{padding:.6rem 1rem;gap:8px;}
+  .header-divider{display:none;}
+  .header-texts{display:none;}
   .next-game-banner{display:none;}
   .next-game-mobile{display:block;}
+  .header-right{gap:6px;}
   #hdr-copa{display:none;}
   #hdr-theme{display:none;}
   #hdr-limpar{display:none;}
   #hdr-sair{display:none;}
   .btn-como-funciona{display:none;}
-  .mobile-menu-btn{display:flex;}
-  .theme-toggle{padding:2px;gap:1px;}
-  .theme-btn{padding:3px 6px;font-size:9px;}
+  .mobile-menu-btn{display:flex;align-items:center;}
+  /* Logo menor */
+  .logo-slot{width:34px;height:34px;}
+  /* user chip compacto */
+  .user-chip{font-size:11px;padding:4px 10px;}
+  /* tabs */
   .tabs{padding:0;overflow-x:auto;flex-wrap:nowrap;}
   .tab{padding:10px 12px;font-size:10px;flex-shrink:0;}
   .section{padding:1rem;}
@@ -377,14 +383,14 @@ input:focus,select:focus{outline:none;border-color:var(--verde);}
 .mobile-drawer-sep{height:1px;background:var(--border);margin:4px 0;}
 .mobile-drawer-theme{display:flex;align-items:center;justify-content:space-between;padding:10px 12px;border-radius:8px;background:var(--surface2);border:1px solid var(--border);}
 .mobile-drawer-theme span{font-size:13px;color:var(--text);}
-.next-game-mobile{display:none;background:var(--surface2);border-bottom:1px solid rgba(184,150,62,.3);padding:8px 1rem;}
-.next-game-mobile-inner{display:flex;align-items:center;justify-content:space-between;max-width:100%;}
-.next-game-mobile-left{display:flex;flex-direction:column;gap:1px;}
-.next-game-mobile-lbl{font-size:8px;color:var(--gold);letter-spacing:1.5px;text-transform:uppercase;font-family:'Oswald',sans-serif;}
-.next-game-mobile-teams{font-family:'Oswald',sans-serif;font-size:13px;font-weight:600;color:var(--text);}
-.next-game-mobile-right{text-align:right;}
-.next-game-mobile-time{font-family:'Oswald',sans-serif;font-size:18px;font-weight:700;color:var(--gold);line-height:1;}
-.next-game-mobile-date{font-size:9px;color:var(--muted);text-transform:uppercase;letter-spacing:1px;}
+.next-game-mobile{display:none;background:linear-gradient(135deg,var(--surface2) 0%,rgba(184,150,62,.08) 100%);border-bottom:2px solid rgba(184,150,62,.4);padding:10px 1rem;}
+.next-game-mobile-inner{display:flex;align-items:center;justify-content:space-between;}
+.next-game-mobile-left{display:flex;flex-direction:column;gap:2px;flex:1;}
+.next-game-mobile-lbl{font-size:9px;color:var(--gold);letter-spacing:2px;text-transform:uppercase;font-family:'Oswald',sans-serif;}
+.next-game-mobile-teams{font-family:'Oswald',sans-serif;font-size:15px;font-weight:600;color:var(--text);}
+.next-game-mobile-right{text-align:right;padding-left:12px;}
+.next-game-mobile-time{font-family:'Oswald',sans-serif;font-size:26px;font-weight:700;color:var(--gold);line-height:1;}
+.next-game-mobile-date{font-size:10px;color:var(--muted);text-transform:uppercase;letter-spacing:1px;margin-top:1px;}
 </style>
 </head>
 <body>
