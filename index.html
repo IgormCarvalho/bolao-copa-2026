@@ -280,6 +280,7 @@ input:focus,select:focus{outline:none;border-color:var(--verde);}
   #hdr-theme{display:none;}
   #hdr-limpar{display:none;}
   #hdr-sair{display:none;}
+  #hdr-senha{display:none;}
   .btn-como-funciona{display:none;}
   .mobile-menu-btn{display:flex;align-items:center;}
   /* Logo menor */
@@ -398,6 +399,18 @@ input:focus,select:focus{outline:none;border-color:var(--verde);}
 .next-game-mobile-right{text-align:right;padding-left:12px;}
 .next-game-mobile-time{font-family:'Oswald',sans-serif;font-size:26px;font-weight:700;color:var(--gold);line-height:1;}
 .next-game-mobile-date{font-size:10px;color:var(--muted);text-transform:uppercase;letter-spacing:1px;margin-top:1px;}
+
+.link-esqueceu{font-size:10px;color:var(--muted);text-align:right;cursor:pointer;text-decoration:underline;transition:color .15s;}
+.link-esqueceu:hover{color:var(--verde);}
+.login-success{color:#27ae60;font-size:11px;text-align:center;padding:8px;background:rgba(39,174,96,.1);border-radius:5px;border:1px solid rgba(39,174,96,.2);}
+
+/* ── MODAL REDEFINIR SENHA ── */
+.modal-reset-senha{position:fixed;inset:0;background:rgba(0,0,0,.85);display:none;z-index:9999;align-items:center;justify-content:center;padding:1rem;}
+.modal-reset-senha.show{display:flex!important;}
+.modal-reset-box{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:2.5rem;width:100%;max-width:380px;text-align:center;}
+.modal-reset-stripe{height:3px;background:linear-gradient(90deg,var(--verde) 0%,var(--verde) 40%,var(--amarelo) 40%,var(--amarelo) 70%,var(--azul) 70%);border-radius:3px 3px 0 0;margin:-2.5rem -2.5rem 2rem;}
+.modal-reset-title{font-family:'Oswald',sans-serif;font-size:20px;font-weight:700;letter-spacing:2px;color:var(--text);text-transform:uppercase;margin-bottom:6px;}
+.modal-reset-sub{font-size:11px;color:var(--muted);margin-bottom:1.5rem;}
 </style>
 </head>
 <body>
@@ -427,8 +440,21 @@ input:focus,select:focus{outline:none;border-color:var(--verde);}
         <input type="text" id="login-nome" placeholder="Ex: IGOR ou PEDROSILVA" style="text-transform:uppercase;" oninput="this.value=this.value.toUpperCase().replace(/\s/g,'')"/>
       </div>
       <div id="login-error" style="display:none;" class="login-error"></div>
+      <div id="link-esqueceu-wrap" style="text-align:right;"><span class="link-esqueceu" onclick="showEsqueceu()">Esqueceu a senha?</span></div>
       <button class="btn-login" onclick="doAuth()" id="btn-auth">Entrar</button>
     </div>
+
+    <!-- Formulário esqueceu a senha -->
+    <div id="form-esqueceu" style="display:none;" class="login-form">
+      <div class="form-group">
+        <label>Seu email</label>
+        <input type="email" id="esqueceu-email" placeholder="seu@email.com" onkeydown="if(event.key==='Enter')doEsqueceu()"/>
+      </div>
+      <div id="esqueceu-msg" style="display:none;"></div>
+      <button class="btn-login" onclick="doEsqueceu()" id="btn-esqueceu" style="background:var(--gold);">Enviar link de recuperação</button>
+      <div style="text-align:center;"><span class="link-esqueceu" onclick="hideEsqueceu()">← Voltar ao login</span></div>
+    </div>
+
     <div class="login-info">Não tem conta? Clique em <strong>Cadastrar</strong> acima<br/>Use o email da empresa para acesso</div>
   </div>
 </div>
@@ -460,6 +486,7 @@ input:focus,select:focus{outline:none;border-color:var(--verde);}
         <button class="theme-btn" id="btn-light" onclick="setTheme('light')"><i class="ti ti-sun"></i></button>
       </div>
       <button class="btn-logout" id="hdr-limpar" onclick="limparCacheLocal()" title="Limpar dados locais"><i class="ti ti-trash"></i> Limpar</button>
+      <button class="btn-logout" id="hdr-senha" onclick="abrirResetSenha()"><i class="ti ti-lock"></i> Senha</button>
       <button class="btn-logout" id="hdr-sair" onclick="doLogout()"><i class="ti ti-logout"></i> Sair</button>
       <button class="mobile-menu-btn" onclick="openMobileDrawer()"><i class="ti ti-menu-2"></i></button>
     </div>
@@ -701,13 +728,37 @@ input:focus,select:focus{outline:none;border-color:var(--verde);}
     </div>
     <div class="mobile-drawer-sep"></div>
     <div class="mobile-drawer-item" onclick="limparCacheLocal()"><i class="ti ti-refresh" style="color:var(--gold);"></i>Limpar cache</div>
-    <div class="mobile-drawer-item" onclick="doLogout()" style="margin-top:auto;border-color:rgba(231,76,60,.3);"><i class="ti ti-logout" style="color:#e74c3c;"></i>Sair</div>
+    <div class="mobile-drawer-item" onclick="abrirResetSenha();closeMobileDrawer()"><i class="ti ti-lock" style="color:var(--gold);"></i>Alterar senha</div>
+    <div class="mobile-drawer-item" onclick="doLogout()" style="border-color:rgba(231,76,60,.3);"><i class="ti ti-logout" style="color:#e74c3c;"></i>Sair</div>
   </div>
 </div>
 
 <!-- Next game mobile banner -->
 </div><!-- /app -->
+
+<!-- Modal Redefinir Senha -->
 </div><!-- /app-screen -->
+
+<!-- Modal Redefinir Senha -->
+<div id="modal-reset-senha" class="modal-reset-senha">
+  <div class="modal-reset-box">
+    <div class="modal-reset-stripe"></div>
+    <div class="modal-reset-title">Nova Senha</div>
+    <div class="modal-reset-sub">Digite sua nova senha abaixo</div>
+    <div class="login-form" style="text-align:left;">
+      <div class="form-group">
+        <label>Nova senha</label>
+        <input type="password" id="nova-senha" placeholder="Mínimo 6 caracteres" onkeydown="if(event.key==='Enter')doResetSenha()"/>
+      </div>
+      <div class="form-group">
+        <label>Confirmar senha</label>
+        <input type="password" id="nova-senha-confirm" placeholder="Repita a senha" onkeydown="if(event.key==='Enter')doResetSenha()"/>
+      </div>
+      <div id="reset-msg" style="display:none;"></div>
+      <button class="btn-login" onclick="doResetSenha()" id="btn-reset" style="background:var(--gold);">Salvar nova senha</button>
+    </div>
+  </div>
+</div>
 
 <div class="toast" id="toast"></div>
 
@@ -943,6 +994,60 @@ function setLoginTab(mode, el){
   document.getElementById('login-error').style.display='none';
 }
 
+function showEsqueceu(){
+  document.getElementById('login-tabs') && (document.querySelector('.login-tabs').style.display='none');
+  document.querySelector('.login-form').style.display='none';
+  document.getElementById('link-esqueceu-wrap').style.display='none';
+  document.querySelector('.login-info').style.display='none';
+  document.querySelector('.copa-tag-login').style.display='none';
+  document.querySelector('.login-title').style.display='none';
+  document.querySelector('.login-sub').style.display='none';
+  document.getElementById('form-esqueceu').style.display='flex';
+  document.getElementById('esqueceu-msg').style.display='none';
+  document.getElementById('btn-esqueceu').textContent='Enviar link de recuperação';
+  document.getElementById('btn-esqueceu').disabled=false;
+}
+
+function hideEsqueceu(){
+  document.querySelector('.login-tabs').style.display='flex';
+  document.querySelector('.login-form').style.display='flex';
+  document.getElementById('link-esqueceu-wrap').style.display='block';
+  document.querySelector('.login-info').style.display='block';
+  document.querySelector('.copa-tag-login').style.display='inline-block';
+  document.querySelector('.login-title').style.display='block';
+  document.querySelector('.login-sub').style.display='block';
+  document.getElementById('form-esqueceu').style.display='none';
+}
+
+async function doEsqueceu(){
+  const email=document.getElementById('esqueceu-email').value.trim();
+  const msgEl=document.getElementById('esqueceu-msg');
+  const btn=document.getElementById('btn-esqueceu');
+  if(!email){
+    msgEl.className='login-error';
+    msgEl.textContent='Digite seu email.';
+    msgEl.style.display='block';
+    return;
+  }
+  btn.textContent='Enviando...';
+  btn.disabled=true;
+  const {error}=await sb.auth.resetPasswordForEmail(email,{
+    redirectTo:'https://igormcarvalho.github.io/bolao-copa-2026/'
+  });
+  if(error){
+    msgEl.className='login-error';
+    msgEl.textContent='Erro: '+error.message;
+    msgEl.style.display='block';
+    btn.textContent='Enviar link de recuperação';
+    btn.disabled=false;
+  } else {
+    msgEl.className='login-success';
+    msgEl.textContent='✅ Email enviado! Verifique sua caixa de entrada e clique no link para redefinir sua senha.';
+    msgEl.style.display='block';
+    btn.style.display='none';
+  }
+}
+
 async function doAuth(){
   const email=document.getElementById('login-email').value.trim();
   const senha=document.getElementById('login-senha').value;
@@ -1028,6 +1133,10 @@ function limparCacheLocal(){
 
 // ── AUTH STATE ──────────────────────────────────────────────
 sb.auth.onAuthStateChange(async(event, session)=>{
+  if(event==='PASSWORD_RECOVERY'){
+    document.getElementById('modal-reset-senha').classList.add('show');
+    return;
+  }
   if(session?.user){
     currentUser=session.user;
     isAdmin=currentUser.email===ADMIN_EMAIL;
@@ -1040,7 +1149,65 @@ sb.auth.onAuthStateChange(async(event, session)=>{
     document.getElementById('app-screen').style.display='block';
     if(isAdmin)document.getElementById('tab-admin-btn').style.display='flex';
     updateLogoPermissions();
-    loadTheme();loadSavedLogo();
+    
+function abrirResetSenha(){
+  const modal=document.getElementById('modal-reset-senha');
+  if(!modal){alert('Modal não encontrado!');return;}
+  document.getElementById('nova-senha').value='';
+  document.getElementById('nova-senha-confirm').value='';
+  document.getElementById('reset-msg').style.display='none';
+  const btn=document.getElementById('btn-reset');
+  btn.style.display='block';
+  btn.textContent='Salvar nova senha';
+  btn.disabled=false;
+  modal.style.display='flex';
+  modal.classList.add('show');
+}
+
+async function doResetSenha(){
+  const senha=document.getElementById('nova-senha').value;
+  const confirm=document.getElementById('nova-senha-confirm').value;
+  const msgEl=document.getElementById('reset-msg');
+  const btn=document.getElementById('btn-reset');
+
+  msgEl.style.display='none';
+
+  if(senha.length<6){
+    msgEl.className='login-error';
+    msgEl.textContent='A senha deve ter pelo menos 6 caracteres.';
+    msgEl.style.display='block';
+    return;
+  }
+  if(senha!==confirm){
+    msgEl.className='login-error';
+    msgEl.textContent='As senhas não coincidem.';
+    msgEl.style.display='block';
+    return;
+  }
+
+  btn.textContent='Salvando...';
+  btn.disabled=true;
+
+  const {error}=await sb.auth.updateUser({password:senha});
+
+  if(error){
+    msgEl.className='login-error';
+    msgEl.textContent='Erro: '+error.message;
+    msgEl.style.display='block';
+    btn.textContent='Salvar nova senha';
+    btn.disabled=false;
+  } else {
+    msgEl.className='login-success';
+    msgEl.textContent='✅ Senha alterada com sucesso!';
+    msgEl.style.display='block';
+    btn.style.display='none';
+    setTimeout(()=>{
+      document.getElementById('modal-reset-senha').classList.remove('show');
+    }, 2000);
+  }
+}
+
+loadTheme();loadSavedLogo();
     await loadAll();
   } else {
     currentUser=null;currentParticipante=null;isAdmin=false;
@@ -1840,6 +2007,9 @@ async function carregarJogos(){
   toast('97 jogos carregados com sucesso!');
   await loadAll();
 }
+
+
+
 
 loadTheme();
 
