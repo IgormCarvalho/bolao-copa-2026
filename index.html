@@ -85,7 +85,7 @@ body{font-family:'Montserrat',sans-serif;background:var(--bg);color:var(--text);
 .rtable th{padding:8px 14px;font-size:10px;letter-spacing:1.5px;text-transform:uppercase;color:var(--muted);border-bottom:1px solid var(--border);text-align:left;font-weight:500;}
 .rtable td{padding:11px 14px;border-bottom:1px solid var(--border2);}
 .rtable tr:last-child td{border-bottom:none;}
-.rtable tbody tr:hover td{background:rgba(0,0,0,.03);}
+.rtable tbody tr:hover td{background:rgba(0,156,59,.06)!important;}
 .pos-1 td{background:rgba(184,150,62,.06)!important;}
 .pos-2 td{background:rgba(160,160,160,.04)!important;}
 .pos-3 td{background:rgba(140,90,40,.04)!important;}
@@ -301,6 +301,32 @@ input:focus,select:focus{outline:none;border-color:var(--verde);}
   .login-box h1{font-size:16px;}
   .login-form{gap:10px;}
 }
+
+/* ── MODAL PALPITES PARTICIPANTE ── */
+.modal-palpites{position:fixed;inset:0;background:rgba(0,0,0,.75);display:none;z-index:1000;overflow-y:auto;padding:2rem 1rem;}
+.modal-palpites.show{display:flex;align-items:flex-start;justify-content:center;padding-top:2rem;}
+.modal-palpites .modal-content{background:var(--surface);border-radius:12px;max-width:640px;width:100%;max-height:90vh;overflow-y:auto;box-shadow:0 10px 40px rgba(0,0,0,.4);}
+.modal-palpites .modal-header{padding:1.25rem 1.5rem;border-bottom:1px solid var(--border);display:flex;justify-content:space-between;align-items:center;position:sticky;top:0;background:var(--surface);z-index:1;}
+.modal-palpites .modal-header h2{font-family:'Oswald',sans-serif;font-size:17px;font-weight:700;letter-spacing:2px;color:var(--text);margin:0;}
+.modal-palpites .modal-body{padding:1.25rem;}
+.pal-stats{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:1.25rem;}
+.pal-stat{background:var(--surface2);border:1px solid var(--border);border-radius:8px;padding:.75rem;text-align:center;}
+.pal-stat-num{font-family:'Oswald',sans-serif;font-size:24px;font-weight:700;color:var(--text);}
+.pal-stat-lbl{font-size:9px;color:var(--muted);letter-spacing:1.5px;text-transform:uppercase;margin-top:2px;}
+.pal-jogo{background:var(--surface2);border:1px solid var(--border);border-radius:7px;padding:10px 12px;margin-bottom:7px;}
+.pal-jogo-teams{font-family:'Oswald',sans-serif;font-size:13px;font-weight:500;color:var(--text);margin-bottom:6px;}
+.pal-jogo-placar{display:flex;align-items:center;gap:12px;flex-wrap:wrap;}
+.pal-placar-box{display:flex;flex-direction:column;align-items:center;gap:2px;}
+.pal-placar-lbl{font-size:9px;color:var(--muted);text-transform:uppercase;letter-spacing:1px;}
+.pal-placar-val{font-family:'Oswald',sans-serif;font-size:20px;font-weight:700;}
+.pal-placar-sep{font-family:'Oswald',sans-serif;font-size:14px;color:var(--muted);}
+.pal-pts-badge{margin-left:auto;font-family:'Oswald',sans-serif;font-size:12px;font-weight:600;padding:3px 10px;border-radius:4px;}
+.pal-pts-3{background:rgba(184,150,62,.15);color:var(--gold);border:1px solid rgba(184,150,62,.3);}
+.pal-pts-2{background:rgba(0,122,47,.12);color:var(--verde);border:1px solid rgba(0,122,47,.2);}
+.pal-pts-1{background:rgba(0,39,118,.1);color:#5588dd;border:1px solid rgba(0,39,118,.2);}
+.pal-pts-0{background:rgba(231,76,60,.08);color:#e74c3c;border:1px solid rgba(231,76,60,.2);}
+.nome-clicavel{cursor:pointer;border-bottom:1px dashed var(--muted);transition:color .15s;}
+.nome-clicavel:hover{color:var(--verde);border-bottom-color:var(--verde);}
 </style>
 </head>
 <body>
@@ -648,6 +674,18 @@ input:focus,select:focus{outline:none;border-color:var(--verde);}
   </div>
 </div>
 
+
+<!-- Modal Palpites Participante -->
+<div id="modal-palpites-part" class="modal-palpites">
+  <div class="modal-content">
+    <div class="modal-header">
+      <h2 id="modal-palpites-title">Palpites</h2>
+      <button class="modal-close" onclick="closeModalPalpites()">✕</button>
+    </div>
+    <div class="modal-body" id="modal-palpites-body"></div>
+  </div>
+</div>
+
 <!-- Botão flutuante de limpar cache -->
 <button id="btn-clear-cache" class="btn-clear-cache" onclick="limparCacheLocal()" title="Limpar cache do navegador">
   <i class="ti ti-refresh"></i>
@@ -832,9 +870,12 @@ document.addEventListener('DOMContentLoaded',function(){
   modal.addEventListener('click',function(e){
     if(e.target===modal)closeComoFunciona();
   });
-  // Fechar com Escape
+  const modalPal=document.getElementById('modal-palpites-part');
+  modalPal.addEventListener('click',function(e){
+    if(e.target===modalPal)closeModalPalpites();
+  });
   document.addEventListener('keydown',function(e){
-    if(e.key==='Escape')closeComoFunciona();
+    if(e.key==='Escape'){closeComoFunciona();closeModalPalpites();}
   });
 });
 
@@ -877,6 +918,71 @@ sb.auth.onAuthStateChange(async(event, session)=>{
 });
 
 // ── TABS ─────────────────────────────────────────────────────
+
+// ── MODAL PALPITES PARTICIPANTE ─────────────────────────────
+function abrirPalpitesParticipante(partId, partNome){
+  document.getElementById('modal-palpites-title').textContent = '⚽ ' + partNome;
+  const body = document.getElementById('modal-palpites-body');
+  body.innerHTML = '<div class="loading"><i class="ti ti-loader"></i></div>';
+  document.getElementById('modal-palpites-part').classList.add('show');
+  document.body.style.overflow = 'hidden';
+
+  const agora = new Date();
+  const jogosIniciados = jogosCache.filter(j => new Date(j.data + 'T' + j.hora) <= agora);
+
+  if(!jogosIniciados.length){
+    body.innerHTML = '<div class="empty"><i class="ti ti-clock"></i>Nenhum jogo iniciado ainda</div>';
+    return;
+  }
+
+  let pts=0, exatos=0, parciais=0;
+  jogosIniciados.forEach(j=>{
+    const pal=(palpitesCache[j.id]||{})[partId];
+    const res=resultadosCache[j.id];
+    if(!pal||!res)return;
+    const pt=calcPts(j.id,partId);
+    if(pt===3||(pt===2&&isMata(j.fase)))exatos++;
+    else if(pt===2&&!isMata(j.fase))exatos++;
+    else if(pt===1)parciais++;
+    if(pt>0)pts+=pt;
+  });
+
+  let h=`<div class="pal-stats">
+    <div class="pal-stat"><div class="pal-stat-num" style="color:var(--verde);">${pts}</div><div class="pal-stat-lbl">Pontos</div></div>
+    <div class="pal-stat"><div class="pal-stat-num" style="color:var(--gold);">${exatos}</div><div class="pal-stat-lbl">Exatos</div></div>
+    <div class="pal-stat"><div class="pal-stat-num" style="color:#5588dd;">${parciais}</div><div class="pal-stat-lbl">Parciais</div></div>
+  </div>`;
+
+  ['grupos','dezesseis','oitavas','quartas','semi','terceiro','final','amistoso'].forEach(fase=>{
+    const js=jogosIniciados.filter(j=>j.fase===fase);
+    if(!js.length)return;
+    h+=`<div class="sec-title">${FL[fase]||fase}</div>`;
+    js.forEach(j=>{
+      const pal=(palpitesCache[j.id]||{})[partId];
+      const res=resultadosCache[j.id];
+      const pt=pal&&res?calcPts(j.id,partId):null;
+      const ptClass=pt===3?'pal-pts-3':pt===2?'pal-pts-2':pt===1?'pal-pts-1':'pal-pts-0';
+      const ptLabel=pt!==null?`${pt} pt${pt!==1?'s':''}`:null;
+      h+=`<div class="pal-jogo">
+        <div class="pal-jogo-teams">${F(j.time1)} ${j.time1} <span style="color:var(--muted);font-size:11px;">×</span> ${F(j.time2)} ${j.time2}</div>
+        <div class="pal-jogo-placar">
+          ${pal?`<div class="pal-placar-box"><div class="pal-placar-lbl">Palpite</div><div class="pal-placar-val" style="color:var(--text);">${pal.gols1} <span class="pal-placar-sep">×</span> ${pal.gols2}</div>${pal.penaltis?`<div style="font-size:9px;color:var(--gold);margin-top:2px;">Pên: ${pal.penaltis}</div>`:''}</div>`:`<div style="font-size:11px;color:var(--muted);font-style:italic;">Sem palpite</div>`}
+          ${res?`<div class="pal-placar-sep" style="font-size:18px;">→</div><div class="pal-placar-box"><div class="pal-placar-lbl">Resultado</div><div class="pal-placar-val" style="color:var(--gold);">${res.gols1} <span class="pal-placar-sep">×</span> ${res.gols2}</div>${res.penaltis?`<div style="font-size:9px;color:var(--gold);margin-top:2px;">Pên: ${res.penaltis}</div>`:''}</div>`:''}
+          ${ptLabel?`<span class="pal-pts-badge ${ptClass}">${ptLabel}</span>`:''}
+        </div>
+      </div>`;
+    });
+  });
+
+  body.innerHTML = h;
+}
+
+function closeModalPalpites(){
+  document.getElementById('modal-palpites-part').classList.remove('show');
+  document.body.style.overflow = 'auto';
+}
+
+
 const ALL_TABS=['ranking','grupos','chave','palpites','meuspalpites','jogos','admin'];
 function showTab(tab,el){
   ALL_TABS.forEach(t=>{const s=document.getElementById('tab-'+t);if(s)s.style.display='none';});
@@ -1024,7 +1130,7 @@ async function renderRanking(){
     const pos=i+1,isMe=p.id===currentParticipante?.id;
     const rowC=(pos<=3?`pos-${pos}`:'')+' '+(isMe?'me-row':'');
     let med=pos===1?'<span class="pos-badge pos-b1">🥇</span>':pos===2?'<span class="pos-badge pos-b2">🥈</span>':pos===3?'<span class="pos-badge pos-b3">🥉</span>':`<span class="pos-bn">${pos}°</span>`;
-    h+=`<tr class="${rowC}"><td>${med}</td><td style="font-weight:600;color:var(--text);">${p.nome}${isMe?' <span style="color:var(--verde);font-size:9px;">(você)</span>':''}</td><td><span class="pts-chip">${p.pts} pts</span></td><td style="font-size:11px;color:var(--muted);">${p.exatos}</td><td style="font-size:11px;color:var(--muted);">${p.parciais}</td><td style="font-size:11px;color:var(--muted);">${p.jg}</td></tr>`;
+    h+=`<tr class="${rowC}" data-pid="${p.id}" data-pnome="${p.nome}" onclick="abrirPalpitesParticipante(this.dataset.pid,this.dataset.pnome)" style="cursor:pointer;"><td>${med}</td><td style="font-weight:600;color:var(--text);">${p.nome}${isMe?' <span style="color:var(--verde);font-size:9px;">(você)</span>':''}</td><td><span class="pts-chip">${p.pts} pts</span></td><td style="font-size:11px;color:var(--muted);">${p.exatos}</td><td style="font-size:11px;color:var(--muted);">${p.parciais}</td><td style="font-size:11px;color:var(--muted);">${p.jg}</td></tr>`;
   });
   h+='</tbody></table>';el.innerHTML=h;
 }
