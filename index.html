@@ -1238,7 +1238,7 @@ function renderMeusPalpites(){
   if(!jogos.length){el.innerHTML='<div class="empty">Nenhum jogo nesta fase</div>';return;}
   
   let h='';
-  ['grupos','oitavas','quartas','semi','terceiro','final','amistoso'].forEach(f=>{
+  ['grupos','dezesseis','oitavas','quartas','semi','terceiro','final','amistoso'].forEach(f=>{
     if(meusPalFiltro&&meusPalFiltro!==f)return;
     const js=jogos.filter(j=>j.fase===f);
     if(!js.length)return;
@@ -1581,7 +1581,7 @@ function renderJogos(){
   const jogos=filtroFase?jogosCache.filter(j=>j.fase===filtroFase):jogosCache;
   if(!jogos.length){el.innerHTML='<div class="empty"><i class="ti ti-ball-football"></i>Nenhum jogo cadastrado</div>';return;}
   let h='';
-  ['grupos','oitavas','quartas','semi','terceiro','final','amistoso'].forEach(f=>{
+  ['grupos','dezesseis','oitavas','quartas','semi','terceiro','final','amistoso'].forEach(f=>{
     if(filtroFase&&filtroFase!==f)return;
     const js=jogos.filter(j=>j.fase===f);if(!js.length)return;
     h+=`<div class="sec-title">${FL[f]}</div>`;
@@ -1600,7 +1600,7 @@ function renderPalpites(){
   const jogos=palFiltro?jogosCache.filter(j=>j.fase===palFiltro):jogosCache;
   if(!jogos.length){el.innerHTML='<div class="empty"><i class="ti ti-ball-football"></i>Nenhum jogo disponível</div>';return;}
   let h='';
-  ['grupos','oitavas','quartas','semi','terceiro','final','amistoso'].forEach(f=>{
+  ['grupos','dezesseis','oitavas','quartas','semi','terceiro','final','amistoso'].forEach(f=>{
     if(palFiltro&&palFiltro!==f)return;
     const js=jogos.filter(j=>j.fase===f);if(!js.length)return;
     h+=`<div class="sec-title">${FL[f]}</div>`;
@@ -1710,7 +1710,7 @@ async function renderAdminResultados(){
   const el=document.getElementById('admin-resultados');
   if(!jogosCache.length){el.innerHTML='<div class="empty">Carregue os jogos primeiro</div>';return;}
   let h='';
-  ['grupos','oitavas','quartas','semi','terceiro','final','amistoso'].forEach(f=>{
+  ['grupos','dezesseis','oitavas','quartas','semi','terceiro','final','amistoso'].forEach(f=>{
     const js=jogosCache.filter(j=>j.fase===f);if(!js.length)return;
     h+=`<div class="sec-title">${FL[f]}</div>`;
     js.forEach(j=>{
@@ -1865,7 +1865,7 @@ function renderAdminJogos(){
   const jogos=adminJogoFiltro?jogosCache.filter(j=>j.fase===adminJogoFiltro):jogosCache;
   if(!jogos.length){el.innerHTML='<div class="empty">Nenhum jogo cadastrado</div>';return;}
   let h='';
-  ['grupos','oitavas','quartas','semi','terceiro','final','amistoso'].forEach(f=>{
+  ['grupos','dezesseis','oitavas','quartas','semi','terceiro','final','amistoso'].forEach(f=>{
     if(adminJogoFiltro&&adminJogoFiltro!==f)return;
     const js=jogos.filter(j=>j.fase===f);if(!js.length)return;
     h+=`<div class="sec-title">${FL[f]}</div>`;
