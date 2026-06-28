@@ -136,6 +136,7 @@ input:focus,select:focus{outline:none;border-color:var(--verde);}
 .ph-semi{background:rgba(120,40,180,.1);color:#aa77dd;border:1px solid rgba(120,40,180,.2);}
 .ph-terceiro{background:rgba(140,90,40,.1);color:#c8804a;border:1px solid rgba(140,90,40,.2);}
 .ph-final{background:rgba(180,144,0,.1);color:var(--gold2);border:1px solid rgba(180,144,0,.2);}
+.ph-dezesseis{background:rgba(0,80,160,.12);color:#66aaee;border:1px solid rgba(0,80,160,.25);}
 .ph-amistoso{background:rgba(0,120,180,.1);color:#4aaddf;border:1px solid rgba(0,120,180,.25);}
 .score-inp{width:52px;text-align:center;font-family:'Oswald',sans-serif;font-size:22px;font-weight:600;color:var(--text);padding:6px;}
 .vs-score{color:var(--muted);font-size:16px;font-family:'Oswald',sans-serif;}
@@ -280,7 +281,6 @@ input:focus,select:focus{outline:none;border-color:var(--verde);}
   #hdr-theme{display:none;}
   #hdr-limpar{display:none;}
   #hdr-sair{display:none;}
-  #hdr-senha{display:none;}
   .btn-como-funciona{display:none;}
   .mobile-menu-btn{display:flex;align-items:center;}
   /* Logo menor */
@@ -405,8 +405,8 @@ input:focus,select:focus{outline:none;border-color:var(--verde);}
 .login-success{color:#27ae60;font-size:11px;text-align:center;padding:8px;background:rgba(39,174,96,.1);border-radius:5px;border:1px solid rgba(39,174,96,.2);}
 
 /* ── MODAL REDEFINIR SENHA ── */
-.modal-reset-senha{position:fixed;inset:0;background:rgba(0,0,0,.85);display:none;z-index:9999;align-items:center;justify-content:center;padding:1rem;}
-.modal-reset-senha.show{display:flex!important;}
+.modal-reset-senha{position:fixed;inset:0;background:rgba(0,0,0,.85);display:none;z-index:2000;align-items:center;justify-content:center;}
+.modal-reset-senha.show{display:flex;}
 .modal-reset-box{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:2.5rem;width:100%;max-width:380px;text-align:center;}
 .modal-reset-stripe{height:3px;background:linear-gradient(90deg,var(--verde) 0%,var(--verde) 40%,var(--amarelo) 40%,var(--amarelo) 70%,var(--azul) 70%);border-radius:3px 3px 0 0;margin:-2.5rem -2.5rem 2rem;}
 .modal-reset-title{font-family:'Oswald',sans-serif;font-size:20px;font-weight:700;letter-spacing:2px;color:var(--text);text-transform:uppercase;margin-bottom:6px;}
@@ -486,7 +486,6 @@ input:focus,select:focus{outline:none;border-color:var(--verde);}
         <button class="theme-btn" id="btn-light" onclick="setTheme('light')"><i class="ti ti-sun"></i></button>
       </div>
       <button class="btn-logout" id="hdr-limpar" onclick="limparCacheLocal()" title="Limpar dados locais"><i class="ti ti-trash"></i> Limpar</button>
-      <button class="btn-logout" id="hdr-senha" onclick="abrirResetSenha()"><i class="ti ti-lock"></i> Senha</button>
       <button class="btn-logout" id="hdr-sair" onclick="doLogout()"><i class="ti ti-logout"></i> Sair</button>
       <button class="mobile-menu-btn" onclick="openMobileDrawer()"><i class="ti ti-menu-2"></i></button>
     </div>
@@ -728,16 +727,12 @@ input:focus,select:focus{outline:none;border-color:var(--verde);}
     </div>
     <div class="mobile-drawer-sep"></div>
     <div class="mobile-drawer-item" onclick="limparCacheLocal()"><i class="ti ti-refresh" style="color:var(--gold);"></i>Limpar cache</div>
-    <div class="mobile-drawer-item" onclick="abrirResetSenha();closeMobileDrawer()"><i class="ti ti-lock" style="color:var(--gold);"></i>Alterar senha</div>
-    <div class="mobile-drawer-item" onclick="doLogout()" style="border-color:rgba(231,76,60,.3);"><i class="ti ti-logout" style="color:#e74c3c;"></i>Sair</div>
+    <div class="mobile-drawer-item" onclick="doLogout()" style="margin-top:auto;border-color:rgba(231,76,60,.3);"><i class="ti ti-logout" style="color:#e74c3c;"></i>Sair</div>
   </div>
 </div>
 
 <!-- Next game mobile banner -->
 </div><!-- /app -->
-
-<!-- Modal Redefinir Senha -->
-</div><!-- /app-screen -->
 
 <!-- Modal Redefinir Senha -->
 <div id="modal-reset-senha" class="modal-reset-senha">
@@ -759,6 +754,7 @@ input:focus,select:focus{outline:none;border-color:var(--verde);}
     </div>
   </div>
 </div>
+</div><!-- /app-screen -->
 
 <div class="toast" id="toast"></div>
 
@@ -898,9 +894,9 @@ function F(n){return FLAGS[n]||'🏳️';}
 
 const GRUPOS_DEF=[{l:'A',s:['México','África do Sul','Coreia do Sul','Rep. Tcheca']},{l:'B',s:['Canadá','Suíça','Catar','Bósnia']},{l:'C',s:['Brasil','Marrocos','Escócia','Haiti']},{l:'D',s:['EUA','Paraguai','Austrália','Turquia']},{l:'E',s:['Alemanha','Curaçao','Costa do Marfim','Equador']},{l:'F',s:['Holanda','Japão','Suécia','Tunísia']},{l:'G',s:['Bélgica','Egito','Irã','Nova Zelândia']},{l:'H',s:['Espanha','Cabo Verde','Arábia Saudita','Uruguai']},{l:'I',s:['França','Senegal','Noruega','Iraque']},{l:'J',s:['Argentina','Argélia','Áustria','Jordânia']},{l:'K',s:['Portugal','Colômbia','Uzbequistão','RD Congo']},{l:'L',s:['Inglaterra','Croácia','Gana','Panamá']}];
 
-const FL={grupos:'Grupos',oitavas:'Oitavas',quartas:'Quartas',semi:'Semifinal',terceiro:'3º Lugar',final:'Final',amistoso:'Amistoso'};
-const FC={grupos:'ph-grupos',oitavas:'ph-oitavas',quartas:'ph-quartas',semi:'ph-semi',terceiro:'ph-terceiro',final:'ph-final',amistoso:'ph-amistoso'};
-const isMata=f=>['oitavas','quartas','semi','terceiro','final'].includes(f);
+const FL={grupos:'Grupos',dezesseis:'Dezesseis avos',oitavas:'Oitavas',quartas:'Quartas',semi:'Semifinal',terceiro:'3º Lugar',final:'Final',amistoso:'Amistoso'};
+const FC={grupos:'ph-grupos',dezesseis:'ph-dezesseis',oitavas:'ph-oitavas',quartas:'ph-quartas',semi:'ph-semi',terceiro:'ph-terceiro',final:'ph-final',amistoso:'ph-amistoso'};
+const isMata=f=>['dezesseis','oitavas','quartas','semi','terceiro','final'].includes(f);
 
 // ── TOAST ───────────────────────────────────────────────────
 function toast(msg, type='success'){
@@ -1150,62 +1146,7 @@ sb.auth.onAuthStateChange(async(event, session)=>{
     if(isAdmin)document.getElementById('tab-admin-btn').style.display='flex';
     updateLogoPermissions();
     
-function abrirResetSenha(){
-  const modal=document.getElementById('modal-reset-senha');
-  if(!modal){alert('Modal não encontrado!');return;}
-  document.getElementById('nova-senha').value='';
-  document.getElementById('nova-senha-confirm').value='';
-  document.getElementById('reset-msg').style.display='none';
-  const btn=document.getElementById('btn-reset');
-  btn.style.display='block';
-  btn.textContent='Salvar nova senha';
-  btn.disabled=false;
-  modal.style.display='flex';
-  modal.classList.add('show');
-}
 
-async function doResetSenha(){
-  const senha=document.getElementById('nova-senha').value;
-  const confirm=document.getElementById('nova-senha-confirm').value;
-  const msgEl=document.getElementById('reset-msg');
-  const btn=document.getElementById('btn-reset');
-
-  msgEl.style.display='none';
-
-  if(senha.length<6){
-    msgEl.className='login-error';
-    msgEl.textContent='A senha deve ter pelo menos 6 caracteres.';
-    msgEl.style.display='block';
-    return;
-  }
-  if(senha!==confirm){
-    msgEl.className='login-error';
-    msgEl.textContent='As senhas não coincidem.';
-    msgEl.style.display='block';
-    return;
-  }
-
-  btn.textContent='Salvando...';
-  btn.disabled=true;
-
-  const {error}=await sb.auth.updateUser({password:senha});
-
-  if(error){
-    msgEl.className='login-error';
-    msgEl.textContent='Erro: '+error.message;
-    msgEl.style.display='block';
-    btn.textContent='Salvar nova senha';
-    btn.disabled=false;
-  } else {
-    msgEl.className='login-success';
-    msgEl.textContent='✅ Senha alterada com sucesso!';
-    msgEl.style.display='block';
-    btn.style.display='none';
-    setTimeout(()=>{
-      document.getElementById('modal-reset-senha').classList.remove('show');
-    }, 2000);
-  }
-}
 
 loadTheme();loadSavedLogo();
     await loadAll();
@@ -1308,7 +1249,7 @@ function renderMeusPalpites(){
   if(!jogos.length){el.innerHTML='<div class="empty">Nenhum jogo nesta fase</div>';return;}
   
   let h='';
-  ['grupos','oitavas','quartas','semi','terceiro','final','amistoso'].forEach(f=>{
+  ['grupos','dezesseis','oitavas','quartas','semi','terceiro','final','amistoso'].forEach(f=>{
     if(meusPalFiltro&&meusPalFiltro!==f)return;
     const js=jogos.filter(j=>j.fase===f);
     if(!js.length)return;
@@ -1619,7 +1560,7 @@ function renderJogos(){
   const jogos=filtroFase?jogosCache.filter(j=>j.fase===filtroFase):jogosCache;
   if(!jogos.length){el.innerHTML='<div class="empty"><i class="ti ti-ball-football"></i>Nenhum jogo cadastrado</div>';return;}
   let h='';
-  ['grupos','oitavas','quartas','semi','terceiro','final','amistoso'].forEach(f=>{
+  ['grupos','dezesseis','oitavas','quartas','semi','terceiro','final','amistoso'].forEach(f=>{
     if(filtroFase&&filtroFase!==f)return;
     const js=jogos.filter(j=>j.fase===f);if(!js.length)return;
     h+=`<div class="sec-title">${FL[f]}</div>`;
@@ -1638,7 +1579,7 @@ function renderPalpites(){
   const jogos=palFiltro?jogosCache.filter(j=>j.fase===palFiltro):jogosCache;
   if(!jogos.length){el.innerHTML='<div class="empty"><i class="ti ti-ball-football"></i>Nenhum jogo disponível</div>';return;}
   let h='';
-  ['grupos','oitavas','quartas','semi','terceiro','final','amistoso'].forEach(f=>{
+  ['grupos','dezesseis','oitavas','quartas','semi','terceiro','final','amistoso'].forEach(f=>{
     if(palFiltro&&palFiltro!==f)return;
     const js=jogos.filter(j=>j.fase===f);if(!js.length)return;
     h+=`<div class="sec-title">${FL[f]}</div>`;
@@ -1748,7 +1689,7 @@ async function renderAdminResultados(){
   const el=document.getElementById('admin-resultados');
   if(!jogosCache.length){el.innerHTML='<div class="empty">Carregue os jogos primeiro</div>';return;}
   let h='';
-  ['grupos','oitavas','quartas','semi','terceiro','final','amistoso'].forEach(f=>{
+  ['grupos','dezesseis','oitavas','quartas','semi','terceiro','final','amistoso'].forEach(f=>{
     const js=jogosCache.filter(j=>j.fase===f);if(!js.length)return;
     h+=`<div class="sec-title">${FL[f]}</div>`;
     js.forEach(j=>{
@@ -1903,7 +1844,7 @@ function renderAdminJogos(){
   const jogos=adminJogoFiltro?jogosCache.filter(j=>j.fase===adminJogoFiltro):jogosCache;
   if(!jogos.length){el.innerHTML='<div class="empty">Nenhum jogo cadastrado</div>';return;}
   let h='';
-  ['grupos','oitavas','quartas','semi','terceiro','final','amistoso'].forEach(f=>{
+  ['grupos','dezesseis','oitavas','quartas','semi','terceiro','final','amistoso'].forEach(f=>{
     if(adminJogoFiltro&&adminJogoFiltro!==f)return;
     const js=jogos.filter(j=>j.fase===f);if(!js.length)return;
     h+=`<div class="sec-title">${FL[f]}</div>`;
@@ -2009,6 +1950,35 @@ async function carregarJogos(){
 }
 
 
+
+
+function abrirResetSenha(){
+  const modal=document.getElementById('modal-reset-senha');
+  if(!modal){alert('Modal não encontrado!');return;}
+  document.getElementById('nova-senha').value='';
+  document.getElementById('nova-senha-confirm').value='';
+  document.getElementById('reset-msg').style.display='none';
+  const btn=document.getElementById('btn-reset');
+  btn.style.display='block';
+  btn.textContent='Salvar nova senha';
+  btn.disabled=false;
+  modal.style.display='flex';
+  modal.classList.add('show');
+}
+
+async function doResetSenha(){
+  const senha=document.getElementById('nova-senha').value;
+  const confirm=document.getElementById('nova-senha-confirm').value;
+  const msgEl=document.getElementById('reset-msg');
+  const btn=document.getElementById('btn-reset');
+  msgEl.style.display='none';
+  if(senha.length<6){msgEl.className='login-error';msgEl.textContent='A senha deve ter pelo menos 6 caracteres.';msgEl.style.display='block';return;}
+  if(senha!==confirm){msgEl.className='login-error';msgEl.textContent='As senhas não coincidem.';msgEl.style.display='block';return;}
+  btn.textContent='Salvando...';btn.disabled=true;
+  const {error}=await sb.auth.updateUser({password:senha});
+  if(error){msgEl.className='login-error';msgEl.textContent='Erro: '+error.message;msgEl.style.display='block';btn.textContent='Salvar nova senha';btn.disabled=false;}
+  else{msgEl.className='login-success';msgEl.textContent='✅ Senha alterada com sucesso!';msgEl.style.display='block';btn.style.display='none';setTimeout(()=>{document.getElementById('modal-reset-senha').classList.remove('show');},2000);}
+}
 
 
 loadTheme();
