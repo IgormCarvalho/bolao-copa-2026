@@ -136,6 +136,7 @@ input:focus,select:focus{outline:none;border-color:var(--verde);}
 .ph-semi{background:rgba(120,40,180,.1);color:#aa77dd;border:1px solid rgba(120,40,180,.2);}
 .ph-terceiro{background:rgba(140,90,40,.1);color:#c8804a;border:1px solid rgba(140,90,40,.2);}
 .ph-final{background:rgba(180,144,0,.1);color:var(--gold2);border:1px solid rgba(180,144,0,.2);}
+.ph-dezesseis{background:rgba(0,80,160,.12);color:#66aaee;border:1px solid rgba(0,80,160,.25);}
 .ph-amistoso{background:rgba(0,120,180,.1);color:#4aaddf;border:1px solid rgba(0,120,180,.25);}
 .score-inp{width:52px;text-align:center;font-family:'Oswald',sans-serif;font-size:22px;font-weight:600;color:var(--text);padding:6px;}
 .vs-score{color:var(--muted);font-size:16px;font-family:'Oswald',sans-serif;}
@@ -867,9 +868,9 @@ function F(n){return FLAGS[n]||'🏳️';}
 
 const GRUPOS_DEF=[{l:'A',s:['México','África do Sul','Coreia do Sul','Rep. Tcheca']},{l:'B',s:['Canadá','Suíça','Catar','Bósnia']},{l:'C',s:['Brasil','Marrocos','Escócia','Haiti']},{l:'D',s:['EUA','Paraguai','Austrália','Turquia']},{l:'E',s:['Alemanha','Curaçao','Costa do Marfim','Equador']},{l:'F',s:['Holanda','Japão','Suécia','Tunísia']},{l:'G',s:['Bélgica','Egito','Irã','Nova Zelândia']},{l:'H',s:['Espanha','Cabo Verde','Arábia Saudita','Uruguai']},{l:'I',s:['França','Senegal','Noruega','Iraque']},{l:'J',s:['Argentina','Argélia','Áustria','Jordânia']},{l:'K',s:['Portugal','Colômbia','Uzbequistão','RD Congo']},{l:'L',s:['Inglaterra','Croácia','Gana','Panamá']}];
 
-const FL={grupos:'Grupos',oitavas:'Oitavas',quartas:'Quartas',semi:'Semifinal',terceiro:'3º Lugar',final:'Final',amistoso:'Amistoso'};
-const FC={grupos:'ph-grupos',oitavas:'ph-oitavas',quartas:'ph-quartas',semi:'ph-semi',terceiro:'ph-terceiro',final:'ph-final',amistoso:'ph-amistoso'};
-const isMata=f=>['oitavas','quartas','semi','terceiro','final'].includes(f);
+const FL={grupos:'Grupos',dezesseis:'Dezesseis avos',oitavas:'Oitavas',quartas:'Quartas',semi:'Semifinal',terceiro:'3º Lugar',final:'Final',amistoso:'Amistoso'};
+const FC={grupos:'ph-grupos',dezesseis:'ph-dezesseis',oitavas:'ph-oitavas',quartas:'ph-quartas',semi:'ph-semi',terceiro:'ph-terceiro',final:'ph-final',amistoso:'ph-amistoso'};
+const isMata=f=>['dezesseis','oitavas','quartas','semi','terceiro','final'].includes(f);
 
 // ── TOAST ───────────────────────────────────────────────────
 function toast(msg, type='success'){
